@@ -1,0 +1,52 @@
+﻿@model List<VietUSA.Repository.Models.OrganisationViewModel>
+@{
+    ViewBag.Title = "Sponsors";
+}
+
+<div class="section header-internas foto_contato">
+    <div class="w-container container-phone">
+        <!-- <h1>Contact</h1> -->
+    </div>
+</div>
+<div class="section press">
+    <div class="w-container container-phone">
+        <div class="w-form" id="div_form">
+            <div class="t-contact-container">
+                @foreach (var item in Model)
+                {
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <h3 class="t-h3-title-org">@item.CategoryName</h3>
+                        </div>
+                        @foreach (var orgItem in item.Organisations)
+                        {
+                            <div class="col-sm-12 t-sponsor-container">
+                                <a href="@orgItem.Website" alt="@orgItem.Name" title="@orgItem.Name" target="_blank">
+                                    @if (orgItem.DisplayImage.HasValue)
+                                    {
+                                        if (orgItem.DisplayImage.Value)
+                                        {
+                                            <img src="@orgItem.ImageUrl" title="@orgItem.Name" alt="@orgItem.Name" />
+                                        }
+                                        else
+                                        {
+                                            <h3 style="color: #de7101; font-weight: bold; text-transform: uppercase;">@orgItem.Name</h3>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <h3 style="color: #de7101; font-weight: bold; text-transform: uppercase;">@orgItem.Name</h3>
+                                    }
+                                </a>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

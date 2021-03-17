@@ -1,0 +1,20 @@
+﻿@model VietUSA.Repository.Models.ArticleModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = @Model.Title;
+}
+<div class="section header-internas foto_contato">
+    <div class="w-container container-phone">
+        <!-- <h1>Contact</h1> -->
+    </div>
+</div>
+<div class="section press">
+    <div class="w-container container-phone">
+        <h3>@Model.Title</h3>
+        <div class="w-form">
+            @Html.Raw(Model.ArticleDetail)
+        </div>
+    </div>
+</div>
+

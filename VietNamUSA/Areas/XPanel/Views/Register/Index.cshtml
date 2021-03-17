@@ -1,0 +1,421 @@
+﻿@using VietNamUSA.Common
+@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Common.Enums
+@using VietUSA.Repository.Common.Extensions
+@using VietUSA.Repository.Common.Functions
+@{
+    const string h3Title = "Quản lý Abstract Submission";
+    ViewBag.H3Title = h3Title;
+    ViewBag.Title = h3Title;
+    //var password = CommonFunctions.GetMd5Hash("Aa@2019@vnus");
+}
+<!--Search Form-->
+<div class="panel panel-primary t-margin-bottom-5">
+    @*<label>@password</label>*@
+    <div class="panel panel-default" style="margin: 0; border: none;">
+        <div class="panel-heading" role="tab" id="headingOne" style="background: none; border: none;">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                    Tìm kiếm
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+            <div class="panel-body">
+                <form class="form-horizontal" id="searchForm">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label t-bold" for="txtNameSearch">Name</label>
+                        <div class="col-md-4">
+                            <input type="text" id="txtNameSearch" name="FullName"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label t-bold" for="txtEmailSearch">Email</label>
+                        <div class="col-md-4">
+                            <input type="text" id="txtEmailSearch" name="Email"/>
+                        </div>
+                        <label class="col-sm-2 control-label t-bold" for="txtOrganizationSearch">Organization</label>
+                        <div class="col-md-4">
+                            <input type="text" id="txtOrganizationSearch" name="Organization"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label t-bold">Giới tính</label>
+                        <div class="col-md-4">
+                            <select class="ddlSelect2" id="ddlGender" name="Gender">
+                                <option value="-1">@CommonConstants.SelectAll</option>
+                                <option value="0">FeMale</option>
+                                <option value="1">Male</option>
+                            </select>
+                        </div>
+                        <label class="col-sm-2 control-label t-bold">Đã xứ lý</label>
+                        <div class="col-md-4">
+                            <select class="ddlSelect2" id="ddlIsCertificated" name="IsCertificated">
+                                <option value="-1">@CommonConstants.SelectAll</option>
+                                <option value="0">Chưa xứ lý</option>
+                                <option value="1">Đã xứ lý</option>
+                            </select>
+                        </div>
+                        @*<label class="col-sm-2 control-label t-bold">Đã email</label>
+                        <div class="col-md-2">
+                            <select class="ddlSelect2" id="ddlIsEmailed" name="IsEmailed">
+                                <option value="-1">@CommonConstants.SelectAll</option>
+                                <option value="0">Chưa email</option>
+                                <option value="1">Đã email</option>
+                            </select>
+                        </div>*@
+                    </div>
+                    <div class="form-group">
+
+                        <label class="col-sm-2 control-label t-bold" for="txtAddressSearch">Address</label>
+                        <div class="col-md-10">
+                            <input type="text" id="txtAddressSearch" name="Address"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label t-bold"></label>
+                        <div class="col-md-10">
+                            <button type="button" id="btnSearch" class="btn btn-primary btn-sm pull-right">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>@ButtonTextEnum.Search.ToDescription()
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Search Form-->
+<!--Grid Result-->
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel-body" id="divUserWrapper">
+        <div id="divUserContainer">
+            <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                <div class="pull-left col-sm-12 t-padding-right-0 t-margin-top-5  t-margin-bottom-5">
+                    <div class="t-padding-right-0 pull-right">
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.U_A_S }))
+                        {
+                            <button class="btn btn-primary btn-sm pull-left t-margin-right-5" id="btnCertificated">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Đánh dấu đã xử lý
+                            </button>
+                        }
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.D_A_S }))
+                        {
+                            <button class="btn btn-primary btn-sm pull-left t-margin-right-5" id="btnRemove">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Xóa bản ghi
+                            </button>
+                        }
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.EX_A_S }))
+                        {
+                            <button class="btn btn-primary btn-sm pull-left" id="btnCustomizeExport">
+                                <span class="glyphicon glyphicon-export" aria-hidden="true"></span>@ButtonTextEnum.CustomizeExport.ToDescription()
+                            </button>
+                            <div id="CustomizeExportModel" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-lg" style="width: 1000px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title" id="CustomizeExportTitleModel"></h4>
+                                        </div>
+                                        <div class="modal-body t-margin-top-10" id="CustomizeExportBodyModel">
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="pull-right col-sm-6 t-padding-right-0" style="display: none;">
+                    <div class="pull-right">
+                        <div id="pagerUserTop">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divUser"></div>
+            <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                <div class="pull-right t-padding-left-0">
+                    <input type="hidden" id="hdfCurrentPageIndex" />
+                    <div id="pagerUserBottom" class="pull-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Grid Result-->
+<!--Edit Popup-->
+<div id="UserModel" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width: 1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="UserTitleModel"></h4>
+            </div>
+            <div class="modal-body" id="UserBodyModel">
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" id="btnSave" class="btn btn-default" onclick="SaveClick();">Lưu</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!--Edit Popup-->
+<script>
+
+    function initControls() {
+    };
+
+    function initUser() {
+        focusElement("txtNameSearch");
+        initControls();
+        SearchUser(1);
+    };
+
+    function SearchUser(pageIndex) {
+        appendLoading("loadingPanelUser", "divUserWrapper");
+
+        $("#pagerUserTop").html("");
+        $("#divUser").html("");
+        $("#pagerUserBottom").html("");
+
+        var cretia = $("#searchForm").serializeArray();
+        //var cardType = parseInt($("#ddlCardTypeSearch").val());
+        var gender = $("#ddlGender").val();
+        var certificate = $("#ddlIsCertificated").val();
+        var isEmailed = "-1";// $("#ddlIsEmailed").val();
+
+        if (gender !== "-1")
+            cretia.push({ name: "Gender", value: (gender === "0" ? false : true) });
+        else {
+            cretia.push({ name: "Gender", value: null });
+        }
+        if (certificate !== "-1")
+            cretia.push({ name: "IsCertificated", value: (certificate === "0" ? false : true) });
+        else {
+            cretia.push({ name: "IsCertificated", value: null });
+        }
+        if (isEmailed !== "-1")
+            cretia.push({ name: "IsEmailed", value: (isEmailed === "0" ? false : true) });
+        else {
+            cretia.push({ name: "IsEmailed", value: null });
+        }
+
+        var parameter = {
+            PageIndex: pageIndex,
+            PageSize: DoTPageSize,
+            Cretia: objectifyForm(cretia)
+        };
+
+
+        $.ajax({
+            url: '@Url.Action("Search", "Register")',
+            type: "POST",
+            data: parameter,
+            success: function (data) {
+                removeLoading("loadingPanelUser");
+                $("#divUser").html(data);
+                $("#hdfCurrentPageIndex").val(pageIndex);
+                var totalRecord = $("#hdfTotalUserRecord").val();
+                var totalPage = Math.ceil(totalRecord / DoTPageSize);
+                if (totalRecord > 0) {
+                    var options = {
+                        currentPage: pageIndex,
+                        totalPages: totalPage,
+                        onPageChanged: function (e, oldPage, newPage) {
+                            SearchUser(newPage);
+                        },
+                        itemContainerClass: function (type, page, current) {
+                            return (page === current) ? "active" : "pointer-cursor";
+                        }
+                    }
+                    $("#pagerUserTop").bootstrapPaginator(options);
+                    $("#pagerUserBottom").bootstrapPaginator(options);
+                }
+            },
+            error: function () {
+                removeLoading("loadingPanelUser");
+            }
+        });
+    };
+
+    function ProcessToCeriticated(id) {
+        var items = [];
+        items.push(id);
+        $.ajax({
+            url: '@Url.Action("ProcessCertificated", "Register")',
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(items),
+            success: function (data) {
+                if (data.IsError) {
+                    alert(data.Message);
+                } else {
+                    for (var i = 0; i < data.Data.length; i++) {
+                        $("#aCertificated" + data.Data[i]).html("True");
+                        $("#aCertificated" + data.Data[i]).removeAttr("onclick");
+                    }
+                }
+            },
+            error: function () {
+                removeLoading("loadingPanelUser");
+            }
+        });
+        return false;
+    }
+
+    function RemoveRegister(id) {
+        var items = [];
+        items.push(id);
+        $.ajax({
+            url: '@Url.Action("Remove", "Register")',
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(items),
+            success: function (data) {
+                if (data.IsError) {
+                    alert(data.Message);
+                } else {
+                    $("#trHeadRegister" + id).html("");
+                }
+            },
+            error: function () {
+            }
+        });
+        return false;
+    }
+
+    $(function () {
+        initUser();
+        $("#btnSearch").click(function () {
+            SearchUser(1);
+        });
+        $("#UserModel").on("hidden.bs.modal", function () {
+            SearchUser($("#hdfCurrentPageIndex").val());
+        });
+        $("#btnImport").click(function () {
+            window.location.href = "@Url.Action("Index","Import")" + "?type=-1"; @*+ @((int)ExcelImportEnum.User);*@
+        });
+        $("#btnCertificated").click(function () {
+            var checkedItems = 0;
+            var items = [];
+            $("input[type='checkbox'][name='_checkGroup']").each(function (index) {
+                if ($(this).is(":checked")) {
+                    checkedItems++;
+                    items.push($(this).val());
+                }
+            });
+
+            if (checkedItems <= 0) {
+                alert("Please choose item to process");
+                return false;
+            }
+
+            $.ajax({
+                url: '@Url.Action("ProcessCertificated", "Register")',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(items),
+                success: function (data) {
+                    if (data.IsError) {
+                        alert(data.Message);
+                    } else {
+                        for (var i = 0; i < data.Data.length; i++) {
+                            $("#aCertificated" + data.Data[i]).html("True");
+                            $("#aCertificated" + data.Data[i]).removeAttr("onclick");
+                        }
+                    }
+                },
+                error: function () {
+                    removeLoading("loadingPanelUser");
+                }
+            });
+            return false;
+        });
+
+        $("#btnRemove").click(function () {
+            var checkedItems = 0;
+            var items = [];
+            $("input[type='checkbox'][name='_checkGroup']").each(function (index) {
+                if ($(this).is(":checked")) {
+                    checkedItems++;
+                    items.push($(this).val());
+                }
+            });
+
+            if (checkedItems <= 0) {
+                alert("Please choose item to process");
+                return false;
+            }
+
+            $.ajax({
+                url: '@Url.Action("Remove", "Register")',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(items),
+                success: function (data) {
+                    if (data.IsError) {
+                        alert(data.Message);
+                    } else {
+                        for (var i = 0; i < data.Data.length; i++) {
+                            $("#trHeadRegister" + data.Data[i]).html("");
+                        }
+                    }
+                },
+                error: function () {
+                }
+            });
+            return false;
+        });
+
+        $("#btnCustomizeExport").click(function() {
+            var cretia = $("#searchForm").serializeArray();
+            //var cardType = parseInt($("#ddlCardTypeSearch").val());
+            var gender = $("#ddlGender").val();
+            var certificate = $("#ddlIsCertificated").val();
+            var isEmailed = "-1";// $("#ddlIsEmailed").val();
+            if (gender !== "-1")
+                cretia.push({ name: "Gender", value: (gender === "0" ? false : true) });
+            else {
+                cretia.push({ name: "Gender", value: null });
+            }
+            if (certificate !== "-1")
+                cretia.push({ name: "IsCertificated", value: (certificate === "0" ? false : true) });
+            else {
+                cretia.push({ name: "IsCertificated", value: null });
+            }
+            if (isEmailed !== "-1")
+                cretia.push({ name: "IsEmailed", value: (isEmailed === "0" ? false : true) });
+            else {
+                cretia.push({ name: "IsEmailed", value: null });
+            }
+
+            var stringParameter = {
+                PageIndex: 1,
+                PageSize: DoTPageSize,
+                Cretia: objectifyForm(cretia)
+            };
+
+            //debugger;
+            var stringJsonParameter = JSON.stringify(stringParameter);
+
+            var parameter = { ObjectTypeId:@((int)CExcelObjectTypeEnum.AbtractionSubmission),StringParameter: stringJsonParameter};
+            ShowPopupAddOrEdit('@Url.Action("GetCustomizeExportExcel", "CustomizeExportExcel")', parameter, "CustomizeExport", "Tùy biến kết xuất dữ liệu", false);
+        });
+        $("#btnNewUser").click(function () {
+            AddNewUser(0);
+            return false;
+        });
+        $("#txtNameSearch").on("keydown", function (event) {
+            if (event.which === 13) {
+                SearchUser(1);
+                return false;
+            }
+        });
+    });
+</script>
+
+

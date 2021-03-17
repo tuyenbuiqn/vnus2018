@@ -1,0 +1,221 @@
+﻿@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Common.Enums
+@using VietUSA.Repository.Common.Extensions
+@model VietUSA.Repository.Models.CategoryModel
+
+<div class="panel t-margin-bottom-5 ">
+    <div class="panel-heading t-overwrite-panel-heading">
+        <span class="t-panel-title" onclick="togglePanel($(this));">
+            @(Model.CategoryId > 0 ? CommonConstants.Update : CommonConstants.AddNew)
+        </span>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" method="POST" id="formCategory"
+              data-bv-message="This value is not valid"
+              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+            <div class="form-horizontal">
+
+                @Html.HiddenFor(m => m.GroupCategoryId, new { @id = "hdfGroupCategoryId" })
+                @Html.HiddenFor(m => m.CategoryId, new { @id = "hdfCategoryId" })
+                <div class="form-group form-group-sm t-overwrite-form-group">
+                    <label class="col-sm-2 control-label t-overwrite-label">Loại danh mục</label>
+                    <div class="col-sm-4" id="divGroupCategoryEdit">
+                    </div>
+                </div>
+                <div class="form-group form-group-sm t-overwrite-form-group">
+                    <label class="col-sm-2 control-label t-overwrite-label">Tên danh mục</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control ", @id = "txtCategoryName", @name = "txtCategoryName", @data_bv_notempty = "true", @data_bv_notempty_message = "Tên danh mục không để trống" })
+                    </div>
+                </div>
+                <div class="form-group form-group-sm t-overwrite-form-group">
+                    <label class="col-sm-2 control-label t-overwrite-label" for="txtOrder">Order</label>
+                    <div class="col-sm-2">
+                        @Html.TextBoxFor(m => m.Order, new { @value = "0", @class = "form-control", @id = "txtOrder", @data_bv_integer = "true", @data_bv_integer_message = CommonConstants.IntegerValidation })
+                    </div>
+                   
+                </div>
+                <div class="form-group form-group-sm t-overwrite-form-group">
+                    <label class="col-sm-2 control-label t-overwrite-label">Options</label>
+                    <div class="col-sm-10">
+                        <div class="col-sm-4 t-padding-left-0">
+                            <div class="checkbox">
+                                <label>
+                                    @{
+                                        if (Model.IsPublished.HasValue)
+                                        {
+                                            @Html.CheckBoxFor(m => m.IsPublished.Value, new { @id = "chkIsPublished" })
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="chkIsPublished" name="IsPublished.Value" />
+                                        }
+                                    }
+                                    Publish
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="checkbox">
+                                <label>
+                                    @{
+                                        if (Model.DisplayInHomePage.HasValue)
+                                        {
+                                            @Html.CheckBoxFor(m => m.DisplayInHomePage.Value, new { @id = "chkDisplayInHomePage" })
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="chkDisplayInHomePage" name="DisplayInHomePage.Value" />
+                                        }
+                                    }
+                                    Display in Homepage
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="checkbox">
+                                <label>
+                                    @{
+                                        if (Model.DisplayInContentPage.HasValue)
+                                        {
+                                            @Html.CheckBoxFor(m => m.DisplayInContentPage.Value, new { @id = "chkDisplayInContentPage" })
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="chkDisplayInContentPage" name="DisplayInContentPage.Value" />
+                                        }
+                                    }
+                                    Display in Content Page
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm t-overwrite-form-group">
+                    <label class="col-sm-2 control-label t-overwrite-label">Ghi chú</label>
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Note, new { @class = "form-control ", @id = "txtNote", @name = "txtNote" })
+                    </div>
+                </div>
+                <div class="form-group form-group-sm t-overwrite-form-group">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-10">
+                        <button class="btn btn-primary btn-sm pull-right t-margin-right-5" id="btnExitCategory">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>@ButtonTextEnum.Exit.ToDescription()
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm pull-right t-margin-right-5" id="btnSaveCategory">
+                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span>@ButtonTextEnum.Save.ToDescription()
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function validateSaveCategory() {
+        var result = { IsError: false, Message: "", Element: "", Type: "" };
+
+        var e = $("#formCategory").data("bootstrapValidator");
+        e.validate();
+        var n = e.isValid();
+        if (!n) {
+            result.IsError = true;
+            result.Message = e.Message;
+            result.Type = "auto";
+            return result;
+        }
+        return result;
+    };
+    function GetCategoryEdit() {
+        var parameter = {
+            SelectedId: @(Model.GroupCategoryId.HasValue ? Model.GroupCategoryId : -1),
+            IsDisableControl: false,
+            Id: "ddlGroupCategoryEdit",
+            Name: "ddlGroupCategoryEdit",
+            ValueField: "Id",
+            TextField: "Text",
+            Class: "js-responsive",
+            Style: "width:100%",
+            HasDefaultValue:false
+        };
+        LoadIoTSelect('@Html.Raw(Url.Action("GetGroupCategory", "Common"))',parameter,"divGroupCategoryEdit");
+    };
+    function AddOrEditCategory() {
+        debugger;
+        var isErrorValidate = validateSaveCategory();
+        if (isErrorValidate.IsError) return false;
+        addpendLoading("loadingPanelCategory", "divCategory");
+
+        var groupCategory = GetSelect2Data("ddlGroupCategoryEdit");
+        var parameter = $("#formCategory").serializeArray();
+        parameter.push({ name: "GroupCategoryId", value: groupCategory.id });
+        parameter.push({ name: "GroupCategoryName", value: groupCategory.text });
+        parameter.push({ name: "IsPublished", value: $("#chkIsPublished").is(":checked")});
+        parameter.push({ name: "DisplayInContentPage", value: $("#chkDisplayInContentPage").is(":checked")});
+        parameter.push({ name: "DisplayInHomePage", value: $("#chkDisplayInHomePage").is(":checked")});
+        $.ajax({
+            type: "POST",
+            data: parameter,
+            url: '@Url.Action("Save", "Category")',
+            success: function (data) {
+                removeLoading("loadingPanelCategory");
+
+                if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                    callDoTNotification("@CommonConstants.Warning", data.ErrorMessage, "error");
+                } else {
+
+                    if (!data.IsError) {
+                        //callDoTNotification("", data.Message, "info");
+                        ExitEditCategory();
+                        // Reload trang HoTroGianTiep: TimKiemPhieuXuat(1);
+                        TimKiemCategories(1);
+                    } else {
+                        callDoTNotification("@CommonConstants.Warning", data.Message, "error");
+                    }
+                }
+            },
+            error: function () {
+                removeLoading("loadingPanelCategory");
+                callDoTNotification("@CommonConstants.Warning", "@CommonConstants.SaveError", "error");
+            }
+        });
+
+    };
+    function ExitEditCategory() {
+        var categoryId = parseInt($("#hdfCategoryId").val());
+
+        if (categoryId <= 0) {
+            // Add new
+            RemoveAddNewForm("divAddNewCategory");
+        } else {
+            removeElement("tdBodyCategory" + categoryId);
+            RemoveHighlightEditingRow("tableCategory");
+        }
+
+
+    };
+    function InitForm() {
+        $("#formCategory").bootstrapValidator();
+        GetCategoryEdit();
+    };
+
+    $(function () {
+        InitForm();
+        $("#btnSaveCategory").click(function () {
+            AddOrEditCategory();
+            return false;
+        });
+
+        $("#btnExitCategory").click(function () {
+            ExitEditCategory();
+            return false;
+        });
+    });
+
+
+</script>

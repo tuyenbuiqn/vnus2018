@@ -1,0 +1,60 @@
+﻿@using VietNamUSA.Common
+@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Common.Functions
+@model VietUSA.Repository.Common.Models.ListPagedResultModel<VietUSA.Repository.Models.MemberModel>
+@{
+    var memberType = CommonFunctions.ConvertFromObjectToInt(Request.QueryString["MemberTypeId"]);
+
+}
+@if (Model.ListItem != null && Model.ListItem.Count > 0)
+{
+    foreach (var item in Model.ListItem)
+    {
+        <tr id="trHeadMember@(item.MemberId)" data-id="@item.MemberId">
+            <td class="t-align-center">@item.RowNumber</td>
+            <td class="t-align-left">@item.Name</td>
+            <td class="t-align-left">
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                    <img src="@item.ImageUrl" title="@item.Title" alt="@item.Title" style="width: 150px; height: 150px;" />
+                }
+            </td>
+            <td class="t-align-left">@item.Title</td>
+            <td class="t-align-left">@item.OfficeName</td>
+            <td class="t-align-left word-wrap col-sm-1">
+                <a href="@item.Website" title="@item.Website">View website</a>
+            </td>
+            <td class="t-align-left t-align-center">@item.Order</td>
+            <td class="t-align-left t-align-center">
+                <a style="cursor: pointer;" id="aPublish@(item.MemberId)" href="javascript:void(0);" onclick="ChangePublishStatus(@item.MemberId,@item.MemberId);" title="Click to change publish status">
+                    @item.IsPublished
+                </a>
+            </td>
+            <td class="hidden-xs hidden-md-down t-align-center">
+                <a href="javascript:void(0);" onclick="EditMember(@item.MemberId,true);" data-toggle="tooltip" data-placement="left" title="Chi tiết"> <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+                @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.C_MEM, Role.U_MEM }))
+                    {
+                    <a href="javascript:void(0);" onclick="EditMember(@item.MemberId,false);" data-toggle="tooltip" data-placement="left" title="Sửa thông tin">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </a>
+                }
+                @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.D_MEM }))
+                    {
+                    <a id="removeMember@(item.MemberId)" href="javascript:void(0);" onclick="RemoveMember(@item.MemberId)" data-toggle="tooltip" data-placement="left" title="Xóa Member">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </a>
+                }
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="7"><p>@CommonConstants.DataNotFound</p></td>
+    </tr>
+}
+@Html.HiddenFor(o => o.TotalRecord, new { @id = "hdfTotalMemberRecord" })
+
+
+

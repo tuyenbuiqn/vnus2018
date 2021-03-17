@@ -1,0 +1,210 @@
+﻿@using VietNamUSA.Common
+@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Common.Enums
+@using VietUSA.Repository.Common.Extensions
+@{
+    const string h3Title = "Quản lý Article";
+    ViewBag.H3Title = h3Title;
+    ViewBag.Title = h3Title;
+}
+<!--Search Form-->
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel panel-default" style="margin: 0; border: none;">
+        <div class="panel-heading" role="tab" id="headingOne" style="background: none; border: none;">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                    Tìm kiếm
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+            <div class="panel-body">
+                <form class="form-horizontal" id="searchForm">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label t-bold" for="txtNameSearch">Tên Article</label>
+                        <div class="col-md-10">
+                            <input type="text" id="txtNameSearch" name="Name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label t-bold"></label>
+                        <div class="col-md-10">
+                            <button type="button" id="btnSearch" class="btn btn-primary btn-sm pull-right">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>@ButtonTextEnum.Search.ToDescription()
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Search Form-->
+<!--Grid Result-->
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel-body" id="divArticleWrapper">
+        <div id="divArticleContainer">
+            <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                <div class="pull-left col-sm-12 t-padding-right-0 t-margin-top-5  t-margin-bottom-5">
+                    <div class="t-padding-right-0 pull-right">
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.C_ART }))
+                        {
+                            <button class="btn btn-primary btn-sm pull-left t-margin-right-5" id="btnNewArticle">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Thêm mới
+                            </button>
+                        }
+                        @*@if (WebCommonFunctions.ClientCheckPermission(new[] { Role.IM_ART }))
+                        {
+                            <button class="btn btn-primary btn-sm pull-left t-margin-right-5" id="btnImport">
+                                <span class="glyphicon glyphicon-import" aria-hidden="true"></span>@ButtonTextEnum.Import.ToDescription()
+                            </button>
+                        }
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.EX_ART }))
+                        {
+                            <button class="btn btn-primary btn-sm pull-left" id="btnExport">
+                                <span class="glyphicon glyphicon-export" aria-hidden="true"></span>@ButtonTextEnum.Export.ToDescription()
+                            </button>
+                        }*@
+                    </div>
+                </div>
+                <div class="pull-right col-sm-6 t-padding-right-0" style="display: none;">
+                    <div class="pull-right">
+                        <div id="pagerArticleTop">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divArticle"></div>
+            <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                <div class="pull-right t-padding-left-0">
+                    <input type="hidden" id="hdfCurrentPageIndex" />
+                    <div id="pagerArticleBottom" class="pull-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Grid Result-->
+<!--Edit Popup-->
+<div id="ArticleModel" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width: 1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="ArticleTitleModel"></h4>
+            </div>
+            <div class="modal-body" id="ArticleBodyModel">
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" id="btnSave" class="btn btn-default" onclick="SaveClick();">Lưu</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!--Edit Popup-->
+<script>
+    function initArticle() {
+        focusElement("txtNameSearch");
+        SearchArticle(1);
+    };
+    function AddNewArticle(articleId) {
+        var parameter = { ArticleId: articleId};
+        ShowPopupAddOrEdit('@Url.Action("Get", "Article")', parameter, "Article", "Thêm mới Article", false);
+    }
+    function SearchArticle(pageIndex) {
+        appendLoading("loadingPanelArticle", "divArticleWrapper");
+
+        $("#pagerArticleTop").html("");
+        $("#divArticle").html("");
+        $("#pagerArticleBottom").html("");
+
+        
+        var cretia = $("#searchForm").serializeArray();
+        //var cardType = parseInt($("#ddlCardTypeSearch").val());
+        //cretia.push({name:"CardType",value:cardType});
+
+        var parameter = {
+            PageIndex: pageIndex,
+            PageSize: DoTPageSize,
+            Cretia: objectifyForm(cretia)
+        };
+
+
+        $.ajax({
+            url: '@Url.Action("Search", "Article")',
+            type: "POST",
+            data: parameter,
+            success: function (data) {
+                removeLoading("loadingPanelArticle");
+                $("#divArticle").html(data);
+                $("#hdfCurrentPageIndex").val(pageIndex);
+                var totalRecord = $("#hdfTotalArticleRecord").val();
+                var totalPage = Math.ceil(totalRecord / DoTPageSize);
+                if (totalRecord > 0) {
+                    var options = {
+                        currentPage: pageIndex,
+                        totalPages: totalPage,
+                        onPageChanged: function (e, oldPage, newPage) {
+                            SearchArticle(newPage);
+                        },
+                        itemContainerClass: function (type, page, current) {
+                            return (page === current) ? "active" : "pointer-cursor";
+                        }
+                    }
+                    $("#pagerArticleTop").bootstrapPaginator(options);
+                    $("#pagerArticleBottom").bootstrapPaginator(options);
+                }
+            },
+            error: function () {
+                removeLoading("loadingPanelArticle");
+            }
+        });
+    };
+
+    $(function () {
+        initArticle();
+        $("#btnSearch").click(function () {
+            SearchArticle(1);
+        });
+        $("#ArticleModel").on("hidden.bs.modal", function () {
+            SearchArticle($("#hdfCurrentPageIndex").val());
+        });
+        $("#btnImport").click(function () {
+            window.location.href = "@Url.Action("Index","Import")" + "?type=-1"; @*+ @((int)ExcelImportEnum.Article);*@
+        });
+        $("#btnExport").click(function () {
+            //var cardType = parseInt($("#ddlCardTypeSearch").val());
+            var cretia = $("#searchForm").serializeArray();
+            //cretia.push({name:"CardType",value:cardType});
+            var parameter = {
+                PageIndex: 1,
+                PageSize: DoTExportPageSize,
+                Cretia: objectifyForm(cretia)
+            };
+            $.ajax({
+                url: '@Url.Action("ExportArticleData", "Report")',
+                type: "POST",
+                data: parameter,
+                success: function (data) {
+                    window.location = '@Url.Action("Download","Common")'+ "?fileGuid=" + data.Data.FileGuid + "&filename=" + data.Data.FileName;
+                },
+                error: function () {
+                }
+            });
+            return false;
+        });
+        $("#btnNewArticle").click(function () {
+            AddNewArticle(0);
+            return false;
+        });
+        $("#txtNameSearch").on("keydown", function (event) {
+            if (event.which === 13) {
+                SearchArticle(1);
+                return false;
+            }
+        });
+    });
+</script>
+
+

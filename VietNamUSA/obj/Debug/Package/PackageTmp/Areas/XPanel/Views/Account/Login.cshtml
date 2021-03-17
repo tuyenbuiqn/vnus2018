@@ -1,0 +1,111 @@
+﻿@using System.Web.Optimization
+@{
+    Layout = null;
+}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="~/Content/login-style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700' rel='stylesheet' type='text/css'>
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/DOTCommonScript.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="login">
+            <div class="login-top">
+                <img src="~/images/Users/user-icon.png" alt="Login" title="Login">
+            </div>
+            <h1>Portal Login</h1>
+            <div class="login-bottom">
+                <input type="text" placeholder="Username" required autofocus id="UserName" name="UserName">
+                <input type="password" class="password" placeholder="Password" id="PassWord" name="PassWord">
+                <input type="submit" value="login" id="btnLogin">
+                <a href="javascript:void(0);"><p>Forgot your password? Click Here</p></a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function login() {
+        var userName = $("#UserName").val().trim();
+        var password = $("#PassWord").val().trim();
+
+        if (!userName) {
+            alert("Vui lòng nhập Username");
+            focusElement("UserName");
+            return false;
+        }
+        if (!password) {
+            alert("Vui lòng nhập password");
+            focusElement("PassWord");
+            return false;
+        }
+        disableButton("btnLogin");
+
+        var parameter = { Username: userName, Password: password, DepId: $("#Tenant").val(), DepName: $("#Tenant option:selected").text() };
+        $.ajax({
+            url: '@Url.Action("Login", "Account")',
+            type: "POST",
+            data: parameter,
+            success: function (data) {
+                if (!data.IsError) {
+                    var returnUrl = getParameterByName("returnUrl", window.location.href);
+                    var isFirstLoginPasswordChanged = data.IsFirstLoginPasswordChanged;
+                    if (isFirstLoginPasswordChanged) {
+                        if (!returnUrl) {
+                            window.location.href = '@Url.Action("Index", "Home")';
+                        } else {
+                            window.location.href = returnUrl;
+                        }
+                    } else {
+                        if (!returnUrl) {
+                            window.location.href = '@Url.Action("ChangePassword", "Account")';
+                        } else {
+                            window.location.href = '@Url.Action("ChangePassword", "Account")' + "?returnUrl=" + returnUrl;
+                        }
+                    }
+
+                } else {
+                    if (data.Message === "NOT_AUTHORIZED") {
+                        @*window.location.href = '@Url.Action("UnAuthorized", "Account")';*@
+                        alert(data.Message);
+                    } else {
+                        alert(data.Data);
+                        focusElement("UserName");
+                    }
+                }
+
+                enableButton("btnLogin");
+            },
+            error: function () {
+                enableButton("btnLogin");
+                alert("Error");
+            }
+        });
+    };
+
+    jQuery(document).ready(function ($) {
+        $("#UserName").on("keydown", function (event) {
+            if (event.which === 13) {
+                login();
+            }
+        });
+        $("#PassWord").on("keydown", function (event) {
+            if (event.which === 13) {
+                login();
+            }
+        });
+
+        $("#btnLogin").click(function () {
+            login();
+        });
+    });
+
+</script>

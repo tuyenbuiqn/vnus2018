@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title VIETNAM - USA Joint Mathematical Meeting</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/webflow.css">
+    <link href="~/Content/form.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/viet-my-style.css">
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/jcarousel/jquery.carousel.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/modernizr.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/formValidation/bootstrapValidator.min.js"></script>
+    <script src="~/Scripts/DOTCommonScript.js"></script>
+    <script src="~/Scripts/jcarousel/jquery.carousel.js"></script>
+    <script src="~/Scripts/webflow.js"></script>
+    <link rel='stylesheet' id='cherry-google-fonts-css' href='//fonts.googleapis.com/css?family=Raleway%3A400%2C800%7CMontserrat%3A500%2C400%2C800%2C100&#038;subset=latin&#038;ver=4.9.5' />
+    <style>
+        @@media print {
+            .header {
+                display: none !important;
+            }
+        }
+    </style>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120908855-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-120908855-1');
+    </script>
+
+</head>
+<body>
+    @Html.Partial("_Header")
+    @RenderBody()
+    @Html.Partial("_Footer")
+</body>
+</html>

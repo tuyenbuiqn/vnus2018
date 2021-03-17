@@ -1,0 +1,363 @@
+﻿@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Common.Enums
+@using VietUSA.Repository.Common.Extensions
+@model VietUSA.Repository.Models.ArticleModel
+@{
+    var displayArticleImage = string.IsNullOrEmpty(Model.ImageUrl) ? "display:none;" : "display:block";
+}
+<form class="form-horizontal" role="form" method="POST" id="formArticle"
+      data-bv-message="This value is not valid"
+      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+    @Html.HiddenFor(m => m.ArticleId, new { @id = "hdfArticleId" })
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label required" for="txtTitle">Title</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @id = "txtTitle", @data_bv_notempty = "true", @data_bv_notempty_message = "Field is required" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtAlias">Alias</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Alias, new { @class = "form-control", @id = "txtAlias" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label">Article Image</label>
+        <div class="col-sm-10">
+            <div style="@displayArticleImage" class="t-article-image-wrapper col-sm-12 t-padding-left-0 t-padding-right-0">
+                <div class="t-article-image-container">
+                    <img src="@Model.ImageUrl" alt="@Model.Title" title="@Model.Title" />
+                </div>
+                <div class="t-article-button-container">
+                    <button type="button" class="btn btn-primary btn-sm" id="btnRemoveArticleImage" onclick="RemoveArticleImage(@Model.ArticleId,'@Model.ImageUrl');">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Remove
+                    </button>
+                </div>
+            </div>
+            <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                <input type="file" id="fileArticleImage" />
+            </div>
+            <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                <span><em>Best image resolution: 500px x 500px</em></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtDescription">Description</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @id = "txtDescription" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtArticleDetail">Content</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.ArticleDetail, new { @class = "form-control", @id = "txtArticleDetail" })
+            <script>
+                CKEDITOR.replace("txtArticleDetail", {
+                });
+                CKFinder.setupCKEditor(null, "/plugins/ckfinder");
+            </script>
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtTags">Tags</label>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.Tags, new { @class = "form-control", @id = "txtTags" })
+        </div>
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtOrderSequence">Order</label>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.OrderSequence, new { @class = "form-control", @id = "txtOrderSequence", @data_bv_integer = "true", @data_bv_integer_message = "Please enter number value" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label">Options</label>
+        <div class="col-sm-10">
+            <table class="table table-bordered table-responsive">
+                <tr>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                @{
+                                    if (Model.IsPublished.HasValue)
+                                    {
+                                        @Html.CheckBoxFor(m => m.IsPublished.Value, new { @id = "chkIsPublished" })<em>Published</em>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="chkIsPublished" /><em>Published</em>
+                                    }
+                                }
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                @{
+                                    if (Model.IsMostRead.HasValue)
+                                    {
+                                        @Html.CheckBoxFor(m => m.IsMostRead.Value, new { @id = "chkIsMostRead" })<em>Most Read</em>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="chkIsPublished" /><em>Most Read</em>
+                                    }
+                                }
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                @{
+                                    if (Model.IsHighLight.HasValue)
+                                    {
+                                        @Html.CheckBoxFor(m => m.IsHighLight.Value, new { @id = "chkIsHighLight" })<em>HighLighted</em>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="chkIsHighLight" /><em>HighLighted</em>
+                                    }
+                                }
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                @{
+                                    if (Model.IsEvent.HasValue)
+                                    {
+                                        @Html.CheckBoxFor(m => m.IsEvent.Value, new { @id = "chkIsEvent" })<em>Is Event</em>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="chkIsEvent" /><em>Is Event</em>
+                                    }
+                                }
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                @{
+                                    if (Model.IsNew.HasValue)
+                                    {
+                                        @Html.CheckBoxFor(m => m.IsNew.Value, new { @id = "chkIsNew" })<em>Is New</em>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="chkIsNew" /><em>Is New</em>
+                                    }
+                                }
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                @{
+                                    if (Model.IsHot.HasValue)
+                                    {
+                                        @Html.CheckBoxFor(m => m.IsHot.Value, new { @id = "chkIsHot" })<em>Is hot news</em>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="chkIsHot" /><em>Is hot news</em>
+                                    }
+                                }
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtNote">Note</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @id = "txtNote" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <div class="col-sm-12">
+            <button class="btn btn-primary btn-sm pull-right t-margin-right-5" id="btnExitArticle" type="button">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>@ButtonTextEnum.Exit.ToDescription()
+            </button>
+            <button type="submit" class="btn btn-primary btn-sm pull-right t-margin-right-5" id="btnSaveArticle">
+                <span class="glyphicon glyphicon-save" aria-hidden="true"></span>@ButtonTextEnum.Save.ToDescription()
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+    function ValidateFileUpload() {
+        var result = { IsError: false, Message: "", Element: "", Type: "" };
+        var files = $("#fileArticleImage").get(0).files;
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                var file = GetNameFromPath(files[i].name);
+                if (file.length <= 0 || file.length > 256) {
+                    $("#fileArticleImage").val("");
+                    result.IsError = true;
+                    result.Message = "File name is too long or empty!";
+                    return result;
+                }
+                var extension = file.substr((file.lastIndexOf(".") + 1));
+                if (!ValidateBlackistFileExtension(extension)) {
+                    $("#fileArticleImage").val("");
+                    result.IsError = true;
+                    result.Message = "File type is not allowed, please contact to admin for this case.";
+                    return result;
+                }
+            }
+
+            var fileSize = GetFileSize("fileArticleImage");
+            if (fileSize > 20) {
+                $("#fileArticleImage").val("");
+                result.IsError = true;
+                result.Message = "Upload size is only 20MB limited!";
+                return result;
+            } else {
+                result.IsError = false;
+                return result;
+            }
+        } else {
+            result.IsError = false;
+            return result;
+        }
+    };
+    function validateSaveArticle() {
+        var result = { IsError: false, Message: "", Element: "", Type: "" };
+
+        var e = $("#formArticle").data("bootstrapValidator");
+        e.validate();
+        var n = e.isValid();
+        if (!n) {
+            result.IsError = true;
+            result.Message = e.Message;
+            result.Type = "auto";
+            return result;
+        }
+        return result;
+    };
+    function RemoveArticleImage(articleId, imageUrl) {
+        if (articleId <= 0 || imageUrl === "")
+            return false;
+        var parameter = { ArticleId: articleId, ImageUrl: imageUrl };
+        disableButton("btnRemoveArticleImage");
+        $.ajax({
+            type: "POST",
+            data: parameter,
+            url: '@Url.Action("RemoveArticleImage", "Article")',
+            success: function (data) {
+                removeLoading("loadingPanelArticleEdit");
+                enableButton("btnRemoveArticleImage");
+                if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                    callDoTNotification("@CommonConstants.Warning", data.ErrorMessage, "error");
+                } else {
+
+                    if (!data.IsError) {
+                        var parameter = { ArticleId: data.Data, IsDisableControl: false };
+                        UpdatePopupAddOrEdit('@Url.Action("Get", "Article")', parameter, "Article");
+
+                    } else {
+                        callDoTNotification("@CommonConstants.Warning", data.Message, "error");
+                    }
+                }
+            },
+            error: function () {
+                enableButton("btnRemoveArticleImage");
+                removeLoading("loadingPanelArticleEdit");
+                callDoTNotification("@CommonConstants.Warning", "@Html.Raw(CommonConstants.SaveError)", "error");
+            }
+        });
+    };
+    function AddOrEditArticle() {
+        var isErrorValidate = validateSaveArticle();
+        if (isErrorValidate.IsError) return false;
+        var parameter = $("#formArticle").serializeArray();
+        /*Cach su dung Dropdown select2 de lay du lieu
+        // 1. Khai bao
+        var placeType = GetSelect2Data("ddlPlaceTypeEdit");
+        // 2. get value/text: get value = placeType.id, get text = placeType.text
+        parameter.push({ name: "PlaceTypeId", value: placeType.id });
+        parameter.push({ name: "PlaceTypeName", value: placeType.text });
+
+
+        */
+
+        var data = new FormData();
+        var files = $("#fileArticleImage").get(0).files;
+        if (files.length > 0) {
+            var validateFileUpload = ValidateFileUpload();
+            if (validateFileUpload.IsError) {
+                alert(validateFileUpload.Message);
+                return false;
+            }
+            data.append("ArticleImage",files[0]);
+        }
+       // return false;
+       // var xparameter = objectifyForm(parameter);
+        for (var i = 0; i < parameter.length; i++) {
+            data.append(parameter[i].name, parameter[i].value);
+        }
+        addpendLoading("loadingPanelArticleEdit", "ArticleBodyModel");
+        $.ajax({
+            type: "POST",
+            processData: false,
+            dataType: "json",
+            contentType: false,
+            data: data,
+            url: '@Url.Action("Save", "Article")',
+            success: function (data) {
+                removeLoading("loadingPanelArticleEdit");
+
+                if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                    callDoTNotification("@CommonConstants.Warning", data.ErrorMessage, "error");
+                } else {
+
+                    if (!data.IsError) {
+                        //callDoTNotification("", data.Message, "info");
+                        var parameter = { ArticleId: data.Data, IsDisableControl: false };
+                        UpdatePopupAddOrEdit('@Url.Action("Get", "Article")', parameter, "Article");
+
+                    } else {
+                        callDoTNotification("@CommonConstants.Warning", data.Message, "error");
+                    }
+                }
+            },
+            error: function () {
+                removeLoading("loadingPanelArticleEdit");
+                callDoTNotification("@CommonConstants.Warning", "@Html.Raw(CommonConstants.SaveError)", "error");
+            }
+        });
+    };
+
+    function ExitEditArticle() {
+        $("#ArticleModel").modal("hide");
+    };
+
+    function InitForm() {
+        $("#formArticle").bootstrapValidator();
+    };
+
+    $(function () {
+        InitForm();
+        $("#btnSaveArticle").click(function () {
+            AddOrEditArticle();
+            return false;
+        });
+
+        $("#btnExitArticle").click(function () {
+            ExitEditArticle();
+            return false;
+        });
+    });
+</script>

@@ -1,0 +1,35 @@
+﻿@using VNPT.HN.DOT.Repository.Common.Enums
+<div class="map-main-menu-wrapper">
+    <ul class="map-main-menu">
+        <li>
+            <a href="@Html.Raw(Url.Action("Index", "Home"))">
+                Trang chủ
+            </a>
+        </li>
+        <li>
+            <a href="@Html.Raw(Url.Action("Index", "AccommodationFacility"))">
+                Cơ sở lưu trú
+            </a>
+        </li>
+        <li>
+            <a href="@Html.Raw(Url.Action("Index", "Restaurant"))">
+                Nhà hàng đạt chuẩn
+            </a>
+        </li>
+        <li>
+            <a href="@Html.Raw(Url.Action("Index", "Complex"))">
+                Cơ sở mua sắm đạt chuẩn
+            </a>
+        </li>
+        <li>
+            <a href="@Html.Raw(Url.Action("Index", "TravelCompany",new { travelCompanyType = (int)TravelCompanyTypeEnum.Domestic }))">
+                Công ty lữ hành nội địa
+            </a>
+        </li>
+        <li>
+            <a href="@Html.Raw(Url.Action("Index", "TravelCompany", new { travelCompanyType = (int)TravelCompanyTypeEnum.International }))">
+                Công ty lữ hành quốc tế
+            </a>
+        </li>
+    </ul>
+</div>

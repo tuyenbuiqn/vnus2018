@@ -1,0 +1,156 @@
+﻿@using VietNamUSA.Common
+@using VietUSA.Repository.Common.Constants
+@model VietUSA.Repository.Common.Models.ListPagedResultModel<VietUSA.Repository.Models.UserModel>
+@Html.HiddenFor(o => o.TotalRecord, new { @id = "hdfTotalUserRecord" })
+
+<script>
+    @*function EditUser(userId, isDisableControl) {
+        var parameter = { UserId: userId, IsDisableControl: isDisableControl };
+        ShowPopupAddOrEdit('@Url.Action("Get", "User")', parameter, "User", "Cập nhật User", isDisableControl);
+    };*@
+
+    function RemoveUser(userId) {
+        var retVal = confirm("@Html.Raw(CommonConstants.ConfirmDelete)");
+        if (retVal === true) {
+            addpendLoading("loadingPanelUser", "divUser");
+            var parameter = { UserId: userId };
+
+            $.ajax({
+                type: "POST",
+                data: parameter,
+                url: '@Url.Action("Remove", "Register")',
+                success: function (data) {
+                    removeLoading("loadingPanelUser");
+                    if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                        callDoTNotification("@CommonConstants.Warning", data.ErrorMessage, "error");
+                    } else {
+                        if (!data.IsError) {
+                            callDoTNotification("", data.Message, "info");
+                            SearchUser(1);
+                        } else {
+                            callDoTNotification("@CommonConstants.Warning", data.Message, "error");
+                        }
+                    }
+                },
+                error: function () {
+                    removeLoading("loadingPanelUser");
+                    callDoTNotification("@CommonConstants.Warning", "@CommonConstants.SaveError", "error");
+                }
+            });
+            return false;
+        } else {
+            return false;
+        }
+    };
+
+    function setCheckboxes() {
+        var cb = document.getElementById("tableUser").getElementsByTagName("input");
+
+        for (var i = 0; i < cb.length; i++) {
+            cb[i].checked = document.getElementById("checkall").checked;
+        }
+    }
+</script>
+<div id="divAddNewUser" class="col-sm-12 t-padding-left-0 t-padding-right-0"></div>
+@if (Model.ListItem != null && Model.ListItem.Count > 0)
+{
+    <table class="table table-responsive table-striped table-bordered tableUser" id="tableUser">
+        <thead>
+            <tr>
+                <th>
+                    <input type='checkbox' id='checkall' onclick='setCheckboxes();'>
+                </th>
+                <th class="t-align-center">
+                    STT
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Gender
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Organization
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Note
+                </th>
+                <th>
+                    Đã xử lý
+                </th>
+                @*<th>
+                    Đã email
+                </th>*@
+                <th>
+                    Abstract Submission
+                </th>
+                <th class="t-align-center col-sm-1">
+                    Thao tác
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var count = 0;
+                foreach (var item in Model.ListItem)
+                {
+                    count++;
+                    var documentCount = 0;
+                    <tr id="trHeadRegister@(item.UserId)">
+                        <td><input type='checkbox' name='_checkGroup' value='@item.UserId'></td>
+                        <td class="t-align-center">@count</td>
+                        <td class="t-align-left">@item.FullName</td>
+                        <td class="t-align-left">@(item.Gender.HasValue?(item.Gender.Value?"Male":"Female"):"")</td>
+                        <td class="t-align-left">@item.Email</td>
+                        <td class="t-align-left">@item.Organization</td>
+                        <td class="t-align-left">@item.Address</td>
+                        <td class="t-align-left">@item.Note</td>
+                        <td class="t-align-left">
+                            <a id="aCertificated@(item.UserId)" href="javascript:void(0);" @(item.IsCertificated.HasValue?(!item.IsCertificated.Value? "onclick=ProcessToCeriticated("+ item.UserId +");" : ""):"") title="Click to change status to Certificated = true">
+                                @item.IsCertificated
+                            </a>
+                            
+                        </td>
+                        @*<td class="t-align-left">@item.IsEmailed</td>*@
+                        <td>
+                            @foreach (var document in @item.AbtractionSubmissions)
+                            {
+                                documentCount ++;
+                                <p>
+                                    <a href="@document.FilePath" download title="@document.FileName">File @documentCount</a>
+                                </p>
+                            }
+                        </td>
+                        <td class="hidden-xs hidden-md-down t-align-center">
+                            @*@if (WebCommonFunctions.ClientCheckPermission(new[] { Role.U_A_S }))
+                            {
+                                <a id="emailUser@(item.UserId)" href="javascript:void(0);" onclick="SendEmail(@item.UserId)" data-toggle="tooltip" data-placement="left" title="Send email">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                </a>
+                            }*@
+                            @*<a href="javascript:void(0);" onclick="EditUser(@item.UserId,true);" data-toggle="tooltip" data-placement="left" title="Chi tiết"> <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>*@
+                            @if (WebCommonFunctions.ClientCheckPermission(new[] {Role.D_A_S}))
+                            {
+                                <a id="removeUser@(item.UserId)" href="javascript:void(0);" onclick="RemoveRegister(@item.UserId)" data-toggle="tooltip" data-placement="left" title="Remove Registeration">
+                                    <i class="fa fa-remove" aria-hidden="true"></i>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+                }
+                else
+                {
+                    <p>@CommonConstants.DataNotFound</p>
+                }
+
+

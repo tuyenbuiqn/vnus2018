@@ -1,0 +1,356 @@
+﻿@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBa9qnwp_ybemKff5Omw5RZPGtLEmLZzZ4"></script>*@
+<div id="map">
+    <div style="float: left; width: 100%; border: 1px dashed #666; margin-bottom: 10px;">
+        <div id="map_canvas_e" style="width: 98%; height: 513px; margin: 1%"></div>
+        <div id="crosshair"></div>
+        <div style="width: 98%; margin: 2px 0 0 2%;display: none">
+            <table>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Latitude/Longitude:</td>
+                    <td>
+                        <div id="latlng"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ:</td>
+                    <td>
+                        <div id="formatedAddress"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<table class="table table-responsive table-bordered">
+    <tr style="display: none;">
+        <td class="col-sm-3">
+            Địa chỉ
+        </td>
+        <td>
+            <input type="text" id="txtAddress"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Số nhà
+        </td>
+        <td>
+            <input type="text" id="txtAddressNo" />
+        </td>
+    </tr>
+    <tr>
+        @*<td></td>*@
+        <td colspan="4">
+            <input type="button" id="btnAddressToMap" value="Get map" onclick="AddressToMap();" class="t-button" />
+        </td>
+    </tr>
+</table>
+
+<table class="table table-responsive table-bordered">
+    <tr>
+        <td class="col-sm-3">
+            Latitude
+        </td>
+        <td>
+            <input type="text" id="txtLatitude"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Longtitude
+        </td>
+        <td>
+            <input type="text" id="txtLongtitude"/>
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td>
+            <input type="button" id="btnGPSToMap" value="Get map" onclick=" GPSToMap(); " class="t-button"/>
+        </td>
+    </tr>
+</table>
+
+
+<script>
+    var map;
+    var geocoder = new google.maps.Geocoder();
+    var centerChangedLast;
+    var reverseGeocodedLast;
+    var currentReverseGeocodeResponse;
+    var latitude;
+    var longitude;
+    var latlng;
+    var bounds = new google.maps.LatLngBounds();
+    //var longtitude = $("#txtLongtitude");
+    //var latitude = $("#txtLatitude");
+    function SetUpMap() {
+        //debugger;
+        var longtitude = $("#txtLongtitude");
+        var latitude = $("#txtLatitude");
+        var address = "3B Hoàng Diệu, Hà Nội, Việt Nam";
+
+        var map = new google.maps.Map(document.getElementById('map_canvas_e'), {
+            zoom: 17,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var infowindow = new google.maps.InfoWindow();
+
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+
+                map.setCenter(results[0].geometry.location);
+
+                marker = new google.maps.Marker({
+                    position: results[0].geometry.location,
+                    map: map,
+                    title: "Sở du lịch Hà Nội",
+                    draggable: true
+                });
+
+                bounds.extend(marker.position);
+                google.maps.event.addListener(marker, 'click', (function (marker) {
+                    return function () {
+                        var content = ReturnContent("Title'", address, "Mobile", "Phone");
+                        infowindow.setContent(content);
+                        infowindow.open(map, marker);
+                    }
+                })(marker));
+
+                longtitude.val(roundGPS(results[0].geometry.location.lng()));
+                latitude.val(roundGPS(results[0].geometry.location.lat()));
+                $('#txtAddress').val(results[0].formatted_address);
+
+
+                google.maps.event.addListener(marker, 'dragend', function (event) {
+                    longtitude.value = roundGPS(event.latLng.lng());
+                    latitude.value = roundGPS(event.latLng.lat());
+                    var eventLatLng = new google.maps.LatLng(latitude.value, longtitude.value);
+
+                    geocoder.geocode({ 'latLng': eventLatLng }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                longtitude.val(roundGPS(results[0].geometry.location.lng()));
+                                latitude.val(roundGPS(results[0].geometry.location.lat()));
+                                $('#txtAddress').val(results[0].formatted_address);
+                                $('#defAddress').html(results[0].formatted_address);
+                                $('#spanLat').html(latitude.val());
+                                $('#spanLong').html(longtitude.val());
+
+                                document.getElementById('formatedAddress').innerHTML = results[0].formatted_address;
+                                document.getElementById('latlng').innerHTML = '(' + roundGPS(event.latLng.lat()) + ', ' + roundGPS(event.latLng.lng()) + ')';
+                            }
+                        }
+                    });
+                });
+                geocoder = new google.maps.Geocoder();
+            } else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+        return false;
+    }
+    function GPSToMap() {
+        debugger; 
+        var longtitude = $("#txtLongtitude");
+        var latitude = $("#txtLatitude");
+
+        latlng = new google.maps.LatLng(latitude.val(), longtitude.val());
+        var myOptions = {
+            zoom: 15,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas_e"), myOptions);
+        var infowindow = new google.maps.InfoWindow();
+        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    var marker = new google.maps.Marker({
+                        position: latlng,
+                        map: map,
+                        draggable: true
+                    });
+
+                    var content = '';
+                    content = '<div class="info_content">';
+                    content += '<p><b>Address: </b><span id="spanGPSAddress">' + results[0].formatted_address + '</span></p>';
+                    content += '<p><b>Latitude: </b><span id="spanLat">' + roundGPS(latitude.val()) + '</span></p>';
+                    content += '<p><b>Longitude: </b><span id="spanLong">' + roundGPS(longtitude.val()) + '</span></p>';
+                    content += '</div>';
+                    infowindow.setContent(content);
+                    google.maps.event.addListener(marker, 'click', (function (marker) {
+                        return function () {
+                            infowindow.open(map, marker);
+                        }
+                    })(marker));
+
+                    longtitude.val(roundGPS(results[0].geometry.location.lng()));
+                    latitude.val(roundGPS(results[0].geometry.location.lat()));
+                    $('#txtAddress').val(results[0].formatted_address);
+
+                    /**/
+                    //if (results[0].address_components) {
+                    //    txtPostalCode.val(results[0].address_components[5].long_name);
+                    //    drdCountry.val(results[0].address_components[4].short_name);
+                    //    txtRegion.val(results[0].address_components[3].long_name);
+                    //    txtCity.val(results[0].address_components[2].long_name);
+                    //    txtStreet.val(results[0].address_components[0].long_name + " " + results[0].address_components[1].long_name);
+                    //}
+
+                    google.maps.event.addListener(marker, 'dragend', function (event) {
+                        longtitude.val(roundGPS(event.latLng.lng()));
+                        latitude.val(roundGPS(event.latLng.lat()));
+                        var eventLatLng = new google.maps.LatLng(latitude.val(), longtitude.val());
+
+                        geocoder.geocode({ 'latLng': eventLatLng }, function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                if (results[0]) {
+                                    longtitude.val(roundGPS(results[0].geometry.location.lng()));
+                                    latitude.val(roundGPS(results[0].geometry.location.lat()));
+                                    $('#txtAddress').val(results[0].formatted_address);
+                                    $('#spanGPSAddress').html(results[0].formatted_address);
+                                    $('#spanLat').html(latitude.value);
+                                    $('#spanLong').html(longtitude.value);
+
+                                    document.getElementById('formatedAddress').innerHTML = results[0].formatted_address;
+                                    document.getElementById('latlng').innerHTML = '(' + roundGPS(event.latLng.lat()) + ', ' + roundGPS(event.latLng.lng()) + ')';
+                                }
+                            }
+                        });
+                    });
+                    geocoder = new google.maps.Geocoder();
+                }
+            }
+        });
+    }
+    function AddressToMap() {
+
+        var longtitude = $("#txtLongtitude");
+        var latitude = $("#txtLatitude");
+
+        var address = $("#txtAddress").val();
+        //$('#map').dialog('display', 'block');
+
+        var map = new google.maps.Map(document.getElementById('map_canvas_e'), {
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var infowindow = new google.maps.InfoWindow();
+
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+
+                map.setCenter(results[0].geometry.location);
+                var marker = new window.google.maps.Marker({
+                    position: results[0].geometry.location,//new google.maps.LatLng(results[0].geometry.location.lat, results[0].geometry.location.lng),
+                    map: map,
+                    draggable: true
+                });
+
+                bounds.extend(marker.position);
+                google.maps.event.addListener(marker, 'click', (function (marker) {
+                    return function () {
+                        var content = ReturnContent("Title", address, "Mobile", "Phone");
+                        infowindow.setContent(content);
+                        infowindow.open(map, marker);
+                    }
+                })(marker));
+                longtitude.val(roundGPS(results[0].geometry.location.lng()));
+                latitude.val(roundGPS(results[0].geometry.location.lat()));
+                google.maps.event.addListener(marker, 'dragend', function (event) {
+                    longtitude.val(roundGPS(event.latLng.lng()));
+                    latitude.val(roundGPS(event.latLng.lat()));
+                    $('#txtAddress').val(results[0].formatted_address);
+
+                    var eventLatLng = new google.maps.LatLng(latitude.val(), longtitude.val());
+
+                    geocoder.geocode({ 'latLng': eventLatLng }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            //if (results[0]) {
+                            //    $('#defAddress').html(results[0].formatted_address);
+
+                            //    document.getElementById('formatedAddress').innerHTML = results[0].formatted_address;
+                            //    document.getElementById('latlng').innerHTML = '(' + roundGPS(event.latLng.lat()) + ', ' + roundGPS(event.latLng.lng()) + ')';
+                            //}
+                        }
+                    });
+                });
+                geocoder = new google.maps.Geocoder();
+            } else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+        return false;
+    };
+
+    function roundGPS(position) {
+        var val = parseFloat(position);
+        if (isNaN(val)) {
+            return 0;
+        }
+        else
+            return val.toFixed(6);
+    }
+    function ReturnContent(title, address, mobile, phone) {
+        var content = '';
+        content = '<div class="info_content">';
+        content += '<h3>' + title + '</h3>';
+        content += '<p><b>Address: </b><span id="defAddress">' + address + '</span></p>';
+        content += '<p><b>Mobile: </b><span>' + mobile + '</span></p>';
+        content += '<p><b>Phone: </b><span>' + phone + '</span></p>';
+        content += '</div>';
+        return content;
+    };
+
+    $(function() {
+        SetUpMap();
+    });
+</script>
+
+
+<style>
+    div#map {
+        position: relative;
+    }
+
+    div#crosshair {
+        position: absolute;
+        top: 192px;
+        height: 19px;
+        width: 19px;
+        left: 50%;
+        margin-left: -8px;
+        display: block;
+        background: none;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    .info_content {
+    }
+
+        .info_content h3 {
+            margin-bottom: 5px;
+            font-weight: bold;
+            line-height: 1.2em;
+            font-size: 16px;
+            color: #d27203;
+        }
+
+        .info_content p {
+            font-weight: normal;
+            color: #333;
+            font-size: 12px;
+            font-family: 'bitter-regular', sans-serif;
+            text-shadow: #FFF 1px 1px 0px;
+            margin: 0;
+        }
+</style>

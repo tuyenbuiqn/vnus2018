@@ -1,0 +1,43 @@
+﻿@model VietUSA.Repository.Common.Models.ListPagedResultModel<VietUSA.Repository.Models.MemberModel>
+@{
+    ViewBag.Title = "Invited Addresses";
+}
+<div class="section header-internas foto_contato">
+    <div class="w-container container-phone">
+        <!-- <h1>Contact</h1> -->
+    </div>
+</div>
+<div class="section press">
+    <div class="w-container container-phone">
+        <h3>Invited Addresses</h3>
+        <div class="w-form" id="div_form">
+            <div class="t-program-committee-container">
+                @foreach (var item in Model.ListItem)
+                {
+                    <div class="col-sm-6 t-padding-left-0 t-padding-right-0 t-program-committee-box">
+                        <div class="t-program-committee-img">
+                            <img src="@item.ImageUrl" title="@item.Name" alt="@item.Name" />
+                        </div>
+                        <div class="t-program-committee-content">
+                            <h3>
+                                <span class="t-program-committee-content-name">@item.Name</span>
+                                @if (!string.IsNullOrEmpty(item.Title))
+                                {
+                                    <span class="t-program-committee-content-title">(@item.Title)</span>
+                                }
+                            </h3>
+                            <p>@item.OfficeName</p>
+                            <p>
+                                <a href="@item.Website" title="@item.Name" target="_blank">Website</a>
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

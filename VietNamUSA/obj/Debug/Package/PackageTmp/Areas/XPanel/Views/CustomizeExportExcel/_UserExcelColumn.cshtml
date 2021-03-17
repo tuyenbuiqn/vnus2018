@@ -1,0 +1,380 @@
+﻿@using OfficeOpenXml.Style
+@using VietUSA.Repository.Common.Enums
+@model VietUSA.Repository.Models.CustomizeExportExcelModel
+@{
+    string headerFontWeight = string.Empty;
+    string headerFontItalic = string.Empty;
+    string headerBorderStyle = string.Empty;
+    string headerVerticalAlignment = string.Empty;
+    string headerHorizontalAlignment = string.Empty;
+
+    string bodyFontWeight = string.Empty;
+    string bodyFontItalic = string.Empty;
+    string bodyBorderStyle = string.Empty;
+    string bodyVerticalAlignment = string.Empty;
+    string bodyHorizontalAlignment = string.Empty;
+
+    if (Model.HeaderFormat.FontBold.HasValue)
+    {
+        headerFontWeight = Model.HeaderFormat.FontBold.Value ? "font-weight:bold;" : "font-weight:normal;";
+    }
+    if (Model.HeaderFormat.FontItalic.HasValue)
+    {
+        headerFontItalic = Model.HeaderFormat.FontItalic.Value ? "font-style:italic;" : "font-style:normal;";
+    }
+    if (Model.HeaderFormat.BorderStyle.HasValue)
+    {
+        switch (Model.HeaderFormat.BorderStyle.Value)
+        {
+            case (int)ExcelBorderStyle.None:
+                headerBorderStyle = string.Empty;
+                break;
+            case (int)ExcelBorderStyle.Thin:
+                headerBorderStyle = "border-width:thin;border-style:solid;border-color:" + Model.HeaderFormat.BorderColor + ";";
+                break;
+            case (int)ExcelBorderStyle.Medium:
+                headerBorderStyle = "border-width:medium;border-style:solid;border-color:" + Model.HeaderFormat.BorderColor + ";";
+                break;
+            case (int)ExcelBorderStyle.Thick:
+                headerBorderStyle = "border-width:thick;border-style:solid;border-color:" + Model.HeaderFormat.BorderColor + ";";
+                break;
+            case (int)ExcelBorderStyle.Dashed:
+                headerBorderStyle = "border-width:thin;border-style:dashed;border-color:" + Model.HeaderFormat.BorderColor + ";";
+                break;
+            case (int)ExcelBorderStyle.Dotted:
+                headerBorderStyle = "border-width:thin;border-style:dotted;border-color:" + Model.HeaderFormat.BorderColor + ";";
+                break;
+        }
+    }
+    if (Model.HeaderFormat.VerticalAlignment.HasValue)
+    {
+        switch (Model.HeaderFormat.VerticalAlignment.Value)
+        {
+            case (int)ExcelVerticalAlignment.Top:
+                headerVerticalAlignment = "vertical-align:top;";
+                break;
+            case (int)ExcelVerticalAlignment.Center:
+                headerVerticalAlignment = "vertical-align:center;";
+                break;
+            case (int)ExcelVerticalAlignment.Bottom:
+                headerVerticalAlignment = "vertical-align:bottom;";
+                break;
+        }
+    }
+    if (Model.HeaderFormat.HorizontalAlignment.HasValue)
+    {
+        switch (Model.HeaderFormat.HorizontalAlignment.Value)
+        {
+            case (int)ExcelHorizontalAlignment.Left:
+                headerHorizontalAlignment = "text-align:left;";
+                break;
+            case (int)ExcelHorizontalAlignment.Center:
+                headerHorizontalAlignment = "text-align:center;";
+                break;
+            case (int)ExcelHorizontalAlignment.Right:
+                headerHorizontalAlignment = "text-align:right;";
+                break;
+            case (int)ExcelHorizontalAlignment.Justify:
+                headerHorizontalAlignment = "text-align:justify;";
+                break;
+        }
+    }
+
+
+    if (Model.BodyFormat.FontBold.HasValue)
+    {
+        bodyFontWeight = Model.BodyFormat.FontBold.Value ? "font-weight:bold;" : "font-weight:normal;";
+    }
+    if (Model.BodyFormat.FontItalic.HasValue)
+    {
+        bodyFontItalic = Model.BodyFormat.FontItalic.Value ? "font-style:italic;" : "font-style:normal;";
+    }
+    if (Model.BodyFormat.BorderStyle.HasValue)
+    {
+        switch (Model.BodyFormat.BorderStyle.Value)
+        {
+            case (int)ExcelBorderStyle.None:
+                bodyBorderStyle = string.Empty;
+                break;
+            case (int)ExcelBorderStyle.Thin:
+                bodyBorderStyle = "border-width:thin;border-style:solid;border-color:" + Model.BodyFormat.BorderColor + ";";
+                break;
+            case (int)ExcelBorderStyle.Medium:
+                bodyBorderStyle = "border-width:medium;border-style:solid;border-color:" + Model.BodyFormat.BorderColor + ";";
+                break;
+            case (int)ExcelBorderStyle.Thick:
+                bodyBorderStyle = "border-width:thin;border-style:solid;border-color:" + Model.BodyFormat.BorderColor + ";";
+                break;
+            case (int)ExcelBorderStyle.Dashed:
+                bodyBorderStyle = "border-width:thin;border-style:dashed;border-color:" + Model.BodyFormat.BorderColor + ";";
+                break;
+            case (int)ExcelBorderStyle.Dotted:
+                bodyBorderStyle = "border-width:thin;border-style:dotted;border-color:" + Model.BodyFormat.BorderColor + ";";
+                break;
+        }
+    }
+    if (Model.BodyFormat.VerticalAlignment.HasValue)
+    {
+        switch (Model.BodyFormat.VerticalAlignment.Value)
+        {
+            case (int)ExcelVerticalAlignment.Top:
+                bodyVerticalAlignment = "vertical-align:top;";
+                break;
+            case (int)ExcelVerticalAlignment.Center:
+                bodyVerticalAlignment = "vertical-align:center;";
+                break;
+            case (int)ExcelVerticalAlignment.Bottom:
+                bodyVerticalAlignment = "vertical-align:bottom;";
+                break;
+        }
+    }
+    if (Model.BodyFormat.HorizontalAlignment.HasValue)
+    {
+        switch (Model.BodyFormat.HorizontalAlignment.Value)
+        {
+            case (int)ExcelHorizontalAlignment.Left:
+                bodyHorizontalAlignment = "text-align:left;";
+                break;
+            case (int)ExcelHorizontalAlignment.Center:
+                bodyHorizontalAlignment = "text-align:center;";
+                break;
+            case (int)ExcelHorizontalAlignment.Right:
+                bodyHorizontalAlignment = "text-align:right;";
+                break;
+            case (int)ExcelHorizontalAlignment.Justify:
+                bodyHorizontalAlignment = "text-align:justify;";
+                break;
+
+        }
+    }
+}
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel panel-default" style="margin: 0; border: none;">
+        <div class="panel-heading" role="tab" id="headingOneExcelColumn" style="background: none; border: none;">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOneExcelColumn" aria-expanded="true" aria-controls="collapseOneExcelColumn" class="collapsed">
+                    Thông tin các trường dữ liệu
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOneExcelColumn" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+            <div class="panel-body">
+                <div class="form-group form-group-sm t-overwrite-form-group">
+                    <h5 class="col-sm-12 t-box-head">Các trường dữ liệu được chọn</h5>
+                </div>
+                <div style="float: left;width: 100%">
+                    <ol id="divSelectedExcelColumns" class="t-excel-column-wrapper customize-export-excel">
+                        @foreach (var item in Model.UserExcelColumns)
+                        {
+                            <li class="t-excel-column-item" data-id="@item.CUserExcelColumnId" data-CUserExcelColumnId="@item.CUserExcelColumnId" data-CExcelColumnId="@item.CExcelColumnId" data-CExcelFileId="@item.CExcelFileId" data-ObjectTypeId="@item.ObjectTypeId" data-DisplayName="@item.DisplayName">
+                                <span class="t-excel-column-item-header" style="font-size: @(Model.HeaderFormat.FontSize)px;@headerFontWeight;@headerFontItalic;color:@Model.HeaderFormat.FontColor;background: @Model.HeaderFormat.BackgroundColor;@headerBorderStyle;@headerVerticalAlignment;@headerHorizontalAlignment;">
+                                    @item.DisplayName
+                                </span>
+                                <div class="t-excel-column-item-action-container">
+                                    <div class="t-excel-column-item-action">
+                                        <span class="t-excel-column-remove fa fa-minus-circle" title="Bỏ chọn trường @item.DisplayName" onclick=" UpdateExcelColumn(@item.CUserExcelColumnId, @item.CExcelColumnId , @item.ObjectTypeId , @((int)CExcelUpdateColumnType.Remove) , @item.CExcelFileId ); ">
+                                        </span>
+                                    </div>
+                                </div>
+                                <span class="t-excel-column-item-body" style="font-size: @(Model.BodyFormat.FontSize)px;@bodyFontWeight;@bodyFontItalic;color:@Model.BodyFormat.FontColor;background: @Model.BodyFormat.BackgroundColor;@bodyBorderStyle;@bodyVerticalAlignment;@bodyHorizontalAlignment;">Dữ liệu</span>
+                            </li>
+                        }
+                    </ol>
+                </div>
+
+                <div class="form-group form-group-sm t-overwrite-form-group">
+                    <h5 class="col-sm-12 t-box-head">Các trường dữ liệu không được chọn</h5>
+                </div>
+                <ol id="divUnSelectedExcelColumns" class="t-excel-column-wrapper customize-export-excel">
+                    @foreach (var item in Model.UserExcelUnSelectedColumns)
+                    {
+                        <li class="t-excel-column-item"  data-id="@item.CUserExcelColumnId" data-CUserExcelColumnId="@item.CUserExcelColumnId" data-CExcelColumnId="@item.CExcelColumnId" data-CExcelFileId="@item.CExcelFileId" data-ObjectTypeId="@item.ObjectTypeId" data-DisplayName="@item.DisplayName">
+                            <span class="t-excel-column-item-header" style="font-size: @(Model.HeaderFormat.FontSize)px;@headerFontWeight;@headerFontItalic;color:@Model.HeaderFormat.FontColor;background: @Model.HeaderFormat.BackgroundColor;@headerBorderStyle;@headerVerticalAlignment;@headerHorizontalAlignment;">
+                                @item.DisplayName
+                            </span>
+                            <div class="t-excel-column-item-action-container">
+                                <div class="t-excel-column-item-action">
+                                    <span class="t-excel-column-remove fa fa-plus-circle" title="Chọn trường @item.DisplayName" onclick="UpdateExcelColumn(@item.CUserExcelColumnId,@item.CExcelColumnId,@item.ObjectTypeId,@((int)CExcelUpdateColumnType.Add),@item.CExcelFileId);">
+                                    </span>
+                                </div>
+                            </div>
+                            <span class="t-excel-column-item-body" style="font-size: @(Model.BodyFormat.FontSize)px;@bodyFontWeight;@bodyFontItalic;color:@Model.BodyFormat.FontColor;background: @Model.BodyFormat.BackgroundColor;@bodyBorderStyle;@bodyVerticalAlignment;@bodyHorizontalAlignment;">Dữ liệu</span>
+                        </li>
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ProcessItemAfterDragAndDrop(id,toId) {
+        var item = $("li[data-id='" + id + "'] div.t-excel-column-item-action-container div.t-excel-column-item-action span.t-excel-column-remove");
+        var cUserExcelColumnId = $("li[data-id='" + id + "']").attr("data-CUserExcelColumnId");
+        var cExcelColumnId = $("li[data-id='" + id + "']").attr("data-CExcelColumnId");
+        var objectTypeId = $("li[data-id='" + id + "']").attr("data-ObjectTypeId");
+        var cExcelFileId = $("li[data-id='" + id + "']").attr("data-CExcelFileId");
+        
+        if (toId === "divSelectedExcelColumns") {
+            var onclickAdd = "UpdateExcelColumn(" +  cUserExcelColumnId + "," + cExcelColumnId + "," + objectTypeId + "," + @((int)CExcelUpdateColumnType.Remove) + ","  + cExcelFileId + ");";
+            item.attr("class", "t-excel-column-remove fa fa-minus-circle");
+            item.attr("onclick", onclickAdd);
+        }
+        else if(toId === "divUnSelectedExcelColumns"){
+            var onclickRemove = "UpdateExcelColumn(" +  cUserExcelColumnId + "," + cExcelColumnId + "," + objectTypeId + "," + @((int)CExcelUpdateColumnType.Add) + ","  + cExcelFileId + ");";
+            item.attr("class", "t-excel-column-remove fa fa-plus-circle");
+            item.attr("onclick", onclickRemove);
+        }
+    }
+    function SortableExcelColumn() {
+        var selectedSortableEl = document.getElementById('divSelectedExcelColumns');
+        var selectedSortable = new  Sortable(selectedSortableEl, {
+            group: "customize-excel-column-group",
+            onEnd: function (/**Event*/evt) {
+                var jsonSelectedData = selectedSortable.toArray();
+                var selectedArray = [];
+                for (var i = 0; i < jsonSelectedData.length; i++) {
+                    var item = $("#divSelectedExcelColumns li[data-id=" + jsonSelectedData[i] + "]");
+                    var selectedItem = {
+                        CUserExcelColumnId: item.attr("data-CUserExcelColumnId"),
+                        CExcelColumnId: item.attr("data-CExcelColumnId"),
+                        CExcelFileId: item.attr("data-CExcelFileId"),
+                        ObjectTypeId: item.attr("data-ObjectTypeId"),
+                        DisplayName: item.attr("data-DisplayName")
+                    };
+                    selectedArray.push(selectedItem);
+                }
+                var jsonUnSelectedData = unSelectedSortable.toArray();
+                var unSelectedArray = [];
+                for (var i = 0; i < jsonUnSelectedData.length; i++) {
+                    var unSelectedItem = $("#divUnSelectedExcelColumns li[data-id=" + jsonUnSelectedData[i] + "]");
+                    var unSectedItem = {
+                        CUserExcelColumnId: unSelectedItem.attr("data-CUserExcelColumnId"),
+                        CExcelColumnId: unSelectedItem.attr("data-CExcelColumnId"),
+                        CExcelFileId: unSelectedItem.attr("data-CExcelFileId"),
+                        ObjectTypeId: unSelectedItem.attr("data-ObjectTypeId"),
+                        DisplayName: unSelectedItem.attr("data-DisplayName")
+                    };
+                    unSelectedArray.push(unSectedItem);
+                }
+                //console.log(selectedArray);
+                //console.log(unSelectedArray);
+                var parameter = {
+                    "CExcelFileId": @Model.UserExcelFile.CExcelFileId,
+                    "ObjectTypeId": @Model.UserExcelFile.ObjectTypeId,
+                    "SelectedColumns": selectedArray,
+                    "UnSelectedColumns": unSelectedArray
+                };
+                var id = evt.item.getAttribute("data-id");
+                var toId = evt.to.getAttribute("id");
+               
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    //dataType: "json",
+                    type: "POST",
+                    url: '@Url.Action("UpdateExcelColumnOrder", "CustomizeExportExcel")',
+                    data: JSON.stringify(parameter),
+                    success: function (data) {
+                        //$("#divCUserExcelColumns").html("");
+                        //$("#divCUserExcelColumns").html(data);
+                        ProcessItemAfterDragAndDrop(id,toId);
+                    },
+                    failure: function (response) {
+                        //$('#result').html(response);
+                    },
+                    error:function(err,ess,x) {
+                         alert('Error');
+                    }
+                });
+            }
+        });
+        var unSelectedSortableEl = document.getElementById('divUnSelectedExcelColumns');
+        var unSelectedSortable = new Sortable(unSelectedSortableEl, {
+            group: "customize-excel-column-group",
+            onEnd: function (/**Event*/evt) {
+                //debugger;
+                var jsonSelectedData = selectedSortable.toArray();
+                var selectedArray = [];
+                for (var i = 0; i < jsonSelectedData.length; i++) {
+                    var item = $("#divSelectedExcelColumns li[data-id=" + jsonSelectedData[i] + "]");
+                    var selectedItem = {
+                        CUserExcelColumnId: item.attr("data-CUserExcelColumnId"),
+                        CExcelColumnId: item.attr("data-CExcelColumnId"),
+                        CExcelFileId: item.attr("data-CExcelFileId"),
+                        ObjectTypeId: item.attr("data-ObjectTypeId"),
+                        DisplayName: item.attr("data-DisplayName")
+                    };
+                    selectedArray.push(selectedItem);
+                }
+                var jsonUnSelectedData = unSelectedSortable.toArray();
+                var unSelectedArray = [];
+                for (var i = 0; i < jsonUnSelectedData.length; i++) {
+                    var unSelectedItem = $("#divUnSelectedExcelColumns li[data-id=" + jsonUnSelectedData[i] + "]");
+                    var unSectedItem = {
+                        CUserExcelColumnId: unSelectedItem.attr("data-CUserExcelColumnId"),
+                        CExcelColumnId: unSelectedItem.attr("data-CExcelColumnId"),
+                        CExcelFileId: unSelectedItem.attr("data-CExcelFileId"),
+                        ObjectTypeId: unSelectedItem.attr("data-ObjectTypeId"),
+                        DisplayName: unSelectedItem.attr("data-DisplayName")
+                    };
+                    unSelectedArray.push(unSectedItem);
+                }
+                //console.log(selectedArray);
+                //console.log(unSelectedArray);
+                var parameter = {
+                    "CExcelFileId": @Model.UserExcelFile.CExcelFileId,
+                    "ObjectTypeId": @Model.UserExcelFile.ObjectTypeId,
+                    "SelectedColumns": selectedArray,
+                    "UnSelectedColumns": unSelectedArray
+                };
+                var id = evt.item.getAttribute("data-id");
+                var toId = evt.to.getAttribute("id");
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    //dataType: "json",
+                    type: "POST",
+                    url: '@Url.Action("UpdateExcelColumnOrder", "CustomizeExportExcel")',
+                    data: JSON.stringify(parameter),
+                    success: function (data) {
+                        //$("#divCUserExcelColumns").html("");
+                        //$("#divCUserExcelColumns").html(data);
+                        ProcessItemAfterDragAndDrop(id,toId);
+                    },
+                    failure: function (response) {
+                        //$('#result').html(response);
+                    },
+                    error:function(err,ess,x) {
+                        alert('Error');
+                    }
+                });
+            }
+        });
+    };
+    function UpdateExcelColumn(userExcelColumnId, excelColumnId, objectTypeId, type, excelFileId) {
+        var parameter = {
+            CUserExcelColumnId: userExcelColumnId,
+            CExcelColumnId: excelColumnId,
+            ObjectTypeId: objectTypeId,
+            Type: type,
+            CExcelFileId: excelFileId
+        };
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Action("UpdateExcelColumn", "CustomizeExportExcel")',
+            type: "POST",
+            data: JSON.stringify(parameter),
+            success: function (data) {
+                $("#divCUserExcelColumns").html("");
+                $("#divCUserExcelColumns").html(data);
+            },
+            error: function (err,errMess,errHandle) {
+            }
+        });
+    };
+
+
+    $(function () {
+        SortableExcelColumn();
+        $("#CustomizeExportModel").on("hidden.bs.modal", function () {
+        });
+    });
+</script>

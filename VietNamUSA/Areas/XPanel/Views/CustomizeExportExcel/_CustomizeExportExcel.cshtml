@@ -1,0 +1,584 @@
+﻿@using OfficeOpenXml.Style
+@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Common.Enums
+@using VietUSA.Repository.Models
+@model CustomizeExportExcelModel
+@{
+    //bool displayExcelFile;
+    //if (@Model == null)
+    //{
+    //    displayExcelFile = false;
+    //}
+    //else
+    //{
+    //    displayExcelFile = @Model.UserExcelFile != null;
+    //}
+    var fontSizeList = new List<SelectedData>()
+    {
+        new SelectedData { Id = 10, Text = "10" },
+        new SelectedData { Id = 11, Text = "11" },
+        new SelectedData { Id = 12, Text = "12" },
+        new SelectedData { Id = 13, Text = "13" },
+        new SelectedData { Id = 15, Text = "15" },
+        new SelectedData { Id = 16, Text = "16" },
+        new SelectedData { Id = 18, Text = "18" },
+        new SelectedData { Id = 24, Text = "24" },
+        new SelectedData { Id = 36, Text = "36" },
+        new SelectedData { Id = 48, Text = "48" },
+    };
+
+    var indexList = new List<SelectedData>();
+    for (var i = 1; i <= 100; i++)
+    {
+        indexList.Add(new SelectedData()
+        {
+            Id = i,
+            Text = i.ToString()
+        });
+    }
+
+    var borderStyleList = new List<SelectedData>()
+    {
+        new SelectedData() {Id = (int) ExcelBorderStyle.None, Text = "None"},
+        new SelectedData() {Id = (int) ExcelBorderStyle.Thin, Text = "Thin"},
+        new SelectedData() {Id = (int) ExcelBorderStyle.Medium, Text = "Medium"},
+        new SelectedData() {Id = (int) ExcelBorderStyle.Thick, Text = "Thick"},
+        new SelectedData() {Id = (int) ExcelBorderStyle.Dotted, Text = "Dotted"},
+        new SelectedData() {Id = (int) ExcelBorderStyle.Dashed, Text = "Dashed"},
+    };
+
+}
+@Html.HiddenFor(m => m.UserExcelFile.CUserExcelFileId, new { @name = "CUserExcelFileId", @id = "hdfCUserExcelFileId" })
+@Html.HiddenFor(m => m.UserExcelFile.CExcelFileId, new { @name = "CExcelFileId", @id = "hdfCExcelFileId" })
+@Html.HiddenFor(m => m.UserExcelFile.ObjectTypeId, new { @name = "ObjectTypeId", @id = "hdfObjectTypeId" })
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel panel-default" style="margin: 0; border: none;">
+        <div class="panel-heading" role="tab" id="headingOneExcelFile" style="background: none; border: none;">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOneExcelFile" aria-expanded="true" aria-controls="collapseOneExcelFile" class="collapsed">
+                    Định nghĩa tệp kết xuất
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOneExcelFile" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" method="POST" id="formUserExcelFile"
+                      data-bv-message="This value is not valid"
+                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                    <div class="form-horizontal">
+                        <div class="form-group form-group-sm t-overwrite-form-group">
+                            <label title="Dữ liệu kết xuất ra file excel sẽ được bắt đầu từ dòng được chỉ định" class="col-sm-3 control-label t-overwrite-label">Chỉ số Dòng bắt đầu</label>
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(o => o.UserExcelFile.StartRow, new SelectList(indexList, "Id", "Text"), new { id = "ddlStartRow", name = "StartRow", @class = "ddlSelect2", @style = "width:100%;" })
+                            </div>
+                            <label title="Dữ liệu kết xuất ra file excel sẽ được bắt đầu từ cột được chỉ định" class="col-sm-3 control-label t-overwrite-label">Chỉ số Cột bắt đầu</label>
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(o => o.UserExcelFile.StartColumn, new SelectList(indexList, "Id", "Text"), new { id = "ddlStartColumn", name = "StartColumn", @class = "ddlSelect2", @style = "width:100%;" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm t-overwrite-form-group">
+                            <label for="txtFileName" class="col-sm-3 control-label t-overwrite-label">Tên file kết xuất</label>
+                            <div class="col-md-7">
+                                @Html.TextBoxFor(m => m.UserExcelFile.FileName, new { @id = "txtFileName", @class = "form-control ", @name = "FileName", @data_bv_notempty = "true", @data_bv_notempty_message = "Tên file không để trống" })
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" id="btnSaveUserExcelFile" class="btn btn-primary btn-sm pull-right btn-block">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Áp dụng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel panel-default" style="margin: 0; border: none;">
+        <div class="panel-heading" role="tab" id="headingOneHeaderFormat" style="background: none; border: none;">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOneHeaderFormat" aria-expanded="true" aria-controls="collapseOneHeaderFormat" class="collapsed">
+                    Định dạng hiển thị
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOneHeaderFormat" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" method="POST" id="formUserHeaderFormat"
+                      data-bv-message="This value is not valid"
+                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                    @Html.HiddenFor(m => m.HeaderFormat.FormatStyleId, new { @name = "FormatStyleId" })
+                    @Html.HiddenFor(m => m.HeaderFormat.FormatStyleName, new { @name = "FormatStyleName" })
+                    @Html.HiddenFor(m => m.HeaderFormat.CUserExcelFormatId, new { @name = "CUserExcelFormatId" })
+                    @Html.HiddenFor(m => m.HeaderFormat.CExcelFormatId, new { @name = "CExcelFormatId" })
+                    @Html.HiddenFor(m => m.HeaderFormat.CExcelFileId, new { @name = "CExcelFileId" })
+                    <div class="form-horizontal">
+                        <div class="form-group form-group-sm t-overwrite-form-group">
+                            <label class="col-sm-2 control-label t-overwrite-label">Header</label>
+                            <div class="col-md-10" id="divHeaderFormat">
+                                <div class="t-editor-wrap t-margin-right-5" title="Font chữ">
+                                    @Html.DropDownListFor(o => o.HeaderFormat.FontSize, new SelectList(fontSizeList, "Id", "Text"), new { id = "ddlHeaderFontSize", name = "FontSize", @class = "ddlSelect2" })
+                                </div>
+                                <div class="t-editor-wrap t-editor-border t-margin-right-5">
+                                    <div class="t-editor-item" data-target="headerFontBold" id="divHeaderFontBold">
+                                        <a id="headerFontBold" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header');" title="In đậm" data-command="bold"><i class="fa fa-bold"></i></a>
+                                    </div>
+                                    <div class="t-editor-item" data-target="headerFontItalic" id="divHeaderFontItalic">
+                                        <a id="headerFontItalic" href="javascript:void(0);" onclick=" ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header'); " title="In nghiêng" data-command="italic"><i class="fa fa-italic"></i></a>
+                                    </div>
+                                    <div class="t-editor-item fore-wrapper" data-target="headerFontColor">
+                                        <a id="headerFontColor" data-clickable="false" href="javascript:void(0);" onclick=" ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header'); " title="Màu chữ" data-command="fore-color"><i class="fa fa-font"></i></a>
+                                        <div class="fore-palette" id="divHeaderFontColor" data-item-value="@Model.HeaderFormat.FontColor">
+                                        </div>
+                                    </div>
+                                    <div class="t-editor-item back-wrapper" data-target="headerBackgroundColor">
+                                        <a id="headerBackgroundColor" data-clickable="false" href="javascript:void(0);" onclick=" ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header'); " title="Màu nền" data-command="background-color"><i class="fa fa-background-color"></i></a>
+                                        <div class="back-palette" id="divHeaderBackgroundColor" data-item-value="@Model.HeaderFormat.BackgroundColor">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="divHeaderHorizontalAlignment" class="t-editor-wrap t-editor-border t-margin-right-5" data-item-value="@Model.HeaderFormat.HorizontalAlignment" data-item-css-value="">
+                                    <div id="divHeaderHorizontalAlignmentLeft" class="t-editor-item" data-target="headerHorizontalAlignmentLeft" data-group="header-horizontal-alignment">
+                                        <a id="headerHorizontalAlignmentLeft" data-root-element="divHeaderHorizontalAlignment" data-value="1" data-css-value="text-align:left;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header');" title="Căn trái" data-command="text-algin-left"><i class="fa fa-align-left"></i></a>
+                                    </div>
+                                    <div id="divHeaderHorizontalAlignmentCenter" class="t-editor-item" data-target="headerHorizontalAlignmentCenter" data-group="header-horizontal-alignment">
+                                        <a id="headerHorizontalAlignmentCenter" data-root-element="divHeaderHorizontalAlignment" data-value="2" data-css-value="text-align:center;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header');" title="Căn giữa" data-command="text-algin-center"><i class="fa fa-align-center"></i></a>
+                                    </div>
+                                    <div id="divHeaderHorizontalAlignmentRight" class="t-editor-item" data-target="headerHorizontalAlignmentRight" data-group="header-horizontal-alignment">
+                                        <a id="headerHorizontalAlignmentRight" data-root-element="divHeaderHorizontalAlignment" data-value="4" data-css-value="text-align:right;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header');" title="Căn phải" data-command="text-algin-right"><i class="fa fa-align-right"></i></a>
+                                    </div>
+                                    <div id="divHeaderHorizontalAlignmentJustify" class="t-editor-item" data-target="headerHorizontalAlignmentJustify" data-group="header-horizontal-alignment">
+                                        <a id="headerHorizontalAlignmentJustify" data-root-element="divHeaderHorizontalAlignment" data-value="7" data-css-value="text-align:justify;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header');" title="Căn đều" data-command="text-algin-justify"><i class="fa fa-align-justify"></i></a>
+                                    </div>
+                                </div>
+
+                                <div id="divHeaderVerticalAlignment" class="t-editor-wrap t-editor-border t-margin-right-5" data-item-value="@Model.HeaderFormat.VerticalAlignment" data-item-css-value="">
+                                    <div id="divHeaderVerticalAlignmentTop" class="t-editor-item" data-target="headerVerticalAlignmentTop" data-group="header-vertical-alignment">
+                                        <a id="headerVerticalAlignmentTop" data-root-element="divHeaderVerticalAlignment" data-value="0" data-css-value="vertical-align:top;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header');" title="Trên" data-command="vertical-algin-top"><i class="fa fa-vertical-align-top"></i></a>
+                                    </div>
+                                    <div id="divHeaderVerticalAlignmentCenter" class="t-editor-item" data-target="headerVerticalAlignmentCenter" data-group="header-vertical-alignment">
+                                        <a id="headerVerticalAlignmentCenter" data-root-element="divHeaderVerticalAlignment" data-value="1" data-css-value="vertical-align:center;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header');" title="Giữa" data-command="vertical-algin-center"><i class="fa fa-vertical-align-center"></i></a>
+                                    </div>
+                                    <div id="divHeaderVerticalAlignmentBottom" class="t-editor-item" data-target="headerVerticalAlignmentBottom" data-group="header-vertical-alignment">
+                                        <a id="headerVerticalAlignmentBottom" data-root-element="divHeaderVerticalAlignment" data-value="2" data-css-value="vertical-align:bottom;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header');" title="Dưới" data-command="vertical-algin-bottom"><i class="fa fa-vertical-align-bottom"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="t-editor-wrap t-margin-right-5" title="Border style">
+                                    Border style
+                                    @Html.DropDownListFor(o => o.HeaderFormat.BorderStyle, new SelectList(borderStyleList, "Id", "Text"), new { id = "ddlHeaderBorderStyle", name = "BorderStyle", @class = "ddlSelect2" })
+                                </div>
+
+                                <div class="t-editor-wrap t-editor-border t-margin-right-5">
+                                    <div class="t-editor-item border-wrapper" data-target="headerBorderColor">
+                                        <a id="headerBorderColor" data-clickable="false" href="javascript:void(0);" onclick=" ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Header),'@CExcelFormatTypeEnum.Header'); " title="Màu viền" data-command="border-color"><i class="fa fa-border-color"></i></a>
+                                        <div class="border-palette" id="divHeaderBorderColor" data-item-value="@Model.HeaderFormat.BorderColor">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm t-overwrite-form-group">
+                            <label class="col-sm-2 control-label t-overwrite-label">Body</label>
+                            <div class="col-md-10" id="divBodyFormat">
+                                <div class="t-editor-wrap t-margin-right-5" title="Font chữ">
+                                    @Html.DropDownListFor(o => o.BodyFormat.FontSize, new SelectList(fontSizeList, "Id", "Text"), new { id = "ddlBodyFontSize", name = "FontSize", @class = "ddlSelect2" })
+                                </div>
+                                <div class="t-editor-wrap t-editor-border t-margin-right-5">
+                                    <div class="t-editor-item" data-target="BodyFontBold" id="divBodyFontBold">
+                                        <a id="BodyFontBold" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body');" title="In đậm" data-command="bold"><i class="fa fa-bold"></i></a>
+                                    </div>
+                                    <div class="t-editor-item" data-target="BodyFontItalic" id="divBodyFontItalic">
+                                        <a id="BodyFontItalic" href="javascript:void(0);" onclick=" ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body'); " title="In nghiêng" data-command="italic"><i class="fa fa-italic"></i></a>
+                                    </div>
+                                    <div class="t-editor-item fore-wrapper" data-target="BodyFontColor">
+                                        <a id="BodyFontColor" data-clickable="false" href="javascript:void(0);" onclick=" ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body'); " title="Màu chữ" data-command="fore-color"><i class="fa fa-font"></i></a>
+                                        <div class="fore-palette" id="divBodyFontColor" data-item-value="@Model.BodyFormat.FontColor">
+                                        </div>
+                                    </div>
+                                    <div class="t-editor-item back-wrapper" data-target="BodyBackgroundColor">
+                                        <a id="BodyBackgroundColor" data-clickable="false" href="javascript:void(0);" onclick=" ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body'); " title="Màu nền" data-command="background-color"><i class="fa fa-background-color"></i></a>
+                                        <div class="back-palette" id="divBodyBackgroundColor" data-item-value="@Model.BodyFormat.BackgroundColor">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="divBodyHorizontalAlignment" class="t-editor-wrap t-editor-border t-margin-right-5" data-item-value="@Model.BodyFormat.HorizontalAlignment" data-item-css-value="">
+                                    <div id="divBodyHorizontalAlignmentLeft" class="t-editor-item" data-target="BodyHorizontalAlignmentLeft" data-group="body-horizontal-alignment">
+                                        <a id="BodyHorizontalAlignmentLeft" data-root-element="divBodyHorizontalAlignment" data-value="1" data-css-value="text-align:left;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body');" title="Căn trái" data-command="text-algin-left"><i class="fa fa-align-left"></i></a>
+                                    </div>
+                                    <div id="divBodyHorizontalAlignmentCenter" class="t-editor-item" data-target="BodyHorizontalAlignmentCenter" data-group="body-horizontal-alignment">
+                                        <a id="BodyHorizontalAlignmentCenter" data-root-element="divBodyHorizontalAlignment" data-value="2" data-css-value="text-align:center;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body');" title="Căn giữa" data-command="text-algin-center"><i class="fa fa-align-center"></i></a>
+                                    </div>
+                                    <div id="divBodyHorizontalAlignmentRight" class="t-editor-item" data-target="BodyHorizontalAlignmentRight" data-group="body-horizontal-alignment">
+                                        <a id="BodyHorizontalAlignmentRight" data-root-element="divBodyHorizontalAlignment" data-value="4" data-css-value="text-align:right;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body');" title="Căn phải" data-command="text-algin-right"><i class="fa fa-align-right"></i></a>
+                                    </div>
+                                    <div id="divBodyHorizontalAlignmentJustify" class="t-editor-item" data-target="BodyHorizontalAlignmentJustify" data-group="body-horizontal-alignment">
+                                        <a id="BodyHorizontalAlignmentJustify" data-root-element="divBodyHorizontalAlignment" data-value="7" data-css-value="text-align:justify;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body');" title="Căn đều" data-command="text-algin-justify"><i class="fa fa-align-justify"></i></a>
+                                    </div>
+                                </div>
+
+                                <div id="divBodyVerticalAlignment" class="t-editor-wrap t-editor-border t-margin-right-5" data-item-value="@Model.BodyFormat.VerticalAlignment" data-item-css-value="">
+                                    <div id="divBodyVerticalAlignmentTop" class="t-editor-item" data-target="BodyVerticalAlignmentTop" data-group="body-vertical-alignment">
+                                        <a id="BodyVerticalAlignmentTop" data-root-element="divBodyVerticalAlignment" data-value="0" data-css-value="vertical-align:top;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body');" title="Trên" data-command="vertical-algin-top"><i class="fa fa-vertical-align-top"></i></a>
+                                    </div>
+                                    <div id="divBodyVerticalAlignmentCenter" class="t-editor-item" data-target="BodyVerticalAlignmentCenter" data-group="body-vertical-alignment">
+                                        <a id="BodyVerticalAlignmentCenter" data-root-element="divBodyVerticalAlignment" data-value="1" data-css-value="vertical-align:center;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body');" title="Giữa" data-command="vertical-algin-center"><i class="fa fa-vertical-align-center"></i></a>
+                                    </div>
+                                    <div id="divBodyVerticalAlignmentBottom" class="t-editor-item" data-target="BodyVerticalAlignmentBottom" data-group="body-vertical-alignment">
+                                        <a id="BodyVerticalAlignmentBottom" data-root-element="divBodyVerticalAlignment" data-value="2" data-css-value="vertical-align:bottom;" href="javascript:void(0);" onclick="ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body');" title="Dưới" data-command="vertical-algin-bottom"><i class="fa fa-vertical-align-bottom"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="t-editor-wrap t-margin-right-5" title="Border style">
+                                    Border style
+                                    @Html.DropDownListFor(o => o.BodyFormat.BorderStyle, new SelectList(borderStyleList, "Id", "Text"), new { id = "ddlBodyBorderStyle", name = "BorderStyle", @class = "ddlSelect2" })
+                                </div>
+
+                                <div class="t-editor-wrap t-editor-border t-margin-right-5">
+                                    <div class="t-editor-item border-wrapper" data-target="BodyBorderColor">
+                                        <a id="BodyBorderColor" data-clickable="false" href="javascript:void(0);" onclick=" ExcelFileFormatActionClick($(this),@((int)CExcelFormatTypeEnum.Body),'@CExcelFormatTypeEnum.Body'); " title="Màu viền" data-command="border-color"><i class="fa fa-border-color"></i></a>
+                                        <div class="border-palette" id="divBodyBorderColor" data-item-value="@Model.BodyFormat.BorderColor">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divCUserExcelColumns">
+    @Html.Partial("_UserExcelColumn", @Model)
+</div>
+<div class="form-group form-group-sm t-overwrite-form-group">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <button type="button" id="btnExportCustomizeExcelData" class="btn btn-primary btn-sm pull-right btn-block" onclick="ExportCustomizeData();">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Kết xuất dữ liệu
+        </button>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+<style>
+
+</style>
+<script>
+    function ValidateSaveExcelFile() {
+        var result = { IsError: false, Message: "", Element: "", Type: "" };
+
+        var e = $("#formUserExcelFile").data("bootstrapValidator");
+        e.validate();
+        var n = e.isValid();
+        if (!n) {
+            result.IsError = true;
+            result.Message = e.Message;
+            result.Type = "auto";
+            return result;
+        }
+        return result;
+    };
+    function InitColor() {
+        var colorPalette = ["#000000", "#FF9966", "#6699FF", "#99FF66", "#CC0000", "#00CC00", "#0000CC", "#333333", "#0066FF", "#FFFFFF", "#ff00ff", "#ffff00"];
+        var headerForePalette = $("#divHeaderFormat .fore-palette");
+        var headerBackPalette = $("#divHeaderFormat .back-palette");
+        var headerBorderPalette = $("#divHeaderFormat .border-palette");
+
+        var bodyForePalette = $("#divBodyFormat .fore-palette");
+        var bodyBackPalette = $("#divBodyFormat .back-palette");
+        var bodyBorderPalette = $("#divBodyFormat .border-palette");
+
+        for (var i = 0; i < colorPalette.length; i++) {
+            headerForePalette.append("<a data-parent=\"divHeaderFontColor\" href=\"javascript:void(0);\" onclick=\"ColorItemClick($(this)," + @((int)CExcelFormatTypeEnum.Header) + ",'@(CExcelFormatTypeEnum.Header)');\" data-command=\"forecolor\" data-value=\"" +  colorPalette[i] + "\" style=\"background-color:" +  colorPalette[i] + ";\" class=\"palette-item\"></a>");
+            headerBackPalette.append("<a data-parent=\"divHeaderBackgroundColor\" href=\"javascript:void(0);\" onclick=\"ColorItemClick($(this)," + @((int)CExcelFormatTypeEnum.Header) + ",'@(CExcelFormatTypeEnum.Header)');\" data-command=\"backcolor\" data-value=\"" +  colorPalette[i] + "\" style=\"background-color:" +  colorPalette[i] + ";\" class=\"palette-item\"></a>");
+            headerBorderPalette.append("<a data-parent=\"divHeaderBorderColor\" href=\"javascript:void(0);\" onclick=\"ColorItemClick($(this)," + @((int)CExcelFormatTypeEnum.Header) + ",'@(CExcelFormatTypeEnum.Header)');\" data-command=\"bordercolor\" data-value=\"" +  colorPalette[i] + "\" style=\"background-color:" +  colorPalette[i] + ";\" class=\"palette-item\"></a>");
+
+            bodyForePalette.append("<a data-parent=\"divBodyFontColor\" href=\"javascript:void(0);\" onclick=\"ColorItemClick($(this)," + @((int)CExcelFormatTypeEnum.Body) + ",'@(CExcelFormatTypeEnum.Body)');\" data-command=\"forecolor\" data-value=\"" +  colorPalette[i] + "\" style=\"background-color:" +  colorPalette[i] + ";\" class=\"palette-item\"></a>");
+            bodyBackPalette.append("<a data-parent=\"divBodyBackgroundColor\" href=\"javascript:void(0);\" onclick=\"ColorItemClick($(this)," + @((int)CExcelFormatTypeEnum.Body) + ",'@(CExcelFormatTypeEnum.Body)');\" data-command=\"backcolor\" data-value=\"" +  colorPalette[i] + "\" style=\"background-color:" +  colorPalette[i] + ";\" class=\"palette-item\"></a>");
+            bodyBorderPalette.append("<a data-parent=\"divBodyBorderColor\" href=\"javascript:void(0);\" onclick=\"ColorItemClick($(this)," + @((int)CExcelFormatTypeEnum.Body) + ",'@(CExcelFormatTypeEnum.Body)');\" data-command=\"bordercolor\" data-value=\"" +  colorPalette[i] + "\" style=\"background-color:" +  colorPalette[i] + ";\" class=\"palette-item\"></a>");
+        }
+    }
+    function InitExcelContentFormat(excelFormatTypeId,excelFormatType) {
+        var isFontBold = false;
+        var isFontItalic = false;
+        var horizontalAlignment = 0;
+        var verticalAlignment = 0;
+
+        var isHeaderFormat = (excelFormatTypeId === @((int)CExcelFormatTypeEnum.Header));
+        if (isHeaderFormat) {
+            isFontBold = @(Json.Encode(Model.HeaderFormat.FontBold));
+            isFontItalic = @(Json.Encode(Model.HeaderFormat.FontItalic));
+            horizontalAlignment = @(Model.HeaderFormat.HorizontalAlignment??0);
+            verticalAlignment = @(Model.HeaderFormat.VerticalAlignment??0);
+        } else {
+            isFontBold = @Json.Encode(Model.BodyFormat.FontBold);
+            isFontItalic = @Json.Encode(Model.BodyFormat.FontItalic);
+            horizontalAlignment = @(Model.BodyFormat.HorizontalAlignment??0);
+            verticalAlignment = @(Model.BodyFormat.VerticalAlignment??0);
+        }
+
+        if (isFontBold)
+            $("#div" + excelFormatType + "FontBold").addClass("t-editor-item-selected");
+        if (isFontItalic)
+            $("#div" + excelFormatType + "FontItalic").addClass("t-editor-item-selected");
+
+        switch (horizontalAlignment) {
+            case @((int)ExcelHorizontalAlignment.Left):
+                $("#div" + excelFormatType + "HorizontalAlignmentLeft").addClass("t-editor-item-selected");
+                break;
+            case @((int)ExcelHorizontalAlignment.Center):
+                $("#div" + excelFormatType + "HorizontalAlignmentCenter").addClass("t-editor-item-selected");
+                break;
+            case @((int)ExcelHorizontalAlignment.Right):
+                $("#div" + excelFormatType + "HorizontalAlignmentRight").addClass("t-editor-item-selected");
+                break;
+            case @((int)ExcelHorizontalAlignment.Justify):
+                $("#div" + excelFormatType + "HorizontalAlignmentJustify").addClass("t-editor-item-selected");
+                break;
+            default:
+                break;
+        }
+        switch (verticalAlignment) {
+            case @((int)ExcelVerticalAlignment.Top):
+                $("#div" + excelFormatType + "VerticalAlignmentTop").addClass("t-editor-item-selected");
+                break;
+            case @((int)ExcelVerticalAlignment.Center):
+                $("#div" + excelFormatType + "VerticalAlignmentCenter").addClass("t-editor-item-selected");
+                break;case @((int)ExcelVerticalAlignment.Bottom):
+                    $("#div" + excelFormatType + "VerticalAlignmentBottom").addClass("t-editor-item-selected");
+                    break;
+            default:
+                break;
+        }
+    };
+    function InitCustomizeExportExcel() {
+        $("#formUserExcelFile").bootstrapValidator();
+        $(".ddlSelect2").select2();
+        InitColor();
+        InitExcelContentFormat(@((int)CExcelFormatTypeEnum.Header),"@CExcelFormatTypeEnum.Header");
+        InitExcelContentFormat(@((int)CExcelFormatTypeEnum.Body),"@CExcelFormatTypeEnum.Body");
+    };
+    function ColorItemClick(e,excelFormatTypeId,excelFormatType) {
+        //debugger;
+        var parentId = e.attr("data-parent");
+        var color = e.attr("data-value");
+        $("#" + parentId).attr("data-item-value", color);
+        ReviewExcelStyle(excelFormatTypeId,excelFormatType);
+        UpdateExcelFileFormat(excelFormatTypeId,excelFormatType);
+    }
+    function ExcelFileFormatActionClick(e,excelFormatTypeId,excelFormatType) {
+        var id = e.attr("id");
+        var group =  $("div[data-target='" + id + "']").attr("data-group");
+        var clickable = e.attr("data-clickable");
+        var containItem = $("div[data-target='" + id + "']");
+        var rootElementId =  e.attr("data-root-element");
+
+        if (clickable !== "false") {
+            if ($(containItem).hasClass("t-editor-item-selected")) {
+                $(containItem).removeClass("t-editor-item-selected");
+            } else {
+                $("div[data-group='" + group +  "']").removeClass("t-editor-item-selected");
+                $(containItem).addClass("t-editor-item-selected");
+            }
+        }
+        $("#" + rootElementId).attr("data-item-value",e.attr("data-value"));
+        $("#" + rootElementId).attr("data-item-css-value",e.attr("data-css-value"));
+        ReviewExcelStyle(excelFormatTypeId,excelFormatType);
+        UpdateExcelFileFormat(excelFormatTypeId,excelFormatType);
+    };
+    function UpdateExcelFileFormat(excelFormatTypeId,excelFormatType) {
+        var fontSize = parseInt($("#ddl" + excelFormatType + "FontSize").val());
+        var fontBold = $("#div" + excelFormatType + "FontBold").hasClass("t-editor-item-selected");
+        var fontItalic = $("#div" + excelFormatType + "FontItalic").hasClass("t-editor-item-selected");
+        var fontColor =   $("#div" + excelFormatType + "FontColor").attr("data-item-value");
+        var backgroundColor =   $("#div" + excelFormatType + "BackgroundColor").attr("data-item-value");
+        var borderColor =   $("#div" + excelFormatType + "BorderColor").attr("data-item-value");
+        var horizontalAlignment = $("#div" + excelFormatType + "HorizontalAlignment").attr("data-item-value");
+        var verticalAlignment = $("#div" + excelFormatType + "VerticalAlignment").attr("data-item-value");
+        var borderStyle = parseInt($("#ddl" + excelFormatType + "BorderStyle").val());
+        var userExcelFormatId = 0;
+        var objectTypeId = 0;
+        var isHeaderFormat = (excelFormatTypeId === @((int)CExcelFormatTypeEnum.Header));
+        if (isHeaderFormat) {
+            userExcelFormatId = @Model.HeaderFormat.CUserExcelFormatId;
+            objectTypeId = @Model.HeaderFormat.ObjectTypeId;
+        } else {
+            userExcelFormatId = @Model.BodyFormat.CUserExcelFormatId;
+            objectTypeId = @Model.BodyFormat.ObjectTypeId;
+        }
+
+        var parameter = {
+            CUserExcelFormatId: userExcelFormatId,
+            ObjectTypeId: objectTypeId,
+            FormatStyleId: excelFormatTypeId,
+            FontSize: fontSize,
+            FontBold: fontBold,
+            FontItalic: fontItalic,
+            FontColor: fontColor,
+            VerticalAlignment: verticalAlignment,
+            HorizontalAlignment: horizontalAlignment,
+            BackgroundColor: backgroundColor,
+            BorderColor: borderColor,
+            BorderStyle: borderStyle
+        };
+        $.ajax({
+            type: "POST",
+            data: parameter,
+            url: '@Url.Action("UpdateExcelFormat", "CustomizeExportExcel")',
+            success: function (data) {
+                if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                    callDoTNotification("@CommonConstants.Warning", data.ErrorMessage, "error");
+                } else {
+                    if (!data.IsError) {
+                        //callDoTNotification("", data.Message, "info");
+                    } else {
+                        callDoTNotification("@CommonConstants.Warning", data.Message, "error");
+                    }
+                }
+            },
+            error: function () {
+                callDoTNotification("@CommonConstants.Warning", "@Html.Raw(CommonConstants.SaveError)", "error");
+            }
+        });
+    }
+    function ReviewExcelStyle(excelFormatTypeId,excelFormatType) {
+        var fontSize = parseInt($("#ddl" + excelFormatType + "FontSize").val());
+        var fontBold = $("#div" + excelFormatType + "FontBold").hasClass("t-editor-item-selected");
+        var fontItalic = $("#div" + excelFormatType + "FontItalic").hasClass("t-editor-item-selected");
+        var fontColor =   $("#div" + excelFormatType + "FontColor").attr("data-item-value");
+        var backgroundColor =   $("#div" + excelFormatType + "BackgroundColor").attr("data-item-value");
+        var borderColor =   $("#div" + excelFormatType + "BorderColor").attr("data-item-value");
+        var horizontalAlignment = $("#div" + excelFormatType + "HorizontalAlignment").attr("data-item-css-value");
+        var verticalAlignment = $("#div" + excelFormatType + "VerticalAlignment").attr("data-item-css-value");
+        var borderStyle = parseInt($("#ddl" + excelFormatType + "BorderStyle").val());
+        var borderStyleCss = "";
+        switch (borderStyle) {
+            case @((int)ExcelBorderStyle.None):
+                borderStyleCss = "";
+                break;
+            case @((int)ExcelBorderStyle.Thin):
+                borderStyleCss = "border-width:thin;border-style:solid;";
+                break;
+            case @((int)ExcelBorderStyle.Medium):
+                borderStyleCss = "border-width:medium;border-style:solid;";
+                break;
+            case @((int)ExcelBorderStyle.Thick):
+                borderStyleCss = "border-width:thin;border-style:solid;";
+                break;
+            case @((int)ExcelBorderStyle.Dashed):
+                borderStyleCss = "border-width:thin;border-style:dashed;";
+                break;
+            case @((int)ExcelBorderStyle.Dotted):
+                borderStyleCss = "border-width:thin;border-style:dotted;";
+                break;
+            default:
+                break;
+        }
+
+        var style = "";
+        style += "border-color:" + borderColor + ";";
+        style += "font-size:" + fontSize + "px;";
+        style += "font-weight:" + (fontBold?"bold":"normal") + ";";
+        style += "font-style:" + (fontItalic?"italic":"normal") + ";";
+        style += "color:" + fontColor + ";";
+        style += "background:" + backgroundColor + ";";
+        style += horizontalAlignment;
+        style += verticalAlignment;
+        style += borderStyleCss;
+
+        $(".t-excel-column-item-" + excelFormatType.toLowerCase()).attr("style",style);
+    }
+    function ExportCustomizeData() {
+        var parameter = {
+            ObjectTypeId: @Model.ExportExcelInputModel.ObjectTypeId,
+            StringParameter:JSON.stringify(@Html.Raw(Model.ExportExcelInputModel.StringParameter)),
+            FileName : $("#txtFileName").val().trim()
+        };
+        disableButton("btnExportCustomizeExcelData");
+        $.ajax({
+            url: '@Url.Action("CustomizeExportData", "Report")',
+            type: "POST",
+            data: parameter,
+            success: function (data) {
+                enableButton("btnExportCustomizeExcelData");
+                if (!data.IsError) {
+                    window.location = '@Url.Action("Download","Common")' + "?fileGuid=" + data.Data.FileGuid + "&filename=" + data.Data.FileName;
+                } else {
+                    alert(data.Message);
+                }
+            },
+            error: function () {
+                enableButton("btnExportCustomizeExcelData");
+            }
+        });
+    };
+    $(function () {
+        InitCustomizeExportExcel();
+        $("#btnSaveUserExcelFile").click(function() {
+            var isErrorValidate = ValidateSaveExcelFile();
+            if (isErrorValidate.IsError) return false;
+            var parameter = $("#formUserExcelFile").serializeArray();
+
+            var startRow = parseInt($("#ddlStartRow").val());
+            var startColumn = parseInt($("#ddlStartColumn").val());
+
+            parameter.push({ name: "CUserExcelFileId", value: $("#hdfCUserExcelFileId").val() });
+            parameter.push({ name: "CExcelFileId", value: $("#hdfCExcelFileId").val() });
+            parameter.push({ name: "FileName", value: $("#txtFileName").val() });
+            parameter.push({ name: "StartRow", value: startRow });
+            parameter.push({ name: "StartColumn", value: startColumn });
+
+            $.ajax({
+                type: "POST",
+                data: objectifyForm(parameter),
+                url: '@Url.Action("UpdateExcelFile", "CustomizeExportExcel")',
+                success: function (data) {
+                    removeLoading("loadingPanelExcelFile");
+                    if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                        callDoTNotification("@CommonConstants.Warning", data.ErrorMessage, "error");
+                    } else {
+                        if (!data.IsError) {
+                            //callDoTNotification("", data.Message, "info");
+                        } else {
+                            callDoTNotification("@CommonConstants.Warning", data.Message, "error");
+                        }
+                    }
+                },
+                error: function () {
+                    removeLoading("loadingPanelExcelFile");
+                    callDoTNotification("@CommonConstants.Warning", "@Html.Raw(CommonConstants.SaveError)", "error");
+                }
+            });
+
+            return false;
+        });
+        $("#ddlHeaderFontSize").change(function() {
+            ReviewExcelStyle(@((int)CExcelFormatTypeEnum.Header),"@CExcelFormatTypeEnum.Header");
+            UpdateExcelFileFormat(@((int)CExcelFormatTypeEnum.Header),"@CExcelFormatTypeEnum.Header");
+        });
+        $("#ddlHeaderBorderStyle").change(function() {
+            ReviewExcelStyle(@((int)CExcelFormatTypeEnum.Header),"@CExcelFormatTypeEnum.Header");
+            UpdateExcelFileFormat(@((int)CExcelFormatTypeEnum.Header),"@CExcelFormatTypeEnum.Header");
+        });
+
+        $("#ddlBodyFontSize").change(function() {
+            ReviewExcelStyle(@((int)CExcelFormatTypeEnum.Body),"@CExcelFormatTypeEnum.Body");
+            UpdateExcelFileFormat(@((int)CExcelFormatTypeEnum.Body),"@CExcelFormatTypeEnum.Body");
+        });
+        $("#ddlBodyBorderStyle").change(function() {
+            ReviewExcelStyle(@((int)CExcelFormatTypeEnum.Body),"@CExcelFormatTypeEnum.Body");
+            UpdateExcelFileFormat(@((int)CExcelFormatTypeEnum.Body),"@CExcelFormatTypeEnum.Body");
+        });
+    });
+</script>

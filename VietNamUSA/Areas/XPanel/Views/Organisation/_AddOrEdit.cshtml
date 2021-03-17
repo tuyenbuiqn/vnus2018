@@ -1,0 +1,330 @@
+﻿@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Common.Enums
+@using VietUSA.Repository.Common.Extensions
+@model VietUSA.Repository.Models.OrganisationModel
+@{
+    var displayOrganisationImage = string.IsNullOrEmpty(Model.ImageUrl) ? "display:none;" : "display:block";
+}
+<form class="form-horizontal" role="form" method="POST" id="formOrganisation"
+      data-bv-message="This value is not valid"
+      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+    @Html.HiddenFor(m => m.OrganisationId, new { @id = "hdfOrganisationId" })
+
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtName">Name</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @id = "txtName" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtWebsite">Website</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Website, new {@class = "form-control", @id = "txtWebsite"})
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtOrder">Order</label>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.Order, new { @class = "form-control", @id = "txtOrder", @data_bv_integer = "true", @data_bv_integer_message = CommonConstants.IntegerValidation })
+        </div>
+        <label class="col-sm-2 control-label t-overwrite-label">Type</label>
+        <div class="col-sm-4">
+            @Html.DropDownListFor(m => m.OrganisationTypeId, new SelectList(Model.OrganisationTypes, "CategoryId", "CategoryName"), @CommonConstants.GetOne, new { id = "ddlOrganisationType", name = "ddlOrganisationType", @class = "ddlSelectPicker", @style = "width:100%", @data_live_search = "false" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label">Image</label>
+        <div class="col-sm-10">
+            <div style="@displayOrganisationImage" class="t-organisation-image-wrapper col-sm-12 t-padding-left-0 t-padding-right-0">
+                <div class="t-organisation-image-container">
+                    <img src="@Model.ImageUrl" alt="@Model.Name" title="@Model.Name" />
+                    @Html.HiddenFor(m => m.ImageUrl)
+                </div>
+                <div class="t-article-button-container">
+                    <button type="button" class="btn btn-primary btn-sm" id="btnRemoveOrganisationImage" onclick="RemoveOrganisationImage(@Model.OrganisationId,'@Model.ImageUrl');">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Remove
+                    </button>
+                </div>
+            </div>
+            <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                <input type="file" id="fileOrganisationImage" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtDescription">Description</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(m => m.Description, new {@class = "form-control", @id = "txtDescription"})
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtStyle">Style</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Style, new { @class = "form-control", @id = "txtStyle" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label">Options</label>
+        <div class="col-sm-10">
+            <div class="col-sm-6 t-padding-left-0">
+                <div class="checkbox">
+                    <label>
+                        @{
+                            if (Model.IsPublished.HasValue)
+                            {
+                                @Html.CheckBoxFor(m => m.IsPublished.Value, new {@id = "chkIsPublished"})
+                            }
+                            else
+                            {
+                                <input type="checkbox" id="chkIsPublished" name="IsPublished.Value"/>
+                            }
+                        }
+                        Publish
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="checkbox">
+                    <label>
+                        @{
+                        if (Model.DisplayImage.HasValue)
+                        {
+                        @Html.CheckBoxFor(m => m.DisplayImage.Value, new { @id = "chkDisplayImage" })
+                        }
+                        else
+                        {
+                        <input type="checkbox" id="chkDisplayImage" name="DisplayImage.Value" />
+                        }
+                        }
+                        Display Image
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-6 t-padding-left-0">
+                <div class="checkbox">
+                    <label>
+                        @{
+                        if (Model.DisplayInHomePage.HasValue)
+                        {
+                        @Html.CheckBoxFor(m => m.DisplayInHomePage.Value, new { @id = "chkDisplayInHomePage" })
+                        }
+                        else
+                        {
+                        <input type="checkbox" id="chkDisplayInHomePage" name="DisplayInHomePage.Value" />
+                        }
+                        }
+                        Display in Homepage
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="checkbox">
+                    <label>
+                        @{
+                        if (Model.DisplayInContentPage.HasValue)
+                        {
+                        @Html.CheckBoxFor(m => m.DisplayInContentPage.Value, new { @id = "chkDisplayInContentPage" })
+                        }
+                        else
+                        {
+                        <input type="checkbox" id="chkDisplayInContentPage" name="DisplayInContentPage.Value" />
+                        }
+                        }
+                        Display in Content Page
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <label class="col-sm-2 control-label t-overwrite-label" for="txtNote">Note</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @id = "txtNote" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm t-overwrite-form-group">
+        <div class="col-sm-12">
+            <button class="btn btn-primary btn-sm pull-right t-margin-right-5" id="btnExitOrganisation" type="button">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>@ButtonTextEnum.Exit.ToDescription()
+            </button>
+            <button type="submit" class="btn btn-primary btn-sm pull-right t-margin-right-5" id="btnSaveOrganisation">
+                <span class="glyphicon glyphicon-save" aria-hidden="true"></span>@ButtonTextEnum.Save.ToDescription()
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    function validateSaveOrganisation() {
+        var result = { IsError: false, Message: "", Element: "", Type: "" };
+
+        var e = $("#formOrganisation").data("bootstrapValidator");
+        e.validate();
+        var n = e.isValid();
+        if (!n) {
+            result.IsError = true;
+            result.Message = e.Message;
+            result.Type = "auto";
+            return result;
+        }
+        return result;
+    };
+    function ValidateFileUpload() {
+        var result = { IsError: false, Message: "", Element: "", Type: "" };
+        var files = $("#fileOrganisationImage").get(0).files;
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                var file = GetNameFromPath(files[i].name);
+                if (file.length <= 0 || file.length > 256) {
+                    $("#fileOrganisationImage").val("");
+                    result.IsError = true;
+                    result.Message = "File name is too long or empty!";
+                    return result;
+                }
+                var extension = file.substr((file.lastIndexOf(".") + 1));
+                if (!ValidateBlackistFileExtension(extension)) {
+                    $("#fileOrganisationImage").val("");
+                    result.IsError = true;
+                    result.Message = "File type is not allowed, please contact to admin for this case.";
+                    return result;
+                }
+            }
+
+            var fileSize = GetFileSize("fileOrganisationImage");
+            if (fileSize > 20) {
+                $("#fileOrganisationImage").val("");
+                result.IsError = true;
+                result.Message = "Upload size is only 20MB limited!";
+                return result;
+            } else {
+                result.IsError = false;
+                return result;
+            }
+        } else {
+            result.IsError = false;
+            return result;
+        }
+    };
+    function RemoveOrganisationImage(organisationId, imageUrl) {
+        if (organisationId <= 0 || imageUrl === "")
+            return false;
+        var parameter = { OrganisationId: organisationId, ImageUrl: imageUrl };
+        disableButton("btnRemoveOrganisationImage");
+        $.ajax({
+            type: "POST",
+            data: parameter,
+            url: '@Url.Action("RemoveOrganisationImage", "Organisation")',
+            success: function (data) {
+                removeLoading("loadingPanelOrganisationEdit");
+                enableButton("btnRemoveOrganisationImage");
+                if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                    callDoTNotification("@CommonConstants.Warning", data.ErrorMessage, "error");
+                } else {
+
+                    if (!data.IsError) {
+                        var parameter = { OrganisationId: data.Data, IsDisableControl: false };
+                        UpdatePopupAddOrEdit('@Url.Action("Get", "Organisation")', parameter, "Organisation");
+
+                    } else {
+                        callDoTNotification("@CommonConstants.Warning", data.Message, "error");
+                    }
+                }
+            },
+            error: function () {
+                enableButton("btnRemoveOrganisationImage");
+                removeLoading("loadingPanelOrganisationEdit");
+                callDoTNotification("@CommonConstants.Warning", "@Html.Raw(CommonConstants.SaveError)", "error");
+            }
+        });
+    };
+    function AddOrEditOrganisation() {
+        var isErrorValidate = validateSaveOrganisation();
+        if (isErrorValidate.IsError) return false;
+        var parameter = $("#formOrganisation").serializeArray();
+        var organisationType = GetSelectPickerData("ddlOrganisationType");
+        parameter.push({ name: "IsPublished", value: $("#chkIsPublished").is(":checked") });
+        parameter.push({ name: "DisplayInContentPage", value: $("#chkDisplayInContentPage").is(":checked") });
+        parameter.push({ name: "DisplayInHomePage", value: $("#chkDisplayInHomePage").is(":checked") });
+        parameter.push({ name: "DisplayImage", value: $("#chkDisplayImage").is(":checked") });
+        parameter.push({ name: "OrganisationTypeId", value: organisationType.id });
+        parameter.push({ name: "OrganisationTypeName", value: organisationType.text });
+        /*Cach su dung Dropdown select2 de lay du lieu
+        // 1. Khai bao
+        var placeType = GetSelect2Data("ddlPlaceTypeEdit");
+        // 2. get value/text: get value = placeType.id, get text = placeType.text
+        parameter.push({ name: "PlaceTypeId", value: placeType.id });
+        parameter.push({ name: "PlaceTypeName", value: placeType.text });
+        */
+        
+        var data = new FormData();
+        var files = $("#fileOrganisationImage").get(0).files;
+        if (files.length > 0) {
+            var validateFileUpload = ValidateFileUpload();
+            if (validateFileUpload.IsError) {
+                alert(validateFileUpload.Message);
+                return false;
+            }
+            data.append("OrganisationImage", files[0]);
+        }
+        // return false;
+        // var xparameter = objectifyForm(parameter);
+        for (var i = 0; i < parameter.length; i++) {
+            data.append(parameter[i].name, parameter[i].value);
+        }
+        addpendLoading("loadingPanelOrganisationEdit", "OrganisationBodyModel");
+        $.ajax({
+            type: "POST",
+            processData: false,
+            dataType: "json",
+            contentType: false,
+            data: data,
+            url: '@Url.Action("Save", "Organisation")',
+            success: function (data) {
+                removeLoading("loadingPanelOrganisationEdit");
+
+                if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                    callDoTNotification("@CommonConstants.Warning", data.ErrorMessage, "error");
+                } else {
+
+                    if (!data.IsError) {
+                        //callDoTNotification("", data.Message, "info");
+                        var parameter = { OrganisationId: data.Data, IsDisableControl: false };
+                        UpdatePopupAddOrEdit('@Url.Action("Get", "Organisation")', parameter, "Organisation");
+
+                    } else {
+                        callDoTNotification("@CommonConstants.Warning", data.Message, "error");
+                    }
+                }
+            },
+            error: function () {
+                removeLoading("loadingPanelOrganisationEdit");
+                callDoTNotification("@CommonConstants.Warning", "@Html.Raw(CommonConstants.SaveError)", "error");
+            }
+        });
+    };
+
+    function ExitEditOrganisation() {
+        $("#OrganisationModel").modal("hide");
+    };
+
+    function InitForm() {
+        $("#formOrganisation").bootstrapValidator();
+    };
+
+    $(function () {
+        InitForm();
+        $("#btnSaveOrganisation").click(function () {
+            AddOrEditOrganisation();
+            return false;
+        });
+
+        $("#btnExitOrganisation").click(function () {
+            ExitEditOrganisation();
+            return false;
+        });
+    });
+</script>

@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "VIETNAM - USA Joint Mathematical Meeting";
+}
+@Html.Partial("_SlideShow")
+<div class="w-section section press">
+    @Html.Partial("~/Views/Home/_Welcome.cshtml")
+</div>
+@Html.Partial("~/Views/Home/_AboutVietNamUsa.cshtml")
+@*@Html.Partial("_Sponsors")*@
+<div id="divOrganisation"></div>
+<script>
+    $(function () {
+        debugger;
+        $("#divOrganisation").load('@Url.Action("HomePageOrganisation","Home")');
+
+        @*$("#divOrganisation").load('@Url.Action("HomePageOrganisation", "Home")', function (response, status, xhr) {
+            if (status === "error") {
+                var msg = "Sorry but there was an error: ";
+               
+            }
+        });*@
+    });
+</script>
+
+
+
+

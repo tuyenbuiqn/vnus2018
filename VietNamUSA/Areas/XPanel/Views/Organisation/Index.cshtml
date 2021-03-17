@@ -1,0 +1,357 @@
+﻿@using VietNamUSA.Common
+@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Common.Enums
+@using VietUSA.Repository.Common.Extensions
+@{
+    const string h3Title = "Quản lý Organisation";
+    ViewBag.H3Title = h3Title;
+    ViewBag.Title = h3Title;
+}
+<!--Search Form-->
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel panel-default" style="margin: 0; border: none;">
+        <div class="panel-heading" role="tab" id="headingOne" style="background: none; border: none;">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                    Tìm kiếm
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+            <div class="panel-body">
+                <form class="form-horizontal" id="searchForm">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label t-bold" for="txtNameSearch">Tên Organisation</label>
+                        <div class="col-md-10">
+                            <input type="text" id="txtNameSearch" name="Name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label t-bold"></label>
+                        <div class="col-md-10">
+                            <button type="button" id="btnSearch" class="btn btn-primary btn-sm pull-right">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>@ButtonTextEnum.Search.ToDescription()
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Search Form-->
+<!--Grid Result-->
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel-body" id="divOrganisationWrapper">
+        <div id="divOrganisationContainer">
+         <div class="col-sm-12 t-padding-left-0 t-padding-right-0 t-margin-bottom-5">
+                <div class="pull-left col-sm-4 t-padding-right-0 t-margin-top-5 t-padding-left-0">
+                    <div class="pull-left">
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.C_ORG }))
+                        {
+                            <button class="btn btn-primary btn-sm pull-left t-margin-right-5" id="btnNewOrganisation">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Thêm mới
+                            </button>
+                        }
+                    </div>
+                </div>
+                <div class="pull-right col-sm-8 t-padding-right-0">
+                    <div class="pull-right">
+                        <div id="pagerOrganisationTop">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="divAddNewOrganisation" class="col-sm-12 t-padding-left-0 t-padding-right-0"></div>
+            <div style="overflow-x: scroll; width: 100%;">
+                <table class="table table-responsive table-striped table-bordered tableOrganisation dataTable" id="tableOrganisation">
+                    <thead>
+                        <tr>
+                            <th class="t-align-center">
+                                STT
+                            </th>
+                            <th class="t-align-center sorting_asc col-sm-2 word-wrap" id="thOrganisationTypeName" onclick="OrderColumn('OrganisationTypeName');">
+                                Type
+                            </th>
+                            <th class="t-align-center sorting_asc col-sm-2 word-wrap" id="thName" onclick="OrderColumn('Name');">
+                                Name
+                            </th>
+                            <th class="t-align-center sorting_asc col-sm-2 word-wrap" id="thWebsite" onclick="OrderColumn('Website');">
+                                Website
+                            </th>
+                            <th class="t-align-center sorting_asc col-sm-2 word-wrap" id="thImageUrl" onclick="OrderColumn('ImageUrl');">
+                                Image
+                            </th>
+                            <th class="t-align-center sorting_asc col-sm-2 word-wrap" id="thDisplayInHomePage" onclick="OrderColumn('DisplayInHomePage');">
+                                Display In HomePage
+                            </th>
+                            <th class="t-align-center sorting_asc col-sm-2 word-wrap" id="thDisplayInContentPage" onclick="OrderColumn('DisplayInContentPage');">
+                                Display In ContentPage
+                            </th>
+                            <th class="t-align-center sorting_asc col-sm-2 word-wrap" id="thOrder" onclick="OrderColumn('Order');">
+                                Order
+                            </th>
+                            <th class="t-align-center sorting_asc col-sm-2 word-wrap" id="thIsPublished" onclick="OrderColumn('IsPublished');">
+                                Publish
+                            </th>
+                            <th class="t-align-center sorting_asc col-sm-2 word-wrap">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="divOrganisation"></tbody>
+                </table>
+             </div>
+                
+             <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                <div class="pull-left col-sm-4 t-padding-right-0 t-margin-top-5 t-padding-left-0">
+                    <label class="pull-left t-margin-right-5">PageSize</label>
+                    <div class="pull-left">
+                        <select id="ddlPageSize" style="width: 80px">
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="-1">All</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pull-right col-sm-8 t-padding-left-0 t-padding-right-0">
+                    <input type="hidden" id="hdfCurrentPageIndex"/>
+                    <div class="pull-right">
+                        <div id="pagerOrganisationBottom">
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!--End Grid Result-->
+<!--Edit Popup-->
+<div id="OrganisationModel" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width: 1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="OrganisationTitleModel"></h4>
+            </div>
+            <div class="modal-body" id="OrganisationBodyModel">
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!--Edit Popup-->
+<script>
+    function SortableOrganisations() {
+        var selectedSortable = Sortable.create(divOrganisation, {
+            onEnd: function( /**Event*/evt) {
+                var jsonSelectedData = selectedSortable.toArray();
+                var newOrderArray = [];
+                for (var i = 0; i < jsonSelectedData.length - 1; i++) {
+                    var item = $("#divOrganisation tr[data-id=" + jsonSelectedData[i] + "]");
+                    var selectedItem = {
+                        "OrganisationId" : item.attr("data-id")
+                    };
+                    newOrderArray.push(selectedItem);
+                }
+
+                var parameter = {
+                    OrderItems : newOrderArray
+                };
+
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    //dataType: "json",
+                    type: "POST",
+                    url: '@Url.Action("UpdateOrder", "Organisation")',
+                    data: JSON.stringify(parameter),
+                    success: function (data) {
+                        if (!data.IsError) {
+                            SearchOrganisation(1);
+                        } else {
+                            alert(data.Message);
+                        }
+                    },
+                    failure: function (response) {
+                        //$('#result').html(response);
+                    },
+                    error: function (err, ess, x) {
+                        alert("Error");
+                    }
+                });
+            }
+        });
+    };
+    function initOrganisation() {
+        focusElement("txtNameSearch");
+        $("#ddlPageSize").select2();
+        SearchOrganisation(1);
+        SortableOrganisations();
+    };
+
+    function AddNewOrganisation(OrganisationId) {
+        var parameter = { OrganisationId: OrganisationId};
+        ShowPopupAddOrEdit('@Url.Action("Get", "Organisation")', parameter, "Organisation", "Thêm mới Organisation", false);
+    }
+    
+    function OrderColumn(column) {
+        var currentState = $("#th" + column).attr("class");
+        if (currentState.indexOf("_asc") !== -1) {
+            $("#hdfOrderColumn").val(column.toLowerCase() + "_desc");
+            $("#th" + column).attr("class", "sorting_desc");
+        } else {
+            $("#hdfOrderColumn").val(column.toLowerCase() + "_asc");
+            $("#th" + column).attr("class", "sorting_asc");
+        }
+        SearchOrganisation(1);
+    };
+    function ChangePublishStatus(id) {
+        var items = [];
+        items.push(id);
+        $.ajax({
+            url: '@Url.Action("ChangePublishStatus", "Organisation")',
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(items),
+            success: function (data) {
+                if (data.IsError) {
+                    alert(data.Message);
+                } else {
+                    for (var i = 0; i < data.Data.length; i++) {
+
+                    }
+                    SearchOrganisation(1);
+                }
+            },
+            error: function () {
+            }
+        });
+        return false;
+    }
+    
+    function SearchOrganisation(pageIndex) {
+        appendLoading("loadingPanelOrganisation", "divOrganisationWrapper");
+
+        $("#pagerOrganisationTop").html("");
+        $("#divOrganisation").html("");
+        $("#pagerOrganisationBottom").html("");
+
+        
+        var cretia = $("#searchForm").serializeArray();
+        //var cardType = parseInt($("#ddlCardTypeSearch").val());
+        //cretia.push({name:"CardType",value:cardType});
+        var ddlPageSize = GetSelect2Data("ddlPageSize");
+        var pageSize = DoTPageSize;
+        if (ddlPageSize.id === 0) {
+            pageSize = DoTPageSize;
+        } else {
+            pageSize = ddlPageSize.id;
+        }
+        var parameter = {
+            PageIndex: pageIndex,
+            PageSize: pageSize,
+            ColumnOrder: $("#hdfOrderColumn").val(),
+            Cretia: objectifyForm(cretia)
+        };
+
+
+        $.ajax({
+            url: '@Url.Action("Search", "Organisation")',
+            type: "POST",
+            data: parameter,
+            success: function (data) {
+                removeLoading("loadingPanelOrganisation");
+                $("#divOrganisation").html(data);
+                $("#hdfCurrentPageIndex").val(pageIndex);
+                var totalRecord = $("#hdfTotalOrganisationRecord").val();
+                if (pageSize === -1) pageSize = parseInt(totalRecord);
+                var totalPage = Math.ceil(totalRecord / pageSize);
+                if (totalRecord > 1) {
+                    var options = {
+                        currentPage: pageIndex,
+                        totalPages: totalPage,
+                        onPageChanged: function (e, oldPage, newPage) {
+                            SearchOrganisation(newPage);
+                        },
+                        itemContainerClass: function (type, page, current) {
+                            return (page === current) ? "active" : "pointer-cursor";
+                        }
+                    }
+                    $("#pagerOrganisationTop").bootstrapPaginator(options);
+                    $("#pagerOrganisationBottom").bootstrapPaginator(options);
+                }
+            },
+            error: function () {
+                removeLoading("loadingPanelOrganisation");
+            }
+        });
+    };
+    function EditOrganisation(OrganisationId, isDisableControl) {
+        var parameter = { OrganisationId: OrganisationId, IsDisableControl: isDisableControl };
+        ShowPopupAddOrEdit('@Url.Action("Get", "Organisation")', parameter, "Organisation", "Cập nhật Organisation", isDisableControl);
+    };
+
+    function RemoveOrganisation(OrganisationId) {
+        var retVal = confirm("@Html.Raw(CommonConstants.ConfirmDelete)");
+        if (retVal === true) {
+            addpendLoading("loadingPanelOrganisation", "divOrganisation");
+            var parameter = {OrganisationId: OrganisationId};
+
+            $.ajax({
+                type: "POST",
+                data: parameter,
+                url: '@Url.Action("Remove", "Organisation")',
+                success: function (data) {
+                    removeLoading("loadingPanelOrganisation");
+                    if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                        callDoTNotification("@CommonConstants.Warning", data.ErrorMessage, "error");
+                    } else {
+                        if (!data.IsError) {
+                            callDoTNotification("", data.Message, "info");
+                            SearchOrganisation(1);
+                        } else {
+                            callDoTNotification("@CommonConstants.Warning", data.Message, "error");
+                        }
+                    }
+                },
+                error: function () {
+                    removeLoading("loadingPanelOrganisation");
+                    callDoTNotification("@CommonConstants.Warning", "@CommonConstants.SaveError", "error");
+                }
+            });
+            return false;
+        } else {
+            return false;
+        }
+    };
+    $(function () {
+        initOrganisation();
+        $("#btnSearch").click(function () {
+            SearchOrganisation(1);
+        });
+        $("#OrganisationModel").on("hidden.bs.modal", function () {
+            SearchOrganisation($("#hdfCurrentPageIndex").val());
+        });
+        $("#ddlPageSize").change(function() {
+            SearchOrganisation(1);
+            return false;
+        });
+       
+        $("#btnNewOrganisation").click(function () {
+            AddNewOrganisation(0);
+            return false;
+        });
+        $("#txtNameSearch").on("keydown", function (event) {
+            if (event.which === 13) {
+                SearchOrganisation(1);
+                return false;
+            }
+        });
+    });
+</script>
+
+

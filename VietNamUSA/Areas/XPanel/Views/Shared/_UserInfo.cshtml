@@ -1,0 +1,42 @@
+﻿@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Models
+@{
+    if (Session[SessionKeys.UserInfo] == null)
+    {
+        Response.Redirect("/Xpanel/Account/Login?returnUrl=" + Request.Url);
+    }
+    else
+    {
+        var userinfo = (UserInfoModel) Session[SessionKeys.UserInfo];
+        <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="/Images/Users/user-icon.png" class="user-image" alt="User Image">
+                <span class="hidden-xs">@userinfo.FullName</span>
+            </a>
+            <ul class="dropdown-menu">
+                <!-- User image -->
+                <li class="user-header">
+                    <img src="/Images/Users/user-icon.png" class="img-circle" alt="User Image">
+                    <p>
+                        @userinfo.FullName - Nhân viên
+                        <small>@string.Format("{0:dd/MM/yyyy HH:mm:ss}", DateTime.Now)</small>
+                    </p>
+                </li>
+                <li class="user-footer">
+                    <div class="pull-left">
+                        <a href="#" class="btn btn-default btn-flat">Thông tin</a>
+                    </div>
+                    <div class="pull-right">
+                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+                        {
+                            @Html.Hidden("returnUrl", HttpContext.Current.Request.Url.AbsoluteUri)
+                            ;
+                            @Html.AntiForgeryToken()
+                            <a class="btn btn-default btn-flat" tabindex="-1" href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>
+                        }
+                    </div>
+                </li>
+            </ul>
+        </li>
+    }
+}

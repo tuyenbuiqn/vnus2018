@@ -1,0 +1,191 @@
+﻿@using VietUSA.Repository.Common.Enums
+@using VietUSA.Repository.Common.Extensions
+@using VietUSA.Repository.Common.Functions
+
+@{
+    var groupCategoryId = CommonFunctions.ConvertFromObjectToInt(Request.QueryString["GroupCategoryId"]);
+    var h3Title = "Quản lý danh mục";// CommonFunctions.GetCategoryGroupName(groupCategoryId);
+
+    ViewBag.Title = h3Title;
+    ViewBag.H3Title = h3Title;
+}
+@*<h3 class="" id="txtHead">Quản lý danh mục</h3>*@
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel panel-default" style="margin: 0; border: none;">
+        <div class="panel-heading" role="tab" id="headingOne" style="background: none; border: none;">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                    @ButtonTextEnum.Search.ToDescription()
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Loại danh mục</label>
+                        <div class="col-md-4" id="divGroupCategorySearch">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="txtCategoryNameSearch">Tên danh mục</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="txtCategoryNameSearch" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-md-10">
+                            <button class="btn btn-primary btn-sm pull-right t-margin-right-5" id="btnSearch">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>@ButtonTextEnum.Search.ToDescription()
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-primary t-margin-bottom-5">
+    <div class="panel-body" id="divCategoriesWrapper">
+        <div id="divCategoriesContainer">
+            <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                <div class="pull-left col-sm-12 t-padding-right-0 t-margin-top-5 t-margin-bottom-5">
+                    <div class="t-padding-right-0 pull-right">
+                        @*<button class="t-button pull-left" id="btnRefresh">Tải lại trang</button>*@
+                        <button class="btn btn-primary btn-sm pull-left t-margin-right-5" id="btnNewCategory">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>@ButtonTextEnum.AddNew.ToDescription()
+                        </button>
+                        <button class="btn btn-primary btn-sm pull-left t-margin-right-5" id="btnImport">
+                            <span class="glyphicon glyphicon-import" aria-hidden="true"></span>@ButtonTextEnum.Import.ToDescription()
+                        </button>
+                        <button class="btn btn-primary btn-sm pull-left" id="btnExport">
+                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span>@ButtonTextEnum.Export.ToDescription()
+                        </button>
+                    </div>
+                </div>
+                <div class="pull-right col-sm-8 t-padding-right-0" style="display: none;">
+                    <div class="pull-right">
+                        <div id="pagerCategoriesTop">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divCategories"></div>
+            <div class="col-sm-12 t-padding-left-0 t-padding-right-0">
+                @*<div class="pull-left t-bold" role="alert" id="divTotalRecord"></div>*@
+                <div class="pull-right t-padding-left-0">
+                    <input type="hidden" id="hdfCurrentPageIndex" />
+                    <div id="pagerCategoriesBottom" class="pull-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var firstLoaded = false;
+    function GetCategorySearch() {
+        var parameter = {
+            SelectedId: @groupCategoryId,
+            IsDisableControl: false,
+            Id: "ddlGroupCategorySearch",
+            Name: "ddlGroupCategorySearch",
+            ValueField: "Id",
+            TextField: "Text",
+            Class: "js-responsive",
+            Style: "width:100%",
+            HasDefaultValue:true
+        };
+        LoadIoTSelect('@Html.Raw(Url.Action("GetGroupCategory", "Common"))',parameter,"divGroupCategorySearch");
+    };
+    function initCategory() {
+        focusElement("txtCategoryNameSearch");
+        GetCategorySearch();
+        TimKiemCategories(1);
+        firstLoaded = true;
+        $("#collapseOne").collapse("show");
+    };
+    function AddNewCategory(categoryId, groupCategoryId) {
+        var parameter = { CategoryId: categoryId, GroupCategoryId: groupCategoryId };
+        LoadAjaxAddNewForm('@Url.Action("GetCategory", "Category")', parameter, "divAddNewCategory");
+    }
+    function TimKiemCategories(pageIndex) {
+        appendLoading("loadingPanelCategories", "divCategoriesWrapper");
+        $("#pagerCategoriesTop").html("");
+        $("#divCategories").html("");
+        $("#pagerCategoriesBottom").html("");
+
+        var categoryName = $("#txtCategoryNameSearch").val().trim();
+        var groupCategoryId = -1;
+        if(!firstLoaded)
+            groupCategoryId = getParameterByName("GroupCategoryId", window.location.href);
+        else  groupCategoryId = parseInt($("#ddlGroupCategorySearch").val());
+        var pageSize = 30;
+        var cretia = { CategoryName: categoryName === "" ? null : categoryName, GroupCategoryId: groupCategoryId };
+        var parameter = { PageIndex: pageIndex, PageSize: pageSize, Cretia: cretia };
+
+        $.ajax({
+            url: '@Url.Action("Search", "Category")',
+            type: "POST",
+            data: parameter,
+            success: function(data) {
+                removeLoading("loadingPanelCategories");
+                $("#divCategories").html(data);
+                var totalRecord = $("#hdfTotalCategoryRecord").val();
+                //$("#divTotalRecord").html("Tổng số bản ghi: " + totalRecord);
+                var totalPage = Math.ceil(totalRecord / pageSize);
+                if (totalRecord > 0) {
+                    var options = {
+                        currentPage: pageIndex,
+                        totalPages: totalPage,
+                        onPageChanged: function(e, oldPage, newPage) {
+                            TimKiemCategories(newPage);
+                        },
+                        itemContainerClass: function(type, page, current) {
+                            return (page === current) ? "active" : "pointer-cursor";
+                        }
+                    }
+                    $("#pagerCategoriesTop").bootstrapPaginator(options);
+                    $("#pagerCategoriesBottom").bootstrapPaginator(options);
+                }
+            },
+            error: function() {
+                removeLoading("loadingPanelCategories");
+            }
+        });
+    };
+
+    function removeWorkingEditForm() {
+        removeElementByClass("tableCategory","tdBodyCategory");
+        RemoveHighlightEditingRow("tableCategory");
+    };
+
+    $(function() {
+        initCategory();
+
+        //$("#btnRefresh").click(function () {
+        //    location.reload();
+        //});
+        $("#btnSearch").click(function() {
+            TimKiemCategories(1);
+        });
+        $("#btnImport").click(function() {
+            window.location.href = '@Url.Action("Index", "Import")';
+        });
+        $("#btnExport").click(function() {
+
+        });
+        $("#btnNewCategory").click(function() {
+            removeWorkingEditForm();
+            AddNewCategory(0, @groupCategoryId);
+        });
+        $("#txtCategoryNameSearch").on("keydown", function (event) {
+            if (event.which === 13) {
+                TimKiemCategories(1);
+            }
+        });
+    });
+</script>

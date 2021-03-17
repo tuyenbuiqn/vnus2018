@@ -1,0 +1,40 @@
+﻿@using System.Web.Optimization
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    @Scripts.Render("~/bundles/CommonScript")
+    @Scripts.Render("~/bundles/PluginScript")
+    @Scripts.Render("~/bundles/DoTScript")
+    @Scripts.Render("~/bundles/Kendo")
+    @Scripts.Render("~/bundles/tmpl")
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBa9qnwp_ybemKff5Omw5RZPGtLEmLZzZ4&libraries=places"></script>
+    <script src="~/Scripts/markerwithlabel.js"></script>
+
+    @Styles.Render("~/bundles/CommonStyle")
+    @Styles.Render("~/bundles/DoTStyle")
+
+</head>
+<body class="theme-blue">
+    <!--Notification-->
+    <span id="doTNotification" style="display: none;"></span>
+    <script type="text/x-kendo-template" id="doTErrorTemplate">
+        <div class="wrong-pass">
+            <img src="/Content/images/dialog-error.png" />
+            <h5>#= title #</h5>
+            <p>#= message #</p>
+        </div>
+    </script>
+    <script type="text/x-kendo-template" id="doTSuccessTemplate">
+        <div class="new-mail">
+            <img src="/Content/images/success.png" />
+            <h5>#= message #</h5>
+        </div>
+    </script>
+    @*@Html.Partial("_Header")*@
+    @Html.Partial("_MapMainMenu")
+    @RenderBody()
+</body>
+</html>

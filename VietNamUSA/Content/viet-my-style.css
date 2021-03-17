@@ -1,0 +1,3766 @@
+body {
+    font-family: Raleway, sans-serif;
+    color: #333;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+h1 {
+    margin-top: 0px;
+    color: #fff;
+    font-size: 48px;
+    line-height: 48px;
+    font-weight: 300;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .8);
+    font-family: Montserrat;
+}
+
+h2 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    line-height: 36px;
+    font-weight: 400;
+    text-align: center;
+}
+
+h3 {
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font-size: 22px;
+    line-height: 30px;
+    font-weight: 500;
+}
+
+h4 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 500;
+}
+
+h5 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+}
+
+h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 700;
+}
+
+p {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+
+.button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 13px 35px;
+    clear: none;
+    border: 2px solid hsla(0, 0%, 100%, .47);
+    border-radius: 3px;
+    background-color: rgba(68, 166, 72, 0);
+    -webkit-transition: background-color 300ms ease, box-shadow 300ms ease, color 300ms ease;
+    transition: background-color 300ms ease, box-shadow 300ms ease, color 300ms ease;
+    font-family: Realway, sans-serif;
+    color: hsla(0, 0%, 100%, .72);
+    text-align: center;
+    text-decoration: none;
+}
+
+    .button:hover {
+        background-color: #246e27;
+    }
+
+.navigation {
+    position: relative;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #01283f;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, .13);
+}
+
+.nav-link {
+    position: static;
+    left: 0px;
+    top: 0px;
+    height: 85px;
+    padding: 39px 12px 0px;
+    -webkit-transition: color 300ms ease;
+    transition: color 300ms ease;
+    color: #fff;
+    font-size: 15px;
+    line-height: 21px;
+    text-align: left;
+}
+
+    .nav-link:hover {
+        color: #fdb913;
+    }
+
+    .nav-link.w--current {
+        box-shadow: none;
+        color: #fdb913;
+    }
+
+    .nav-link.menu {
+        box-shadow: none;
+    }
+
+    .nav-link.ativar_icm {
+        padding-right: 13px;
+        padding-left: 13px;
+        box-shadow: none;
+    }
+
+        .nav-link.ativar_icm.w--current {
+            box-shadow: none;
+        }
+
+            .nav-link.ativar_icm.w--current:hover {
+                box-shadow: none;
+            }
+
+
+.popup-inscricoes {
+    position: relative;
+    max-width: 600px;
+    padding: 30px;
+    background-color: #fff;
+    background-image: url('../images/Fundo-padrao_marca.jpg');
+    background-position: 50% 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, .6);
+    opacity: 0;
+    -webkit-transform: translate(0px, 20px);
+    -ms-transform: translate(0px, 20px);
+    transform: translate(0px, 20px);
+    text-align: center;
+}
+
+.popup-programa-resumido {
+    position: relative;
+    max-width: 900px;
+    padding: 10px;
+    background-color: #fff;
+    background-position: 50% 0%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, .6);
+    opacity: 0;
+    -webkit-transform: translate(0px, 20px);
+    -ms-transform: translate(0px, 20px);
+    transform: translate(0px, 20px);
+    text-align: center;
+}
+
+.popup-fundo {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 9999;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-right: 20px;
+    padding-left: 20px;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .6);
+    opacity: 1;
+}
+
+.popup-save {
+    color: #44a648;
+    font-size: 40px;
+    line-height: 40px;
+    font-weight: 300;
+}
+
+.popup-data {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #00558e;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 300;
+}
+
+.pooup-texto {
+    color: dimgrey;
+    font-weight: 300;
+}
+
+.popup-fechar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background-image: url('../images/x.png');
+    background-position: 0px 0px;
+    background-size: cover;
+}
+
+
+
+.section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+    .section.main {
+        min-height: 300px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        background-color: #4dbd90;
+        color: #fff;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, .23);
+    }
+
+    .section.footer {
+        padding-top: 10px;
+        padding-bottom: 20px;
+        background-color: #1B384A;
+        color: #e4e8eb;
+    }
+
+    .section.press {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #fff;
+        /* background-image: url('../images/Fundo-padrao_marca_cinza-1_4.png'); */
+        background-position: 0px 100%;
+        background-repeat: no-repeat;
+    }
+
+        .section.press.formulario-temporario {
+            display: block;
+        }
+
+    .section.icm {
+        padding-top: 40px;
+        padding-bottom: 110px;
+        background-color: #fcb813;
+        background-image: url('https://static.mytour.vn/upload_images/Image/Location/1_3_2016/Du-lich-Quy-nhon-binh-dinh-mytour-10.jpg');
+        background-position: 50% 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .section.como-participar {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #fcb813;
+        background-image: url('../images/Fundo-padrao_marca_branco.png');
+        background-position: 50% 100%;
+        background-repeat: no-repeat;
+    }
+
+    .section.patrocinadores {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f2f2f2;
+    }
+
+    .section.news_bloco {
+        background-color: #fff;
+        background-image: url('../images/Fundo-padrao_marca.jpg');
+        background-position: 100% 100%;
+        background-repeat: no-repeat;
+    }
+
+    .section.rio-de-janeiro {
+        background-color: #44a648;
+        background-image: url('../images/coqueiros-cor.jpg');
+        background-position: 50% 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .section.projetos {
+        background-color: #fff;
+    }
+
+    .section.header-internas {
+        min-height: 300px;
+        margin-top: 0px;
+        background-color: #00558e;
+    }
+
+        .section.header-internas.foto-copa-cor {
+            margin-top: 0px;
+            background-image: url('../images/copa_cor.jpg');
+            background-position: 0% 60%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-barra-kitesurf {
+            margin-top: 0px;
+            background-image: url('../images/barra-kitesurf.jpg');
+            background-position: 50% 50%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-historico {
+            margin-top: 0px;
+            background-image: url('../images/ipanema-calcada-cor.jpg');
+            background-position: 50% 50%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-como-participar {
+            margin-top: 0px;
+            background-image: url('../images/7734095378_805d8f1b46_b.jpg');
+            background-position: 50% 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-lapa-bonde-santa {
+            margin-top: 0px;
+            background-image: url('../images/lapa-bonde-santa.jpg');
+            background-position: 0% 0%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.bracos-abertos-brasil {
+            margin-top: 0px;
+            background-image: url('../images/praias-do-rio.html');
+            background-position: 0% 0%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-praia-visto {
+            margin-top: 0px;
+            background-image: url('../images/praia-visto.jpg');
+            background-position: 50% 80%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-praia-pao-de-acucar {
+            margin-top: 0px;
+            background-image: url('../images/praia-pao-de-acucar.jpg');
+            background-position: 50% 80%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-icm_no_brasil {
+            background-image: url('../images/14487963852_464df63e51_h.jpg');
+            background-position: 50% 63%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto_matematica {
+            background-image: url('../images/6435733347_493dfd772f_b.jpg');
+            background-position: 50% 31%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto_news {
+            background-image: url('../images/Praca-Maua-fractal.jpg');
+            background-position: center 85%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto_sobre_rio {
+            background-image: url('../images/8100221219_4041c5bb2d_h.jpg');
+            background-position: 50% 27%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto_eventos {
+            background-image: url('../images/14500066836_6bfb654261_h.jpg');
+            background-position: 50% 53%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto_ilha_fiscal {
+            background-image: url('../images/Ilha-Fiscal-fractal.jpg');
+            background-position: center bottom;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto_projetos {
+            background-image: url('../images/Museu-do-Amanha-e-MAR-fractal.jpg');
+            background-position: 50% 25%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-exibidores {
+            background-image: url('../images/rio_theatro_municipal.jpg');
+            background-position: 0% 10%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-patrocinadores {
+            background-image: url('../images/6610326381_23abd771ac_b.jpg');
+            background-position: 50% 50%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto_contato {
+            background-image: url('../images/quy-nhon.jpg');
+            background-position: 50% 69%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto_politica {
+            background-image: url('../images/6926378291_eb1db3fa64_b.jpg');
+            background-position: 50% 49%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-termos {
+            background-image: url('../images/5124731074_0fa526dbf6_b.jpg');
+            background-position: 50% 50%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto_marca {
+            background-image: url('../images/80-Sugar-Loaf.jpg');
+            background-position: 100% 0px;
+            background-size: cover;
+        }
+
+        .section.header-internas.foto-imu {
+            background-image: url('../images/visite-bg.jpg');
+            background-position: 50% 36%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-local-do-evento {
+            background-image: url('../images/cabecalho-localdoevento.jpg');
+            background-position: 0px 46%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-links {
+            background-image: url('../images/rio-de-janeiro-lagoa-dois-irmaos.jpg');
+            background-position: 50% 38%;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .section.header-internas.foto-voluntarios {
+            background-image: url('../images/imagem-voluntarios.jpg');
+            background-position: 52% 48%;
+            background-size: cover;
+        }
+
+    .section.header_local_do_evento {
+        height: 200px;
+        background-image: url('../images/header-centro-de-convencoes.jpg');
+        background-position: 50% 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .section.secao_interna1 {
+        background-color: transparent;
+    }
+
+    .section.secao_interna3 {
+        background-color: #fdb913;
+    }
+
+    .section.foto_paraty {
+        height: 350px;
+        background-image: url('../images/paraty.jpg');
+        background-position: 50% 79%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .section.foto_amazonia {
+        height: 350px;
+        background-image: url('../images/amazonia.jpg');
+        background-position: 50% 66%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .section.section-programa {
+        display: none;
+        background-color: #fcb813;
+    }
+
+    .section.foto-riocentro {
+        height: 350px;
+        background-image: url('../images/GL_events_Riocentro_-_aerea.jpg');
+        background-position: 50% 0px;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .section.secao-cinz {
+        background-color: #eee;
+    }
+
+.slider {
+    display: none;
+    height: 360px;
+    background-color: #303030;
+}
+
+.slide {
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+    .slide._1 {
+        background-color: #00ad6e;
+    }
+
+    .slide._2 {
+        background-color: #00bdd6;
+    }
+
+    .slide._3 {
+        background-color: #ccbe00;
+    }
+
+.nav-menu {
+    margin-top: 20px;
+}
+
+.social-icon {
+    margin-right: 11px;
+    opacity: 1;
+    -webkit-transition: opacity 300ms ease;
+    transition: opacity 300ms ease;
+}
+
+    .social-icon:hover {
+        opacity: 1;
+    }
+
+.page-link {
+    border-bottom: 1px solid transparent;
+    -webkit-transition: color 300ms ease, border 300ms ease;
+    transition: color 300ms ease, border 300ms ease;
+    color: #489fd9;
+    text-decoration: none;
+}
+
+    .page-link:hover {
+        border-bottom-color: #489fd9;
+    }
+
+    .page-link.in-footer {
+        display: inline-block;
+        padding: 21px;
+        color: #fff;
+    }
+
+        .page-link.in-footer:hover {
+            border-bottom-color: transparent;
+            color: #fdb913;
+        }
+
+.brand-link {
+    text-decoration: none;
+}
+
+.section-subtitle {
+    margin-bottom: 20px;
+    color: #000;
+    font-size: 19px;
+    line-height: 22px;
+    font-weight: 300;
+    text-align: center;
+}
+
+    .section-subtitle.branco {
+        color: #fff;
+        font-weight: bold;
+    }
+
+.img_logo {
+    /* margin-top: -10px; */
+    width: 255px;
+    /* max-width: 100%; */
+    position: absolute;
+    bottom: 10px;
+}
+
+.titulo-chamada {
+    text-align: center;
+}
+
+    .titulo-chamada.branco {
+        color: #fff;
+        font-weight: bold;
+    }
+
+.espacador {
+    min-height: 20px;
+}
+
+.menu_rodape {
+    text-align: center;
+}
+
+.titulo-bloco {
+    color: #000;
+    font-weight: 400;
+}
+
+    .titulo-bloco.branco {
+        color: #fff;
+        font-weight: bold;
+    }
+
+.texto-bloco {
+    margin-bottom: 20px;
+    padding-right: 40px;
+    color: rgba(0, 0, 0, .69);
+    font-size: 14px;
+    font-weight: 300;
+}
+
+    .texto-bloco.branco {
+        padding-right: 20px;
+        color: #fff;
+        font-weight: 500;
+    }
+.texto-bloco.branco a{
+      color: #fff;
+      text-decoration:none;
+}
+    .texto-bloco.esquerda {
+        font-weight: 300;
+    }
+
+    .texto-bloco.centralizado {
+        text-align: center;
+    }
+
+.link-padrao {
+    color: #000;
+    text-decoration: underline;
+}
+
+    .link-padrao:hover {
+        color: rgba(0, 0, 0, .49);
+    }
+
+.container-phone {
+    display: block;
+    max-width: 1020px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+    .container-phone.participar {
+        text-align: center;
+    }
+
+.presidente2 {
+    font-size: 13px;
+}
+
+.presidente1 {
+    margin-top: 17px;
+    color: #333;
+    font-size: 19px;
+    font-weight: 400;
+    text-align: left;
+}
+
+.titulo-boas-vindas {
+    margin-bottom: 23px;
+    text-align: left;
+}
+
+    .titulo-boas-vindas.centralizado {
+        text-align: center;
+    }
+
+.slider-logos {
+    width: 100%;
+    height: 60px;
+    padding-right: 57px;
+    padding-left: 57px;
+    background-color: transparent;
+}
+
+.slide-logo {
+    display: inline-block;
+    width: 17%;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.slider_principal {
+    height: 453px;
+}
+
+.slide_princ.slide_1 {
+    background-image: url('/images/quy-nhon-ve-dem.jpg');
+    background-position: 50% 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.slide_princ.slide_2 {
+    background-image: url('/images/eo-gio-binh-dinh.jpg');
+    background-position: left top;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.slide_princ.slide_3 {
+    background-image: url('/images/Quy_Nhon_University_Binh_Dinh_Viet_Nam.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.slide_princ.slide_4 {
+    background-image: url('/images/quy-nhon.jpg');
+    background-position: 0px 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.slide_princ.slide_5 {
+    background-image: url('/images/arcos-da-lapa.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.slide_princ.slide_6 {
+    background-image: url('~/images/praia-futebol.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.seta_princ {
+    color: hsla(0, 0%, 100%, .27);
+}
+
+.nav-princ {
+    color: #fff;
+}
+
+
+.acordeao-pergunta {
+    color: #222;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.acordeao-resposta {
+    overflow: hidden;
+    height: 0px;
+    margin-bottom: 10px;
+}
+
+html.w-mod-js *[data-ix="apagado-no-load"] {
+    display: none;
+}
+
+
+.texto_rodape {
+    margin-top: 0px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 19px;
+    text-align: center;
+}
+
+.cont_slide {
+    display: block;
+    max-width: 1020px;
+    margin-top: 90px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.texto_banner_1 {
+    margin-bottom: 10px;
+    color: hsla(0, 0%, 100%, .8);
+    font-size: 32px;
+    line-height: 32px;
+}
+
+.texto_banner_2 {
+    max-width: 500px;
+    margin-bottom: 10px;
+    color: #fff;
+    font-size: 22px;
+    line-height: 29px;
+}
+
+.texto_banner_3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.versao {
+    position: relative;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: inline-block;
+    margin-right: 13px;
+    float: none;
+    color: hsla(0, 0%, 100%, .69);
+    font-size: 13px;
+    text-decoration: none;
+}
+
+    .versao:hover {
+        color: rgba(252, 184, 19, .79);
+    }
+
+.titulo_blog {
+    font-size: 18px;
+    text-align: center;
+}
+
+.texto-blog {
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+}
+
+.bloco-blog {
+    display: block;
+    width: 60%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 15px;
+    padding-bottom: 22px;
+    border-top: 1px solid #d4d4d4;
+}
+
+.icones_rio {
+    display: block;
+    width: 76px;
+    height: 76px;
+    margin-right: auto;
+    margin-left: auto;
+    border: 2px solid hsla(0, 0%, 100%, .49);
+    border-radius: 38px;
+    background-image: url('../images/icones_moldura.png');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+    .icones_rio:hover {
+        background-color: #fcb813;
+        background-image: url('../images/icones_moldura2.png');
+    }
+
+.bloco_projetos {
+    width: 20%;
+    padding-right: 20px;
+    float: left;
+}
+
+.seta_patro {
+    margin-bottom: 27px;
+    color: #c7c7c7;
+    font-size: 21px;
+}
+
+.titulo_patro {
+    margin-bottom: 21px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.titulo-pagina {
+    color: #fff;
+    font-size: 48px;
+    line-height: 48px;
+    font-weight: 300;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .8);
+}
+
+.botao_formulario {
+    padding: 16px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 3px;
+    -- background-color: rgba(255, 0, 0, 0);
+    -- color: #616161;
+    background-color: #44a648;
+    color: #fff;
+    margin: auto;
+}
+
+    .botao_formulario.meio {
+        background-color: #44a648;
+        color: #fff;
+        margin: auto;
+    }
+
+    .botao_formulario:hover {
+        background-color: #006d5f;
+        color: #fff;
+    }
+
+    .botao_formulario.news {
+        margin-top: 26px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
+
+        .botao_formulario.news:hover {
+            background-color: #006d5f;
+        }
+
+    .botao_formulario.paginas {
+        margin-top: 20px;
+        color: #383838;
+    }
+
+.submenu-icm {
+    position: absolute;
+    left: 2px;
+    top: 81px;
+    z-index: 1001;
+    display: none;
+    overflow: visible;
+    float: none;
+    background-color: rgba(0, 109, 95, .8);
+}
+
+.item-submenu {
+    display: block;
+    padding: 12px 15px;
+    color: #fff;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+    .item-submenu:hover {
+        color: #fdb913;
+    }
+
+.texto-submenu {
+    display: inline-block;
+}
+
+.submenu-icm-interno {
+    margin-top: 23px;
+}
+
+.submenu-participar {
+    position: absolute;
+    left: 100px;
+    top: 80px;
+    display: none;
+    background-color: rgba(0, 109, 95, .8);
+}
+
+    .submenu-participar.submenu-ingles {
+        left: 90px;
+    }
+
+.submenu-evento {
+    position: absolute;
+    left: 350px;
+    top: 80px;
+    display: none;
+    background-color: rgba(0, 109, 95, .8);
+}
+
+    .submenu-evento.submenu-ingles {
+        left: 310px;
+    }
+
+.submenu-patro {
+    position: absolute;
+    left: 440px;
+    top: 80px;
+    display: none;
+    background-color: rgba(0, 109, 95, .8);
+}
+
+    .submenu-patro.submenu-ingles {
+        left: 390px;
+    }
+
+.fundo-azul-slide {
+    display: inline-block;
+    padding: 20px;
+    background-color: rgba(0, 85, 142, .8);
+}
+
+.fundo-verde-slide {
+    display: inline-block;
+    padding: 20px;
+    background-color: rgba(68, 166, 72, .7);
+}
+
+.fundo-amarelo-slide {
+    display: inline-block;
+    padding: 20px;
+    background-color: rgba(252, 184, 19, .8);
+}
+
+.fundo-azul-sobre {
+    padding: 20px;
+    background-color: rgba(0, 85, 142, .8);
+    color: #fff;
+}
+
+.fundo-verde-sobre {
+    padding: 20px 20px 20px 40px;
+    background-color: rgba(19, 46, 63, 0.5);
+    /* font-weight: bold; */
+}
+
+.barra_lingua {
+    width: 100%;
+    height: 20px;
+    text-align: right;
+}
+
+.header {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #1B384A;
+}
+
+.linha_tabela {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.header_tabela {
+    margin-top: 20px;
+    padding: 15px 10px;
+    background-color: #44a648;
+    color: #fff;
+}
+
+.texto_tabela {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.link_tabela {
+    display: block;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #e3e3e3;
+    background-color: rgba(72, 159, 217, .09);
+    color: #333;
+}
+
+    .link_tabela:hover {
+        background-color: rgba(72, 159, 217, .2);
+    }
+
+.titulo_interno {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.lista_interna {
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 300;
+    list-style-type: disc;
+}
+
+.sub-titulo_pagina {
+    color: #fff;
+    font-size: 36px;
+    line-height: 40px;
+    text-shadow: 0 1px 0 #000;
+}
+
+.mapa {
+    height: 350px;
+    margin-top: 24px;
+}
+
+.formato_aba {
+    margin-right: 4px;
+    margin-bottom: 4px;
+    padding-right: 16px;
+    padding-left: 16px;
+    border: 1px solid rgba(0, 0, 0, .09);
+    border-radius: 3px;
+    background-color: rgba(255, 0, 0, 0);
+}
+
+    .formato_aba:hover {
+        background-color: #fdb913;
+    }
+
+    .formato_aba.w--current {
+        margin-bottom: 0px;
+        padding-right: 16px;
+        padding-left: 16px;
+        border-color: #fcb813 #fcb813 #fdb913;
+        border-bottom-width: 5px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        background-color: #fdb913;
+        color: #fff;
+    }
+
+.grupo_abas {
+    text-align: center;
+}
+
+.conteudo_aba {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #fdb913;
+    background-color: #fff;
+}
+
+.linha_horario {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #e8e8e8;
+}
+
+.logo_completo {
+    display: block;
+    margin-right: auto;
+    margin-bottom: 33px;
+    margin-left: auto;
+}
+
+.bloco_imu {
+    height: 200px;
+    padding-top: 7px;
+    background-image: url('../images/3772102760_1ea72b5ee5_b.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.conteudo_imu {
+    display: block;
+    width: 500px;
+    margin-top: 26px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.branco {
+    color: #fff;
+}
+
+.data_blog {
+    color: #a3a3a3;
+    font-size: 12px;
+    text-align: center;
+}
+
+.bloco_blog_interna {
+    padding-top: 20px;
+    padding-bottom: 35px;
+    text-align: left;
+}
+
+.data_blog_interna {
+    margin-bottom: 10px;
+    color: #a3a3a3;
+    font-size: 12px;
+}
+
+.texto_blog_interna {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.titulo_blog_interna {
+    font-size: 18px;
+}
+
+.bloco_news {
+    height: 66px;
+    padding: 20px;
+    background-color: #fcb813;
+}
+
+.dia_da_semana {
+    margin-bottom: 10px;
+}
+
+.lista_item {
+    margin-bottom: 15px;
+}
+
+.aba_sobre {
+    width: 15%;
+    padding-right: 13px;
+    padding-left: 13px;
+    background-color: rgba(255, 0, 0, 0);
+}
+
+    .aba_sobre.w--current {
+        background-color: rgba(255, 0, 0, 0);
+        color: #fdb913;
+    }
+
+.texto_sobre {
+    margin-top: 15px;
+    margin-bottom: 9px;
+    padding-right: 20px;
+    padding-left: 20px;
+    color: #fff;
+    line-height: 25px;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.slide_galeria {
+    height: 323px;
+}
+
+.galeria-de-fotos {
+    height: 600px;
+}
+
+.imagens-turisticas {
+    height: 300px;
+}
+
+    .imagens-turisticas.foto1 {
+        background-image: url('../images/Rio-cristo.jpg');
+        background-position: 50% 53%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .imagens-turisticas.foto2 {
+        background-image: url('../images/Rio-pao_de_acucar.jpg');
+        background-position: 50% 43%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .imagens-turisticas.foto3 {
+        background-image: url('../images/Rio-JB.jpg');
+        background-position: 50% 68%;
+        background-size: cover;
+    }
+
+    .imagens-turisticas.foto4 {
+        background-image: url('../images/Rio-floresta.jpg');
+        background-position: 50% 71%;
+        background-size: cover;
+    }
+
+    .imagens-turisticas.foto5 {
+        background-image: url('../images/Rio-maracana.jpg');
+        background-position: 50% 100%;
+        background-size: cover;
+    }
+
+    .imagens-turisticas.foto6 {
+        background-image: url('../images/sitio-burle-marx.jpg');
+        background-position: 50% 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+.legenda_foto {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.legenda_sobre {
+    color: #fff;
+    font-size: 17px;
+    text-align: center;
+}
+
+.link-branco {
+    color: #fff;
+}
+
+    .link-branco:hover {
+        color: #fcb813;
+    }
+
+.formato-aba-home {
+    margin-right: 4px;
+    margin-bottom: 4px;
+    padding-right: 16px;
+    padding-left: 16px;
+    border: 1px solid hsla(0, 0%, 100%, .49);
+    border-radius: 3px;
+    background-color: transparent;
+    color: #fff;
+}
+
+    .formato-aba-home:hover {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .formato-aba-home.w--current {
+        margin-bottom: 0px;
+        border-bottom-width: 5px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        background-color: #fff;
+        color: #000;
+    }
+
+.conteudo_aba_home {
+    padding: 20px;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+.titulo_campo_do_formulario {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: left;
+}
+
+.titulo-campo-news {
+    font-size: 14px;
+    font-weight: 300;
+    text-align: left;
+}
+
+.faixa-obmep {
+    height: 400px;
+    background-image: url('../images/obmep.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.coluna_eventos {
+    padding-right: 25px;
+}
+
+.icones_rio_png {
+    display: block;
+    width: 76px;
+    height: 76px;
+    margin-right: auto;
+    margin-left: auto;
+    background-image: url('../images/icones_moldura.png');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+    .icones_rio_png:hover {
+        background-image: url('../images/icones_moldura2.png');
+    }
+
+.texto-hoteis {
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.mapa-wtc {
+    height: 295px;
+}
+
+.secao-abertura-rio-centro {
+    height: 500px;
+    background-image: url('../images/gl-events-riocentro-pavilhao-5-testeira.jpg');
+    background-position: 50% 24%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.planta-3d-riocentro {
+    text-align: center;
+}
+
+.espacador-2 {
+    height: 30px;
+}
+
+.grupo-pavilhao {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #f1f1f1;
+}
+
+.local-slide1 {
+    background-image: url('../images/local-slide1.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slides {
+    height: 65vh;
+}
+
+.local-slide2 {
+    background-image: url('../images/local-slide2.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slide3 {
+    background-image: url('../images/local-slide3.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slide4 {
+    background-image: url('../images/local-slide4.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slide5 {
+    background-image: url('../images/local-slide5.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slide6 {
+    background-image: url('../images/local-slide6.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slide7 {
+    background-image: url('../images/local-slide7.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slide8 {
+    background-image: url('../images/local-slide8.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slide9 {
+    background-image: url('../images/local-slide9.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slide10 {
+    background-image: url('../images/local-slide10.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.local-slide11 {
+    background-image: url('../images/local-slide11.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.titulos-formulario {
+    display: block;
+    margin-top: 7px;
+    color: #525252;
+    font-weight: 400;
+}
+
+    .titulos-formulario.matematico {
+        display: inline-block;
+    }
+
+.moldura-instituicao {
+    padding: 15px;
+    border: 1px solid #bdbdbd;
+}
+
+.moldura-e-matematico {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.radio-button {
+    display: inline-block;
+    margin-right: 18px;
+    margin-left: 18px;
+}
+
+.check-box {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.quantidade {
+    display: inline-block;
+    width: 70px;
+    margin-right: 20px;
+    margin-left: 22px;
+}
+
+.container-1020 {
+    max-width: 1020px;
+}
+
+.slides-barra {
+    height: 600px;
+}
+
+.tabela-exibidores {
+    display: none;
+}
+
+.tabela-exibidores-coluna-1 {
+    width: 20%;
+    float: left;
+}
+
+.tabela-exibidores-coluna-2 {
+    width: 50%;
+    float: left;
+}
+
+.tabela-exibidores-coluna-3 {
+    width: 15%;
+    float: left;
+}
+
+.tabela-exibidores-coluna-4 {
+    width: 15%;
+    float: left;
+}
+
+.tabela-header {
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    background-color: #44a648;
+    color: #fff;
+}
+
+.tabela-exibidores-conteudo {
+    width: 80%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    float: left;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.linha-exibidores {
+    display: none;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.coluna-exibidor {
+    display: inline-block;
+    width: 62.5%;
+    float: left;
+}
+
+.coluna-theme {
+    display: inline-block;
+    width: 18.75%;
+    float: left;
+}
+
+.coluna-tema {
+    width: 20%;
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    float: left;
+}
+
+.tema---exibidores {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #fff07c;
+    text-align: center;
+}
+
+    .tema---exibidores.tema---azul {
+        background-color: #8edcfd;
+    }
+
+    .tema---exibidores.tema---verde {
+        background-color: #d5ff71;
+    }
+
+    .tema---exibidores.tema---laranja {
+        background-color: #ffcb90;
+    }
+
+    .tema---exibidores.tema---rosa {
+        background-color: #ffa4e1;
+    }
+
+.texto-tabela-exibidores {
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.coluna-exibidores {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.programacao-evento {
+    display: display;
+}
+
+html.w-mod-js *[data-ix="apagado-no-load"] {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .navigation {
+        position: static;
+    }
+
+    .nav-link {
+        height: 77px;
+        padding: 18px 0px;
+        box-shadow: none;
+        color: #fff;
+    }
+
+        .nav-link:hover {
+            box-shadow: inset 0 3px 0 0 transparent;
+        }
+
+        .nav-link.w--current {
+            box-shadow: inset 0 1px 0 0 transparent;
+        }
+
+        .nav-link.menu {
+            position: relative;
+            padding: 22px 17px;
+            float: right;
+            box-shadow: none;
+            color: #fff;
+            font-size: 30px;
+        }
+
+            .nav-link.menu.w--open {
+                background-color: #00558e;
+                box-shadow: none;
+                color: #fff;
+            }
+
+        .nav-link.ativar_icm {
+            box-shadow: none;
+        }
+
+    .section.main {
+        margin-top: 0px;
+    }
+
+    .section.header-internas {
+        margin-top: 0px;
+    }
+
+        .section.header-internas.foto_matematica {
+            background-position: 50% 22%;
+        }
+
+        .section.header-internas.foto-exibidores {
+            background-position: 50% 0px;
+        }
+
+    .section.foto-riocentro {
+        height: 250px;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        z-index: 1002;
+        display: block;
+        max-height: 674px;
+        min-width: 150px;
+        margin-top: 0px;
+        padding: 0px 30px;
+        float: none;
+        background-color: #01283f;
+    }
+
+    .img_logo {
+        margin-bottom: 10px;
+    }
+
+    .container-phone {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .slide-logo {
+        width: 20%;
+    }
+
+    .slider_principal {
+        position: relative;
+        z-index: 999;
+    }
+
+    .slide_princ.slide_1 {
+        padding-right: 44px;
+        padding-left: 44px;
+    }
+
+    .slide_princ.slide_2 {
+        padding-right: 44px;
+        padding-left: 44px;
+    }
+
+    .slide_princ.slide_3 {
+        padding-right: 44px;
+        padding-left: 44px;
+    }
+
+    .seta_princ {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+    .texto_rodape {
+        margin-bottom: 26px;
+    }
+
+    .cont_slide {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .versao {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        float: none;
+    }
+
+    .bloco-blog {
+        width: 80%;
+    }
+
+    .bloco_projetos {
+        display: block;
+        width: 33%;
+        margin-top: 30px;
+        margin-right: auto;
+        margin-left: auto;
+        float: left;
+        text-align: left;
+    }
+
+    .submenu-icm {
+        position: static;
+        display: block;
+        margin-left: 26px;
+    }
+
+    .item-submenu {
+        text-align: left;
+    }
+
+    .bloco_seta {
+        width: 40px;
+    }
+
+    .submenu-icm-interno {
+        border-left: 1px solid #fff;
+    }
+
+    .submenu-participar {
+        position: static;
+        display: block;
+        margin-left: 26px;
+    }
+
+    .submenu-evento {
+        position: static;
+        display: block;
+        margin-left: 26px;
+    }
+
+    .submenu-patro {
+        position: static;
+        display: block;
+        margin-left: 26px;
+    }
+
+    .barra_lingua {
+        width: 250px;
+        height: 30px;
+        margin-top: -10px;
+    }
+
+    .header {
+        padding-top: 20px;
+    }
+
+    .botao_3_linas {
+        color: #fff;
+    }
+
+        .botao_3_linas.w--open {
+            background-color: transparent;
+        }
+
+    .bloco_menu {
+        padding-right: 30px;
+        padding-left: 30px;
+        background-color: #006d5f;
+    }
+
+    .formato_aba.w--current {
+        border-bottom-width: 1px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+
+    .aba_sobre {
+        width: 25%;
+    }
+
+    .texto_sobre {
+        text-align: center;
+    }
+
+    .galeria-de-fotos {
+        height: 448px;
+    }
+
+    .formato-aba-home.w--current {
+        border-bottom-width: 1px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+
+    .coluna_eventos {
+        padding-right: 10px;
+    }
+
+    .secao-abertura-rio-centro {
+        height: 400px;
+    }
+
+    .slides-barra {
+        height: auto;
+    }
+
+    .slide-nav {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 767px) {
+    h3 {
+        margin-bottom: 8px;
+    }
+
+    p {
+        text-align: left;
+    }
+
+    .nav-link {
+        box-shadow: none;
+    }
+
+        .nav-link.menu {
+            padding-top: 11px;
+            padding-bottom: 11px;
+        }
+
+            .nav-link.menu.w--open {
+                box-shadow: none;
+            }
+
+        .nav-link.ativar_icm {
+            box-shadow: none;
+        }
+
+    .section {
+        padding-top: 43px;
+        padding-bottom: 43px;
+        text-align: center;
+    }
+
+        .section.main {
+            background-position: 50% 50%;
+        }
+
+        .section.header-internas {
+            margin-top: 0px;
+        }
+
+            .section.header-internas.foto_matematica {
+                background-position: 50% 37%;
+            }
+
+        .section.foto_paraty {
+            background-image: url('../images/paraty2.jpg');
+        }
+
+        .section.foto_amazonia {
+            background-image: url('../images/amazonia2.jpg');
+        }
+
+        .section.foto-riocentro {
+            height: 200px;
+        }
+
+    .nav-menu {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .section-subtitle {
+        margin-bottom: 44px;
+        text-align: center;
+    }
+
+    .titulo-chamada {
+        font-size: 29px;
+        text-align: center;
+    }
+
+    .titulo-bloco {
+        text-align: center;
+    }
+
+        .titulo-bloco.branco {
+            text-align: center;
+        }
+
+    .texto-bloco {
+        margin-bottom: 20px;
+        padding-right: 0px;
+        font-weight: 300;
+        text-align: center;
+    }
+
+        .texto-bloco.branco {
+            padding-right: 0px;
+        }
+
+        .texto-bloco.esquerda {
+            text-align: left;
+        }
+
+        .texto-bloco.centralizado {
+            text-align: left;
+        }
+
+    .coluna-icm {
+        margin-bottom: 40px;
+        text-align: left;
+    }
+
+    .container-phone {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .presidente2 {
+        text-align: left;
+    }
+
+    .titulo-boas-vindas.centralizado {
+        text-align: left;
+    }
+
+    .seta_princ {
+        display: none;
+    }
+
+    .texto_rodape {
+        margin: 28px 40px 0px;
+        text-align: center;
+    }
+
+    .bloco_projetos {
+        display: block;
+        width: 50%;
+        margin-right: auto;
+        margin-left: auto;
+        float: left;
+    }
+
+    .titulo-pagina {
+        text-align: left;
+    }
+
+    .fundo-verde-sobre {
+        padding-left: 20px;
+    }
+
+    .esquerda {
+        text-align: left;
+    }
+
+    .linha_tabela {
+        text-align: left;
+    }
+
+    .header_tabela {
+        text-align: left;
+    }
+
+        .header_tabela.header_tabela2 {
+            display: none;
+        }
+
+    .link_tabela {
+        text-align: left;
+    }
+
+    .titulo_interno {
+        text-align: left;
+    }
+
+    .lista_interna {
+        text-align: left;
+    }
+
+    .grupo_abas {
+        text-align: center;
+    }
+
+    .bloco_news {
+        height: auto;
+    }
+
+    .dia_da_semana {
+        text-align: left;
+    }
+
+    .aba_sobre {
+        width: 30%;
+    }
+
+    .texto_sobre {
+        text-align: center;
+    }
+
+    .galeria-de-fotos {
+        height: 350px;
+    }
+
+    .titulo_campo_do_formulario {
+        text-align: left;
+    }
+
+    .formulario {
+        margin-bottom: 45px;
+        text-align: left;
+    }
+
+    .coluna_formulario {
+        margin-right: -10px;
+        margin-left: -10px;
+    }
+
+    .icones_rio_png {
+        width: 62px;
+        height: 62px;
+        background-size: cover;
+    }
+
+    .titulos-formulario {
+        display: inline-block;
+    }
+
+    .setas-slides {
+        display: none;
+    }
+
+    .slide-nav {
+        font-size: 12px;
+    }
+
+    .tabela-exibidores {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 479px) {
+    h4 {
+        text-align: left;
+    }
+
+    .nav-link {
+        box-shadow: none;
+    }
+
+        .nav-link.menu {
+            height: 57px;
+            box-shadow: none;
+        }
+
+            .nav-link.menu.w--open {
+                box-shadow: none;
+            }
+
+        .nav-link.ativar_icm {
+            box-shadow: none;
+        }
+
+    .section.footer {
+        padding-top: 24px;
+    }
+
+    .section.icm {
+        background-position: 50% 50%;
+    }
+
+    .section.header-internas.foto-como-participar {
+        background-position: 100% 100%;
+    }
+
+    .section.foto-riocentro {
+        height: 150px;
+    }
+
+    .nav-menu {
+        z-index: 1000;
+        margin-left: 0px;
+    }
+
+    .page-link.in-footer {
+        display: block;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .section-subtitle {
+        text-align: center;
+    }
+
+    .titulo-chamada {
+        text-align: center;
+    }
+
+    .titulo-bloco {
+        font-weight: 300;
+    }
+
+        .titulo-bloco.branco {
+            text-align: center;
+        }
+
+    .texto-bloco {
+        margin-bottom: 20px;
+    }
+
+        .texto-bloco.branco {
+            padding-right: 0px;
+        }
+
+        .texto-bloco.centralizado {
+            text-align: center;
+        }
+
+    .coluna-icm {
+        margin-bottom: 12px;
+        text-align: left;
+    }
+
+    .container-phone {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .titulo-boas-vindas.centralizado {
+        text-align: center;
+    }
+
+    .slide-logo {
+        width: 33%;
+    }
+
+    .texto_banner_1 {
+        color: hsla(0, 0%, 100%, .8);
+        font-size: 26px;
+        line-height: 29px;
+    }
+
+    .texto_banner_2 {
+        font-size: 18px;
+        line-height: 20px;
+    }
+
+    .texto_banner_3 {
+        font-size: 15px;
+    }
+
+    .icones_rio {
+        width: 45px;
+        height: 45px;
+    }
+
+    .bloco_projetos {
+        width: 100%;
+        float: none;
+        text-align: center;
+    }
+
+    .titulo-pagina {
+        font-size: 38px;
+    }
+
+    .fundo-amarelo-slide {
+        background-color: rgba(252, 184, 19, .8);
+    }
+
+    .esquerda {
+        text-align: left;
+    }
+
+    .linha_tabela {
+        text-align: center;
+    }
+
+    .header_tabela {
+        text-align: center;
+    }
+
+    .link_tabela {
+        text-align: center;
+    }
+
+    .formato_aba {
+        display: inline-block;
+    }
+
+        .formato_aba.w--current {
+            margin-bottom: 4px;
+        }
+
+    .conteudo_imu {
+        width: 200px;
+    }
+
+    .bloco_news {
+        height: auto;
+        padding-top: 20px;
+    }
+
+    .aba_sobre {
+        display: inline-block;
+        width: 48%;
+        padding-right: 0px;
+        padding-left: 0px;
+        text-align: center;
+    }
+
+    .galeria-de-fotos {
+        height: 150px;
+    }
+
+    .legenda_sobre {
+        display: inline-block;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    .formato-aba-home {
+        display: inline-block;
+    }
+
+    .icones_rio_png {
+        width: 50px;
+        height: 50px;
+    }
+
+    .secao-abertura-rio-centro {
+        height: 250px;
+    }
+
+    .slide-nav {
+        max-height: 31px;
+        font-size: 10px;
+        line-height: 13px;
+    }
+}
+
+
+/* OK */
+.titulo-logos {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+/* OK */
+.logos-rodape {
+    margin: 10px;
+}
+
+/* OK */
+.grupo-de-logos {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    column-count: 3;
+}
+
+.t-grupo-de-logos {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+    .t-grupo-de-logos .t-group-parner {
+        height: 248px;
+    }
+
+        .t-grupo-de-logos .t-group-parner h3 {
+            font-style: normal;
+            font-weight: 800;
+            font-size: 20px;
+            line-height: 1.2;
+            font-family: Montserrat, sans-serif;
+            letter-spacing: 0px;
+            text-align: inherit;
+            color: #3f3f3f;
+            border-bottom: 3px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .t-grupo-de-logos .t-group-parner .t-group-parner-image-wrap {
+        }
+
+            .t-grupo-de-logos .t-group-parner .t-group-parner-image-wrap a {
+            }
+
+                .t-grupo-de-logos .t-group-parner .t-group-parner-image-wrap a:hover {
+                    text-decoration: none;
+                }
+
+                .t-grupo-de-logos .t-group-parner .t-group-parner-image-wrap a img {
+                    height: 80px;
+                    width: auto !important;
+                }
+
+    .t-grupo-de-logos .t-group-left {
+        float: left;
+    }
+
+    .t-grupo-de-logos .t-group-right {
+        float: right;
+    }
+/* OK */
+.grupo-de-logos-1 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+}
+
+/* OK */
+.texto-logos-rodape2 {
+    width: 100px;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+
+/*Common style*/
+.map-main-menu-wrapper {
+    width: 100%;
+    height: 40px;
+}
+
+    .map-main-menu-wrapper ul {
+        float: left;
+        width: 100%;
+        list-style: none;
+        padding-left: 10px;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 0;
+    }
+
+        .map-main-menu-wrapper ul li {
+            float: left;
+            padding: 10px 10px;
+        }
+
+            .map-main-menu-wrapper ul li a {
+                text-decoration: none;
+                color: #333;
+                font-weight: bold;
+            }
+
+            .map-main-menu-wrapper ul li:hover {
+                color: #000;
+                background: #f1f1f1;
+            }
+
+h5.t-box-head {
+    font-size: 15px;
+    color: #444;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    padding: 8px 0;
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 5px !important;
+    margin-bottom: 8px !important;
+    text-transform: uppercase;
+}
+
+h6.t-box-head {
+    font-size: 12px;
+    color: #b20e13;
+    font-weight: bold;
+    padding: 2px 0;
+    width: 95%;
+    margin-left: 3%;
+    margin-right: 1%;
+    margin-top: 5px !important;
+    margin-bottom: 8px !important;
+    text-transform: uppercase;
+}
+
+h4.modal-title {
+    text-transform: uppercase;
+}
+
+.my-custom-class-for-label {
+    text-align: left;
+    font-weight: bold;
+    font-size: 12px;
+    color: #d03636;
+    width: 125px;
+}
+
+.t-input {
+    float: left;
+    padding: 3px 2px 2px 2px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.t-with-50-percent {
+    width: 50% !important;
+}
+
+.t-position-relative {
+    position: relative;
+}
+
+.t-overwrite-input-bootstrap {
+    height: auto !important;
+    padding: 1px 2px !important;
+    -ms-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+.t-overwrite-form-group {
+    margin-bottom: 8px !important;
+}
+
+.t-overwrite-label {
+    color: #000;
+    font-size: 13px !important;
+}
+
+.t-overwrite-panel-heading {
+    padding: 5px 15px !important;
+}
+
+span.t-panel-title {
+    display: block;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.t-margin-bottom-0 {
+    margin-bottom: 0px;
+}
+
+.t-margin-bottom-2 {
+    margin-bottom: 2px;
+}
+
+.t-margin-bottom-5 {
+    margin-bottom: 5px;
+}
+
+.t-margin-bottom-20 {
+    margin-bottom: 20px;
+}
+
+.t-margin-right-0 {
+    margin-right: 0px !important;
+}
+
+.t-margin-right-5 {
+    margin-right: 5px !important;
+}
+
+.t-margin-top-5 {
+    margin-top: 5px;
+}
+
+.t-margin-top-10 {
+    margin-top: 10px;
+}
+
+.t-margin-top-15 {
+    margin-top: 15px;
+}
+
+.t-margin-top-20 {
+    margin-top: 20px;
+}
+
+.t-margin-top-80 {
+    margin-top: 80px;
+}
+
+.t-margin-left-5 {
+    margin-left: 5px;
+}
+
+.t-margin-top-10-percent {
+    margin-top: 10%;
+}
+
+.t-padding-left-0 {
+    padding-left: 0 !important;
+}
+
+.t-padding-left-5 {
+    padding-left: 5px !important;
+}
+
+.t-padding-right-0 {
+    padding-right: 0 !important;
+}
+
+.t-padding-bottom-0 {
+    padding-bottom: 0 !important;
+}
+
+.t-padding-0 {
+    padding: 0 !important;
+}
+
+.t-padding-5 {
+    padding: 5px !important;
+}
+
+.t-padding-10 {
+    padding: 10px !important;
+}
+
+.t-padding-15 {
+    padding: 15px !important;
+}
+
+.t-padding-20 {
+    padding: 20px !important;
+}
+
+.t-margin-0 {
+    margin: 0 !important;
+}
+
+.t-bold {
+    font-weight: bold;
+}
+
+.t-normal {
+    font-weight: normal;
+}
+
+.t-button {
+    background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+    border: 1px solid #000000;
+    border: 1px solid rgba(0,0,0,0.1);
+    color: #444;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    margin-right: 5px;
+    -moz-min-width: 54px;
+    -ms-min-width: 54px;
+    -o-min-width: 54px;
+    -webkit-min-width: 54px;
+    min-width: 54px;
+    outline: 0;
+    padding: 3px 8px;
+    cursor: pointer;
+}
+
+    .t-button:hover {
+        background-color: transparent;
+        background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+        background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
+        background-image: -webkit-gradient(linear,left top,left bottom,from(#f5f5f5),to(#f1f1f1));
+        border: 1px solid #c6c6c6;
+        color: #333;
+        background-position: 0;
+    }
+
+.t-loading-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../Content/Images/loading.gif") no-repeat center center rgba(255, 255, 255, 0.7);
+    z-index: 999999;
+    -ms-background-size: 20px 20px;
+    background-size: 20px 20px;
+}
+
+.t-loading-text {
+    font-style: italic;
+}
+
+.t-loading-element {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    bottom: 0;
+    right: 15px;
+    height: 100%;
+    background: url("../Content/Images/loading.gif") no-repeat center center rgba(255, 255, 255, 0.7);
+    z-index: 999999;
+    -ms-background-size: 10px 10px;
+    background-size: 10px 10px;
+}
+
+.t-total-record {
+    padding: 5px 10px;
+    color: #333;
+    font-weight: bold;
+    background: #DFF0D8;
+}
+
+.t-show {
+    display: block;
+}
+
+.t-align-left {
+    text-align: left !important;
+}
+
+.t-align-center {
+    text-align: center !important;
+}
+
+.t-align-right {
+    text-align: right !important;
+}
+
+.t-h3-title {
+    margin-top: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.t-bordered-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.t-license-paper-image-wrapper {
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+}
+
+    .t-license-paper-image-wrapper .t-license-paper-image-item {
+        float: left;
+        width: 150px;
+        margin-right: 5px;
+    }
+
+        .t-license-paper-image-wrapper .t-license-paper-image-item a {
+            display: block;
+            width: 150px;
+            height: 150px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid #ccc;
+            padding: 3px;
+        }
+
+        .t-license-paper-image-wrapper .t-license-paper-image-item img {
+            width: 145px;
+            height: 145px;
+        }
+
+/*Editing tr*/
+tr.hight-light-editing-row-head {
+    background-color: #3C8DBC !IMPORTANT;
+    /*background-color: #9D7C5B !IMPORTANT;*/
+    /* background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #4d5b76), color-stop(1, #6f80a1)); */
+    background: -ms-linear-gradient(bottom, #4d5b76, #6f80a1);
+    background: -moz-linear-gradient(center bottom, #4d5b76 0%, #6f80a1 100%);
+    background: -o-linear-gradient(bottom, #4d5b76, #6f80a1);
+    filter: progid:dximagetransform.microsoft.gradient(startColorStr='#e3e3e3', EndColorStr='#ffffff');
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#6f80a1',EndColorStr='#4d5b76')";
+    color: #fff;
+}
+
+    tr.hight-light-editing-row-head button {
+        color: #000;
+    }
+
+    tr.hight-light-editing-row-head a {
+        color: #ffffff;
+    }
+
+    tr.hight-light-editing-row-head text {
+        color: #ffffff !important;
+    }
+
+tr.hight-light-editing-row-body td.td-has-green-border {
+    /*border: 1px solid #9D7C5B !important;*/
+    border: 1px solid #3C8DBC !important;
+    border-top: none;
+}
+
+tr.hight-light-editing-row-head td:first-child {
+    /*border-left: 1px solid #9D7C5B;*/
+    border-left: 1px solid #3C8DBC;
+}
+
+tr.hight-light-editing-row-head td:last-child {
+    /*border-right: 1px solid #9D7C5B;*/
+    border-right: 1px solid #3C8DBC;
+}
+
+.t-marker-container {
+    padding: 10px;
+    padding-top: 0px;
+}
+
+    .t-marker-container h4.t-marker-title {
+        font-size: 12px;
+        color: #333;
+        font-weight: bold;
+        padding: 5px 0;
+        margin-bottom: 0px;
+    }
+
+.t-marker-content {
+    font-size: 12px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.t-marker-description {
+    border-top: 1px solid #f5f5f5;
+}
+
+.t-marker-content .t-marker-content-row {
+    margin: 5px 0 10px 0;
+}
+
+    .t-marker-content .t-marker-content-row i {
+        margin-right: 10px;
+    }
+
+.t-marker-image-container img {
+    width: 75px;
+    height: 75px;
+    border: 1px solid #f5f5f5;
+    padding: 2px;
+    display: inline-block;
+}
+
+span.star {
+    font-size: 14px;
+    text-align: center;
+    width: 6%;
+    vertical-align: middle;
+    color: #ff4f1f;
+    margin-left: 2px;
+}
+
+#divSearchResult {
+    height: 700px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: #f5f5f5;
+}
+
+    #divSearchResult h3 {
+        color: #bf3030;
+        font-weight: bold;
+        font-size: 16px;
+        text-transform: uppercase;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 15px;
+        padding-left: 10px;
+        margin-bottom: 0;
+    }
+
+.t-marker-result-container {
+    padding: 10px;
+    padding-top: 0px;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+
+    .t-marker-result-container h4.t-marker-result-title {
+        font-size: 15px;
+        color: #333;
+        font-weight: bold;
+        padding: 5px 0;
+        margin-bottom: 0px;
+    }
+
+.t-marker-result-content {
+    font-size: 12px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.t-marker-result-description {
+    border-top: 1px solid #f5f5f5;
+}
+
+.t-marker-result-content .t-marker-result-content-row {
+    margin: 5px 0 10px 0;
+}
+
+    .t-marker-result-content .t-marker-result-content-row i {
+        margin-right: 10px;
+    }
+
+.t-marker-result-image-container img {
+    width: 75px;
+    height: 75px;
+    border: 1px solid #f5f5f5;
+    padding: 2px;
+    display: inline-block;
+}
+
+.required:after {
+    content: "*" !important;
+    color: red;
+    font-size: 12px;
+    margin-left: 2px;
+}
+
+.t-form-register-container {
+    width: 60%;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+}
+
+.t-form-register-header {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+    background: #f6f6f6;
+}
+
+.t-form-register-body {
+    padding: 10px;
+}
+
+.t-form-register-footer {
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background: #f9f9f9;
+    padding: 30px 10px;
+}
+
+.t-form-register-button {
+    width: 100%;
+    /* height: 32px; */
+    background: #16a085;
+    border: none;
+    border-radius: 2px;
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: 0.1s ease;
+    cursor: pointer;
+    padding: 15px 0;
+}
+
+.t-h3-title-org {
+    display: inline-block;
+    border-bottom: 3px solid #182c77;
+    padding-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 50px;
+}
+
+.headding-title {
+    /* background: #ccc; */
+    color: #2D5066;
+    /* text-align:left; */
+}
+
+    .headding-title h3 {
+        font-size: 50px;
+        display: inline-block;
+        /* border-bottom: 3px solid #ccc; */
+        padding-bottom: 15px;
+        text-align: left;
+    }
+
+.team-box {
+    z-index: 1000;
+    height: 334px;
+    padding: 0px;
+    border-top: 1px solid #ccc;
+}
+
+    .team-box:hover {
+        /*z-index:1001;*/
+    }
+
+.team-boxs {
+    position: relative;
+    height: 334px;
+    width: 100%;
+    padding: 30px 10px 30px 30px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+}
+
+    .team-boxs:hover {
+        /*top:-15px;*/
+        /* left:-15px; */
+        /* height:320px; */
+        /* width: calc(100% + 30px); */
+        /*transition: all 0.7s;*/
+        /*box-shadow: 0px 0px 15px 0px #555;*/
+    }
+
+.t-team-boxs-img-container {
+    border-right: 1px dotted #ccc;
+    height: 100%;
+}
+
+.team-boxs img {
+    width: 200px;
+    height: 200px;
+    border-radius: 125px;
+}
+
+.team-boxs:hover.team-boxs img {
+    /* border:2px solid #FA566E; */
+    /* padding:2px; */
+}
+
+.team-boxs h4 {
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    margin-top: 0;
+    font-size: 30px;
+}
+
+.team-boxs h5 {
+    font-size: 20px;
+    color: #898686;
+    text-align: left;
+}
+
+.team-boxs p {
+    color: #000;
+    font-size: 13px;
+    text-align: justify;
+}
+
+.team-boxs .btn {
+    background: #2D5066;
+    color: #fff;
+    position: absolute;
+    bottom: 10px;
+    left: 37%;
+    text-align: center;
+}
+
+.disabled-button {
+    pointer-events: none !important;
+    background-image: inherit !important;
+    /*background: #999999 !important;*/
+    cursor: not-allowed !important;
+    border: none;
+}
+
+.t-program-committee-container {
+}
+
+.t-program-committee-container-inner {
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.t-program-committee-container-inner-last-item {
+    padding-top: 20px;
+}
+
+.t-program-committee-box {padding-bottom: 20px;border-bottom: 1px solid #ccc;padding-top: 20px;height: 200px;}
+
+    .t-program-committee-box .t-program-committee-img {
+        float: left;
+        width: 40%;
+    }
+
+        .t-program-committee-box .t-program-committee-img img {
+            width: 150px;
+            height: 150px;
+        }
+
+    .t-program-committee-box .t-program-committee-content {
+        float: left;
+        width: 58%;
+        padding-left: 2%;
+    }
+
+        .t-program-committee-box .t-program-committee-content h3 {
+        }
+
+            .t-program-committee-box .t-program-committee-content h3 span.t-program-committee-content-name {
+                font-weight: bold;
+            }
+
+            .t-program-committee-box .t-program-committee-content h3 span.t-program-committee-content-title {
+                font-style: italic;
+                font-size: 15px;
+            }
+
+.t-read-more-block {
+    width: 100%;
+    margin-top: 50px;
+    border: 1px solid #91ccff;
+    padding: 5px 10px;
+    font-size: 12px;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+    .t-read-more-block p {
+        padding: 0 10px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+        .t-read-more-block p i {
+            margin-right: 5px;
+            color: #de7101;
+        }
+
+        .t-read-more-block p span {
+            color: #00123A;
+        }
+
+        .t-read-more-block p a {
+            color: #de7101;
+        }
+
+            .t-read-more-block p a:hover {
+                text-decoration: none;
+            }
+
+.t-sponsor-container a:hover {
+    text-decoration: none;
+}
+.t-deadline-day {
+    font-weight: bold;
+    color: #fff;
+}
+  .t-hotel-wrapper {
+        width: 98%;
+        padding: 1%;
+        float: left;
+    }
+
+    .t-hotel-item {
+        width: 100%;
+        float: left;
+        /* height: 250px; */
+        padding: 10px 0;
+        padding: 10px 5px;
+        border: 1px solid #ccc;
+        box-shadow: 5px 10px 18px #cbcbcb;
+        margin-bottom: 20px;
+    }
+
+    .t-hotel-img {
+    }
+
+        .t-hotel-img img {
+            height: 240px;
+        }
+
+    .t-hotel-content {
+    }
+
+    .t-hotel-readmore {
+    }
+
+        .t-hotel-readmore a {
+            color: #1b384a;
+            font-size: 14px;
+            text-align: left;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+    .t-hotel-name {
+        font-size: 20px;
+        font-weight: bold;
+        color: #008080;
+        margin-bottom: 0;
+    }
+
+    .t-hotel-description {
+        color: #333;
+        font-size: 13px;
+    }
+
+    .t-hotel-rating {
+        color: #de7101;
+    }
+
+        .t-hotel-rating span {
+        }
+
+    .t-about-wrapper {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .t-about-item {
+        width: 25%;
+        height: 128px;
+        border: 1px solid #2fbec1;
+        float: left;
+        position: relative;
+    }
+
+        .t-about-item a {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .t-about-item:hover {
+            cursor: pointer;
+        }
+
+    .t-about-hotel {
+        background: url("/images/icons/hotel.png") #f9f9f9 center no-repeat;
+    }
+
+        .t-about-hotel:hover {
+            background: url("/images/icons/hotel.png") #f5f5f5 center no-repeat;
+        }
+
+    .t-about-destination {
+        background: url("/images/icons/destination.png") #f9f9f9 center no-repeat;
+    }
+
+        .t-about-destination:hover {
+            background: url("/images/icons/destination.png") #f5f5f5 center no-repeat;
+        }
+
+    .t-about-transport {
+        background: url("/images/icons/transport.png") #f9f9f9 center no-repeat;
+    }
+
+        .t-about-transport:hover {
+            background: url("/images/icons/transport.png") #f5f5f5 center no-repeat;
+        }
+
+    .t-about-food {
+        background: url("/images/icons/food.png") #f9f9f9 center no-repeat;
+    }
+
+        .t-about-food:hover {
+            background: url("/images/icons/food.png") #f5f5f5 center no-repeat;
+        }   
+
+        
+
+.custom-tabs-left {
+    border-bottom: none;
+}
+
+    .custom-tabs-left > .nav-tabs {
+        float: left;
+        margin-right: 19px;
+        border-right: 1px solid #ccc;
+        border-bottom: none;
+    }
+
+        .custom-tabs-left > .nav-tabs > li {
+            float: none;
+        }
+
+            .custom-tabs-left > .nav-tabs > li a {
+                -moz-border-radius-topleft: 2px;
+                -webkit-border-top-left-radius: 2px;
+                border-top-left-radius: 2px;
+                -moz-border-radius-bottomleft: 2px;
+                -webkit-border-bottom-left-radius: 2px;
+                border-bottom-left-radius: 2px;
+                min-width: 74px;
+                margin-right: -1px;
+            }
+
+                .custom-tabs-left > .nav-tabs > li a:hover, .custom-tabs-left > .nav-tabs > li a:focus {
+                    background: transparent;
+                    border-color: transparent;
+                }
+
+        .custom-tabs-left > .nav-tabs .active a, .custom-tabs-left > .nav-tabs .active a:hover, .custom-tabs-left > .nav-tabs .active a:focus {
+            border: 1px solid #ccc;
+            border-right-color: #fff;
+            color: inherit;
+            background-color: #fff;
+        }
+
+    .custom-tabs-left .tab-content {
+        padding-top: 5px;
+    }
+
+.tab-content {
+    padding: 15px 8px;
+}
+
+.tab-pane.text-center img {
+    display: inline-block;
+    vertical-align: middle;
+    *vertical-align: auto;
+    *zoom: 1;
+    *display: inline;
+}
+
+.grupo-menu {
+    float: right;
+}
+
+.clearfix:after {
+    content: '.';
+    display: block;
+    clear: both;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    visibility: hidden;
+    overflow: hidden;
+}
+
+.menu-horizontal,
+.sub-menu,
+.sub-menu-direita,
+.sub-menu-esquerda {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+    .menu-horizontal a {
+        display: inline-block;
+        color: white;
+        padding: 44px 12px 10px 12px;
+        text-decoration: none;
+        font-size: 18px;
+        line-height: 21px;
+        font-family: Montserrat;
+    }
+
+    .menu-horizontal li {
+        position: relative;
+    }
+
+    .menu-horizontal > li {
+        float: left;
+    }
+
+        .menu-horizontal > li:hover > .sub-menu {
+            display: block;
+        }
+
+    .menu-horizontal a:hover {
+        color: #fdb913;
+    }
+
+
+.sub-menu {
+    padding-top: 23px;
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 109, 95, .8);
+}
+
+    .sub-menu a {
+        padding: 12px 15px;
+        color: #fff;
+        font-size: 18px;
+        text-decoration: none;
+        display: inline-block;
+        font-family: Montserrat,sans-serif;
+    }
+
+    .sub-menu > li:hover > .sub-menu-direita {
+        display: inline-block;
+    }
+
+    .sub-menu > li:hover > .sub-menu-esquerda {
+        display: inline-block;
+    }
+
+.sub-menu-direita {
+    top: 0;
+    left: 100%;
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 109, 95, .8);
+}
+
+    .sub-menu-direita a {
+        padding: 12px 15px;
+        color: #fff;
+        width: 100%;
+        font-size: 15px;
+        text-decoration: none;
+        display: block;
+    }
+
+
+.sub-menu-esquerda {
+    top: 0;
+    right: 100%;
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 109, 95, .8);
+}
+
+    .sub-menu-esquerda a {
+        padding: 12px 15px;
+        color: #fff;
+        width: 100%;
+        font-size: 15px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .t-important-date-special {
+        /* border: 1px solid #fff; */
+        text-align: center;
+        padding: 10px 5px;
+        background: #265D7F;
+    }
+    .t-important-date-special a{
+        color: #de7101;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .t-slide-show-about-quy-nhon {
+        height: 468px;
+    }
+    .t-slide-show-about-quy-nhon img{
+        height: 468px !important;
+    }
+    .t-hotel-distance {
+        font-style: italic;
+        font-size: 12px;
+        color: #666666;
+        font-weight: bold;
+    }
+    .word-wrap {
+        word-break: break-all;
+        // word-wrap: break-word;
+        // overflow-wrap: break-word;
+    }
+    .no-wrap {
+        white-space: nowrap;
+    }
+    .fixed {
+        table-layout: fixed;
+    }
+@media (max-width: 991px) {
+    
+    .grupo-menu {
+        background-color: rgba(0, 109, 95, 1);
+        text-align: left;
+        padding: 20px 20px;
+    }
+
+    .menu-horizontal li {
+        float: none;
+        display: block;
+    }
+
+    .menu-horizontal a {
+        color: white;
+        padding: 10px 10px;
+        text-decoration: none;
+    }
+
+    .sub-menu {
+        padding-left: 0;
+        padding-top: 0;
+        margin-left: 30px;
+        display: block;
+        position: relative;
+        border-left: 1px solid #fff;
+    }
+
+    .sub-menu-direita {
+        left: 0;
+        padding-left: 0;
+        padding-top: 0;
+        margin-left: 30px;
+        display: block;
+        position: relative;
+        border-left: 1px solid #fff;
+    }
+
+    .sub-menu-esquerda {
+        right: 0;
+        padding-left: 0;
+        padding-top: 0;
+        margin-left: 30px;
+        display: block;
+        position: relative;
+        border-left: 1px solid #fff;
+    }
+    .grupo-de-logos {
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-align-content: center;
+        -ms-flex-line-pack: center;
+        align-content: center;
+    }
+
+    .grupo-de-logos-1 {
+        margin: 15px 14px;
+    }
+    .t-program-committee-box{
+    height: 200px;
+    }
+    .t-program-committee-box .t-program-committee-content h3{font-size:19px;}
+    .t-program-committee-content p{
+        font-size:15px;
+    }
+}
+
+@media (max-width: 767px) {
+    .grupo-de-logos-1 {
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+    .t-grupo-de-logos {
+        display: block;
+    }
+
+        .t-grupo-de-logos .t-group-parner {
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+    .t-program-committee-container {
+    }
+
+    .t-program-committee-container-inner {
+        padding: 0 0;
+        border: none;
+    }
+
+    .t-program-committee-container-inner-last-item {
+        padding-top: 20px;
+    }
+
+    .t-program-committee-box {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+        width: 100%;
+        float: left;
+
+    }
+
+        .t-program-committee-box .t-program-committee-img {
+            width: 100%;
+            float: left;
+        }
+
+            .t-program-committee-box .t-program-committee-img img {
+                width: 150px;
+                height: 150px;
+                padding: 2px;
+                border: 1px solid #91ccff;
+            }
+
+        .t-program-committee-box .t-program-committee-content {
+            width: 100%;
+        }
+
+            .t-program-committee-box .t-program-committee-content h3 {
+                text-align: center;
+            }
+
+                .t-program-committee-box .t-program-committee-content h3 span.t-program-committee-content-name {
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+            .t-program-committee-box .t-program-committee-content p {
+                text-align: center;
+            }
+
+            .t-program-committee-box .t-program-committee-content h3 span.t-program-committee-content-title {
+                font-style: italic;
+                font-size: 15px;
+                text-align: center;
+            }
+            .t-about-item {
+                width: 50%;
+            }
+}
+
+@media (max-width: 479px) {
+    .titulo-logos {
+        display: block;
+    }
+
+    .grupo-de-logos {
+        display: block;
+        -webkit-align-content: space-around;
+        -ms-flex-line-pack: distribute;
+        align-content: space-around;
+    }
+
+    .grupo-de-logos-1 {
+        display: block;
+        margin-bottom: 30px;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-align-content: stretch;
+        -ms-flex-line-pack: stretch;
+        align-content: stretch;
+        text-align: center;
+    }
+
+    .t-grupo-de-logos {
+        display: block;
+    }
+
+        .t-grupo-de-logos .t-group-parner {
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+    .texto-logos-rodape2 {
+        width: auto;
+    }
+
+      .t-program-committee-container {
+    }
+
+    .t-program-committee-container-inner {
+        padding: 0 0;
+        border: none;
+    }
+
+    .t-program-committee-container-inner-last-item {
+        padding-top: 20px;
+    }
+
+    .t-program-committee-box {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+        width: 100%;
+        float: left;
+    }
+
+        .t-program-committee-box .t-program-committee-img {
+            width: 100%;
+            float: left;
+        }
+
+            .t-program-committee-box .t-program-committee-img img {
+                width: 150px;
+                height: 150px;
+                padding: 2px;
+                border: 1px solid #91ccff;
+            }
+
+        .t-program-committee-box .t-program-committee-content {
+            width: 100%;
+        }
+
+            .t-program-committee-box .t-program-committee-content h3 {
+                text-align: center;
+            }
+
+                .t-program-committee-box .t-program-committee-content h3 span.t-program-committee-content-name {
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+            .t-program-committee-box .t-program-committee-content p {
+                text-align: center;
+            }
+
+            .t-program-committee-box .t-program-committee-content h3 span.t-program-committee-content-title {
+                font-style: italic;
+                font-size: 15px;
+                text-align: center;
+            }
+             .t-about-item {
+                width: 50%;
+            }
+
+              .t-slide-show-about-quy-nhon {
+        height: 236px;
+    }
+    .t-slide-show-about-quy-nhon img{
+        height: 236px !important;
+    }
+    .t-hotel-item {
+        height: auto;
+    }
+
+}

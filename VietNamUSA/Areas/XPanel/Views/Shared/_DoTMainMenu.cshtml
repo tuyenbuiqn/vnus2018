@@ -1,0 +1,201 @@
+﻿@using VietNamUSA.Common
+@using VietUSA.Repository.Common.Constants
+@using VietUSA.Repository.Common.Enums
+@using VietUSA.Repository.Models
+<style>
+    @@media (min-width: 768px) {
+        .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > a > span:not(.pull-right), .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
+            width: 270px;
+        }
+    }
+</style>
+@{
+    var userinfo = (UserInfoModel)Session[SessionKeys.UserInfo];
+}
+
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="/Images/Users/user-icon.png" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>@userinfo.FullName</p>
+                <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
+            </div>
+        </div>
+        <!-- search form -->
+        @*<form action='@Url.Action("Index", "SearchContent")' method="get" class="sidebar-form">*@
+        <div class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="keyword" id="txtGlobalSearchContent" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button type="submit" id="btnGlobalSearch" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        </div>
+        @*</form>*@
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" id="ulMainMenu">
+            @*<li class="header">MAIN NAVIGATION</li>*@
+            @*=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=Abtraction Submission+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+*@
+            @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.R_A_S, Role.R_ORG }))
+            {
+                <li class="treeview" id="mnuLiAbtractionSubmission">
+                    <a href="#">
+                        <i class="fa fa-building-o"></i> <span>Abstract Submission</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu" id="mnuUlAbtractionSubmission">
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.R_A_S }))
+                        {
+                            <li>
+                                <a href="@Html.Raw(Url.Action("Index", "Register"))" data-menu-target="AbtractionSubmission">
+                                    <i class="fa fa-circle-o"></i>
+                                    Abstract Submission
+                                </a>
+                            </li>
+                        }
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.R_ORG }))
+                        {
+                            <li>
+                                <a href="@Html.Raw(Url.Action("Index", "Organisation"))" data-menu-target="AbtractionSubmission">
+                                    <i class="fa fa-circle-o"></i>
+                                    Organisations
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            @*=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=Article - Category +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+*@
+            @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.R_ART, Role.R_ART_CATE }))
+            {
+                <li class="treeview" id="mnuLiContent">
+                    <a href="#">
+                        <i class="fa fa-book"></i> <span>Content</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu" id="mnuUlContent">
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.R_ART }))
+                        {
+                            <li>
+                                <a href="@Html.Raw(Url.Action("Index", "Article"))" data-menu-target="Content">
+                                    <i class="fa fa-circle-o"></i>
+                                    Articles
+                                </a>
+                            </li>
+                        }
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.R_CATE }))
+                        {
+                            <li>
+                                <a href="@Html.Raw(Url.Action("Index", "Category"))" data-menu-target="Content">
+                                    <i class="fa fa-circle-o"></i>
+                                    Categories
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            @*=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=END Article - Category +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+*@
+            @*=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Program +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+*@
+            @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.R_MEM }))
+            {
+                <li class="treeview" id="mnuLiProgram">
+                    <a href="#">
+                        <i class="fa fa-book"></i> <span>Program</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu" id="mnuUlProgram">
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.R_MEM }))
+                        {
+                            <li>
+                                <a href="@Html.Raw(Url.Action("Index", "Member", new { memberTypeId = (int) MemberTypeEnum.ProgramCommittee}))" data-menu-target="Program">
+                                    <i class="fa fa-circle-o"></i>
+                                    Program Committee
+                                </a>
+                            </li>
+                        }
+                        @if (WebCommonFunctions.ClientCheckPermission(new[] { Role.R_MEM }))
+                        {
+                            <li>
+                                <a href="@Html.Raw(Url.Action("Index", "Member", new { memberTypeId = (int) MemberTypeEnum.InvitedAddresses}))" data-menu-target="Program">
+                                    <i class="fa fa-circle-o"></i>
+                                    Invited Addresses
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            @*=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=END Program +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+*@
+            <li class="treeview" id="mnuLiWebsite">
+                <a href="#">
+                    <i class="fa fa-book"></i> <span>View Website</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu" id="mnuUlWebsite">
+                    <li>
+                        <a href="/Home" data-menu-target="Website" target="_blank">
+                            <i class="fa fa-circle-o"></i>
+                            VNUS2019
+                        </a>
+                    </li>
+                    @*<li>
+                            <a href="@Html.Raw(Url.Action("Index", "Category"))" data-menu-target="Website">
+                                <i class="fa fa-circle-o"></i>
+                                Categories
+                            </a>
+                        </li>*@
+                </ul>
+            </li>
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+
+<script>
+    function globalSearchContent() {
+        var keyword = $("#txtGlobalSearchContent").val().trim();
+        if (!keyword) {
+            focusElement("txtGlobalSearchContent");
+            return false;
+        }
+        var url = '@Url.Action("Index", "SearchContent")' + "?keyword=" + keyword;
+        window.location.href = url;
+    };
+    function initGlobalSearch() {
+        var keyword = getParameterByName("keyword", window.location.href);
+        if (keyword) {
+            $("#txtGlobalSearchContent").val(keyword);
+        }
+    };
+    function setMenuActive() {
+        var url = window.location.href;
+        $("ul.treeview-menu li a").each(function (i) {
+            var path = $(this).attr("href");
+            if (url.indexOf(path) > 0) {
+                var target = $(this).attr("data-menu-target");
+                $("#mnuLi" + target).addClass("active");
+                $("#mnuUl" + target).addClass("menu-open");
+                $("#mnuUl" + target).css("display", "block");
+            }
+        });
+    };
+    $(function () {
+        initGlobalSearch();
+        setMenuActive();
+        $("#btnGlobalSearch").click(function () {
+            globalSearchContent();
+            return false;
+        });
+        $("#txtGlobalSearchContent").on("keydown", function (event) {
+            if (event.which === 13) {
+                globalSearchContent();
+                return false;
+            }
+        });
+
+    });
+</script>

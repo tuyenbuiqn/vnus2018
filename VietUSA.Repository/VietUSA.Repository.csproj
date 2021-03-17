@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{81419740-C5B0-49FE-8E07-3D8ADFE57765}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VietUSA.Repository</RootNamespace>
+    <AssemblyName>VietUSA.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArticleRepository.cs" />
+    <Compile Include="Base\BaseFunction.cs" />
+    <Compile Include="Base\EntityFrameworkReadOnlyRepository.cs" />
+    <Compile Include="Base\EntityFrameworkRepository.cs" />
+    <Compile Include="CategoryRepository.cs" />
+    <Compile Include="CommonRepository.cs" />
+    <Compile Include="Common\Constants\AuthenticationTypes.cs" />
+    <Compile Include="Common\Constants\Constants.cs" />
+    <Compile Include="Common\Constants\Languages.cs" />
+    <Compile Include="Common\Constants\MapConstants.cs" />
+    <Compile Include="Common\Constants\Role.cs" />
+    <Compile Include="Common\Enums\ApiConstantsAndEnums.cs" />
+    <Compile Include="Common\Enums\DateTimeFormatEnum.cs" />
+    <Compile Include="Common\Enums\DoTEnums.cs" />
+    <Compile Include="Common\Enums\EnumToNumberConverter.cs" />
+    <Compile Include="Common\Enums\RestApiConstant.cs" />
+    <Compile Include="Common\Extensions\DataTableExtensions.cs" />
+    <Compile Include="Common\Extensions\EnumDescription.cs" />
+    <Compile Include="Common\Extensions\ExtensionMethods.cs" />
+    <Compile Include="Common\Functions\CommonFunctions.cs" />
+    <Compile Include="Common\Functions\CustomizeExcelExportFunctions.cs" />
+    <Compile Include="Common\Functions\Exceptions.cs" />
+    <Compile Include="Common\Functions\RepositoryCommonFunctions.cs" />
+    <Compile Include="Common\Interfaces.cs" />
+    <Compile Include="Common\Models\ApiResult.cs" />
+    <Compile Include="Common\Models\CaptchaResponse.cs" />
+    <Compile Include="Common\Models\ConnectionInfo.cs" />
+    <Compile Include="Common\Models\ExcelModel.cs" />
+    <Compile Include="Common\Models\ListPagedResultModel.cs" />
+    <Compile Include="Common\Models\ResultModel.cs" />
+    <Compile Include="Common\Models\SearchModel.cs" />
+    <Compile Include="Common\Models\SearchResultModel.cs" />
+    <Compile Include="ContactRepository.cs" />
+    <Compile Include="CustomizeExcelExportRepository.cs" />
+    <Compile Include="DocumentRepository.cs" />
+    <Compile Include="EFData\Entity\Article.cs" />
+    <Compile Include="EFData\Entity\Category.cs" />
+    <Compile Include="EFData\Entity\Contact.cs" />
+    <Compile Include="EFData\Entity\Document.cs" />
+    <Compile Include="EFData\Entity\Group.cs" />
+    <Compile Include="EFData\Entity\GroupRole.cs" />
+    <Compile Include="EFData\Entity\Log.cs" />
+    <Compile Include="EFData\Entity\LogDbError.cs" />
+    <Compile Include="EFData\Entity\Member.cs" />
+    <Compile Include="EFData\Entity\Organisation.cs" />
+    <Compile Include="EFData\Entity\Role.cs" />
+    <Compile Include="EFData\Entity\SP_GET_ROLE_BY_USERID_Result.cs" />
+    <Compile Include="EFData\Entity\SP_GET_ROLE_BY_USER_Result.cs" />
+    <Compile Include="EFData\Entity\User.cs" />
+    <Compile Include="EFData\Entity\UserGroup.cs" />
+    <Compile Include="EFData\VietUsaDatabaseContext.cs" />
+    <Compile Include="GroupRepository.cs" />
+    <Compile Include="GroupRoleRepository.cs" />
+    <Compile Include="Interfaces\IArticleRepository.cs" />
+    <Compile Include="Interfaces\ICategoryRepository.cs" />
+    <Compile Include="Interfaces\ICommonRepository.cs" />
+    <Compile Include="Interfaces\IContactRepository.cs" />
+    <Compile Include="Interfaces\ICustomizeExcelExportRepository.cs" />
+    <Compile Include="Interfaces\IDocumentRepository.cs" />
+    <Compile Include="Interfaces\IMemberRepository.cs" />
+    <Compile Include="Interfaces\IOrganisationRepository.cs" />
+    <Compile Include="Interfaces\IReportRepository.cs" />
+    <Compile Include="Interfaces\IUserRepository.cs" />
+    <Compile Include="MemberRepository.cs" />
+    <Compile Include="Models\ArticleModel.cs" />
+    <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\ContactModel.cs" />
+    <Compile Include="Models\CustomizeExportExcelModel.cs" />
+    <Compile Include="Models\DocumentModel.cs" />
+    <Compile Include="Models\DownloadModel.cs" />
+    <Compile Include="Models\EMailModel.cs" />
+    <Compile Include="Models\GroupModel.cs" />
+    <Compile Include="Models\GroupRoleModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\LogModel.cs" />
+    <Compile Include="Models\MemberModel.cs" />
+    <Compile Include="Models\OrganisationModel.cs" />
+    <Compile Include="Models\RoleModel.cs" />
+    <Compile Include="Models\Select2Data.cs" />
+    <Compile Include="Models\SelectModel.cs" />
+    <Compile Include="Models\UserInfoModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="OrganisationRepository.cs" />
+    <Compile Include="Parameters\LoginParameter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportRepository.cs" />
+    <Compile Include="RoleRepository.cs" />
+    <Compile Include="UserGroupRepository.cs" />
+    <Compile Include="UserRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,2 @@
+G:\Work\3. Freelancer\Viasm\1. VietUSA\VietUSA.Business\obj\Release\VietUSA.Business.csprojAssemblyReference.cache
+G:\Work\3. Freelancer\Viasm\1. VietUSA\VietUSA.Business\obj\Release\VietUSA.Business.csproj.CoreCompileInputs.cache

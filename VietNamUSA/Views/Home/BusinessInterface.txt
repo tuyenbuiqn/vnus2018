@@ -1,0 +1,35 @@
+using System.Collections.Generic;
+using {0}.BaseBusiness.Interface;
+using {0}.BaseModel.Model;
+using {0}.Common.Constants;
+using {0}.Common.Enums;
+using {0}.{1}Model.Entity;
+
+namespace {0}.{1}Business.Interface
+{
+    public interface I{2}Business : IBaseBusiness<{2}>
+    {
+        /// <summary>
+        /// Hàm tìm kiếm dữ liệu
+        /// </summary>
+        /// <param name="searchText">Text tìm kiếm là gì: lấy theo Mã/tên</param>
+        /// <param name="{3}Id"></param>
+        /// <param name="trangThaiId">Trạng thái tìm kiếm</param>
+        /// <param name="searchOrder">Trường đánh dấu để sắp xếp dữ liệu</param>
+        /// <param name="searchDirection">Hướng sắp xếp</param>
+        /// <param name="checkAny">Kiểm</param>
+        /// <param name="suggetion">Có phải là lấy danh sách gợi ý hay không</param>
+        /// <returns></returns>
+        List<{2}> Search(
+            string searchText,
+            int {3}Id,
+            int trangThaiId = WebsiteConstants.AllItemValue,
+            string searchOrder = SearchOrder.SearchOrderByTen,
+            string searchDirection = SearchDirection.SearchDirectionUp,
+            bool checkAny = false,
+            bool suggetion = false);
+        ResultModel<object> Insert({2} {3});
+        ResultModel<object> Update({2} {3});
+        ResultModel<object> Delete(int {3}Id);
+    }
+}

@@ -1,0 +1,350 @@
+﻿@model VietUSA.Repository.Models.UserModel
+@using VietUSA.Repository.Common.Constants
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Register";
+}
+<script src="https://www.google.com/recaptcha/api.js"></script>
+
+<div class="section header-internas foto_contato">
+    <div class="w-container container-phone">
+        <!-- <h1>Contact</h1> -->
+    </div>
+</div>
+<div class="section press">
+    <div class="w-container container-phone">
+        @*<h3>Register</h3>*@
+        <div class="w-form" id="div_form" style="position: relative;">
+            @using (Html.BeginForm("Register", "Register", FormMethod.Post, new
+            {
+                @class = "form-horizontal",
+                id = "formRegister",
+                @data_bv_message = "This value is not valid",
+                @data_bv_feedbackicons_valid = "glyphicon glyphicon-ok",
+                @data_bv_feedbackicons_invalid = "glyphicon glyphicon-remove",
+                @data_bv_feedbackicons_validating = "glyphicon glyphicon-refresh"
+            }))
+            {
+                <div class="t-form-register-container">
+                    <div class="t-form-register-header">
+                        <h3>Register</h3>
+                        <p>Please fill all fields in form below</p>
+                    </div>
+                    <div class="t-form-register-body form-horizontal">
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-12 control-label required t-align-left">Name</label>
+                            <div class="col-sm-12">
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "Fill your name", @data_bv_notempty = "true", @data_bv_notempty_message = "Name is not empty!" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm t-margin-bottom-0">
+                            <label class="col-sm-12 control-label t-align-left">Sex</label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(m => m.Gender, "true", new { @checked = "checked" }) Male
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(m => m.Gender, "false") Female
+                            </label>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-12 control-label t-align-left required">Organization</label>
+                            <div class="col-sm-12">
+                                @Html.TextBoxFor(m => m.Organization, new { @class = "form-control", @placeholder = "Fill your organization", @data_bv_notempty = "true", @data_bv_notempty_message = "Organization is not empty!" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-12 control-label t-align-left required">Address</label>
+                            <div class="col-sm-12">
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Fill your address", @data_bv_notempty = "true", @data_bv_notempty_message = "Address is not empty!" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-12 control-label t-align-left required">Email</label>
+                            <div class="col-sm-12">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Fill your email", @data_bv_notempty = "true", @data_bv_notempty_message = "Email is not empty!", @data_bv_emailAddress = "true", @data_bv_emailAddress_message = "This email is not a valid email address" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-12 control-label t-align-left">Note</label>
+                            <div class="col-sm-12">
+                                @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @placeholder = "", @rows = "5" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-12 control-label t-align-left">Abstract Submission</label>
+                            <div class="col-sm-12">
+                                <input type="file" multiple="multiple" id="fileAbstractSubmission"/>
+                            </div>
+                            @*<label class="col-sm-12 control-label t-align-left">File type allowed: jpg, jpeg, png, doc, docx, xls, xlsx, pdf, txt. Max file size: 20MB</label>*@
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-12 control-label t-align-left required">Please check to checkbox "I'm not a robot" below!</label>
+                            <div class="col-sm-12">
+                                <div id="grecaptcha" class="g-recaptcha" data-sitekey="6Lf0-FwUAAAAAOLwjsCQwxdzdI2ntjTn1Z8xSj2M" data-callback="RecaptchaChecked"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="t-form-register-footer">
+                        <button type="submit" class="t-form-register-button" id="btnSubmit" title="">Submit</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function GetFileSize(files) {
+        try {
+            var totalSize = 0;
+            var fileSize = 0;
+            files = $("#" + files).get(0).files;
+            for (var i = 0; i < files.length; i++) {
+                fileSize = fileSize + files[i].size;
+            }
+            totalSize = fileSize / 1048576; //size in mb
+            return totalSize;
+        }
+        catch (e) {
+            return 0;
+        }
+    };
+
+    function getNameFromPath(strFilepath) {
+        var objRe = new RegExp(/([^\/\\]+)$/);
+        var strName = objRe.exec(strFilepath);
+        if (strName == null) {
+            return null;
+        }
+        else {
+            return strName[0];
+        }
+    };
+
+    function ValidateFileUpload() {
+        var result = { IsError: false, Message: "", Element: "", Type: "" };
+        var files = $("#fileAbstractSubmission").get(0).files;
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                var file = getNameFromPath(files[i].name);
+                if (file.length <= 0 || file.length > 256) {
+                    //alert("File name is too long or empty!");
+                    $("#fileAbstractSubmission").val("");
+                    result.IsError = true;
+                    result.Message = "File name is too long or empty!";
+                    return result;
+                }
+                var extension = file.substr((file.lastIndexOf(".") + 1));
+                if (!validateBlackistFileExtension(extension)) {
+                    $("#fileAbstractSubmission").val("");
+                    result.IsError = true;
+                    result.Message = "File type is not allowed, please contact to admin for this case.";
+                    return result;
+                }
+            }
+
+            var fileSize = GetFileSize("fileAbstractSubmission");
+            if (fileSize > 20) {
+                $("#fileAbstractSubmission").val("");
+                result.IsError = true;
+                result.Message = "Upload size is only 20MB limited!";
+                return result;
+            } else {
+                result.IsError = false;
+                return result;
+            }
+        } else {
+            result.IsError = false;
+            return result;
+        }
+    };
+    function InitRegisterForm() {
+        $("#formRegister").bootstrapValidator();
+    };
+
+    var RecaptchaChecked = function (response) {
+        enableButton("btnSubmit");
+        $("#btnSubmit").attr("title", "");
+    };
+    function validateBlackistFileExtension(extension) {
+        if (extension === "") return false;
+        switch (extension.toLowerCase()) {
+            case "asp":
+            case "aspx":
+            case "asa":
+            case "aSP":
+            case "aSpx":
+            case "aSa":
+            case "asp%20%20%20":
+            case "aspx%20%20%20":
+            case "asa%20%20%20":
+            case "aSP%20%20%20":
+            case "aSpx%20%20%20":
+            case "aSa%20%20%20":
+            case "asp......":
+            case "aspx......":
+            case "asa......":
+            case "aSP......":
+            case "aSpx......":
+            case "aSa......":
+            case "asp%20%20%20...%20.%20..":
+            case "aspx%20%20%20...%20.%20..":
+            case "asa%20%20%20...%20.%20..":
+            case "aSP%20%20%20...%20.%20..":
+            case "aSpx%20%20%20...%20.%20..":
+            case "aSa%20%20%20...%20.%20..":
+            case "asp%00":
+            case "aspx%00":
+            case "asa%00":
+            case "aSp%00":
+            case "aSpx%00":
+            case "aSa%00":
+            case "ani":
+            case "asf":
+            case "avi":
+            case "bas":
+            case "bat":
+            case "bin":
+            case "chm":
+            case "cmd":
+            case "com":
+            case "cpl":
+            case "cur":
+            case "eml":
+            case "exe":
+            case "hta":
+            case "ico":
+            case "js":
+            case "jse":
+            case "midi":
+            case "mp3":
+            case "mpa":
+            case "mpe":
+            case "mpeg":
+            case "mpg":
+            case "msc":
+            case "msp":
+            case "pcd":
+            case "pif":
+            case "reg":
+            case "scr":
+            case "sct":
+            case "vb":
+            case "vbs":
+            case "wma":
+            case "wmf":
+            case "wmv":
+            case "wsc":
+            case "wsf":
+                return false;
+            default:
+                return true;
+        }
+    }
+    function validateExtension(extension) {
+        if (extension === "") return false;
+        switch (extension.toLowerCase()) {
+            case "jpg":
+            case "jpeg":
+            case "png":
+            case "doc":
+            case "docx":
+            case "xls":
+            case "xlsx":
+            case "txt":
+            case "pdf":
+                return true;
+            default:
+                return false;
+        }
+    }
+    function ValidateCaptcha() {
+        var v = grecaptcha.getResponse();
+        if (v.length === 0) {
+            return false;
+        }
+        return true;
+    }
+    $(function () {
+        InitRegisterForm();
+        disableButton("btnSubmit");
+        $("#btnSubmit").attr("title", "Please check to checkbox \"I'm not a robot\"");
+
+        $("#btnSubmit").click(function () {
+            var e = $("#formRegister").data("bootstrapValidator");
+            e.validate();
+            var n = e.isValid();
+            if (!n) {
+                alert("Please recheck your input!");
+                return false;
+            }
+            var isCheckedCaptcha = ValidateCaptcha();
+            if (!isCheckedCaptcha) {
+                alert("Please verify Recaptcha before submiting your request!");
+                return false;
+            }
+
+            var validateFileUpload = ValidateFileUpload();
+            if (validateFileUpload.IsError) {
+                alert(validateFileUpload.Message);
+                return false;
+            }
+            appendLoading("loadingRegister", "div_form");
+            var data = new FormData();
+            var files = $("#fileAbstractSubmission").get(0).files;
+            if (files.length > 0) {
+                for (var j = 0; j < files.length; j++) {
+                    data.append("AbstractSubmission" + j, files[j]);
+                }
+            }
+            var parameter = $("#formRegister").serializeArray();
+
+            for (var i = 0; i < parameter.length; i++) {
+                data.append(parameter[i].name, parameter[i].value);
+            }
+            disableButton("btnSubmit");
+            $.ajax({
+                type: "POST",
+                data: data,
+                processData: false,
+                dataType: "json",
+                contentType: false,
+                url: '@Url.Action("Register")',
+                success: function (data) {
+                    removeLoading("loadingRegister");
+                    if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                        callDoTNotification(data.ErrorMessage);
+                    } else {
+                        if (!data.IsError) {
+                            alert("We are received your registration, please check your email to get new information");
+                            location.reload();
+                        } else {
+                            alert(data.Message);
+                        }
+                    }
+                    enableButton("btnSubmit");
+                },
+                error: function () {
+                    removeLoading("loadingRegister");
+                    alert("@Html.Raw(CommonConstants.SaveError)");
+                    enableButton("btnSubmit");
+                }
+            });
+
+            return false;
+        });
+
+        $("#fileAbstractSubmission").change(function () {
+            var validateFileUpload = ValidateFileUpload();
+            if (validateFileUpload.IsError) {
+                alert(validateFileUpload.Message);
+            }
+        });
+    });
+</script>

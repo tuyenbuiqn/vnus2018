@@ -1,0 +1,35 @@
+﻿@model List<VietUSA.Repository.Models.OrganisationViewModel>
+<div class="w-section">
+    <div class="w-container container-phone">
+        <div class="t-grupo-de-logos col-sm-12 t-padding-left-0 t-padding-right-0">
+            @foreach (var item in Model)
+            {
+                <div class="t-group-parner col-sm-4 t-padding-right-0">
+                    <h3>@item.CategoryName.ToUpper()</h3>
+                    @foreach (var orgItem in item.Organisations)
+                    {
+                        <div class="t-group-parner-image-wrap">
+                            <a href="@orgItem.Website" target="_blank" title="@orgItem.Name" alt="@orgItem.Name">
+                                @if (orgItem.DisplayImage.HasValue)
+                                {
+                                    if (orgItem.DisplayImage.Value)
+                                    {
+                                        <img style="@orgItem.Style" src="@orgItem.ImageUrl" title="@orgItem.Name" alt="@orgItem.Name"/>
+                                    }
+                                    else
+                                    {
+                                        <h4 style="@orgItem.Style">@orgItem.Name</h4>
+                                    }
+                                }
+                                else
+                                {
+                                    <h4 style="@orgItem.Style">@orgItem.Name</h4>
+                                }
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

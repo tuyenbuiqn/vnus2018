@@ -1,0 +1,3 @@
+D:\Work\3. Freelancer\Viasm\1. VietUSA\VietUSA.Repository\obj\Release\VietUSA.Repository.csprojResolveAssemblyReference.cache
+G:\Work\3. Freelancer\Viasm\1. VietUSA\VietUSA.Repository\obj\Release\VietUSA.Repository.csprojAssemblyReference.cache
+G:\Work\3. Freelancer\Viasm\1. VietUSA\VietUSA.Repository\obj\Release\VietUSA.Repository.csproj.CoreCompileInputs.cache

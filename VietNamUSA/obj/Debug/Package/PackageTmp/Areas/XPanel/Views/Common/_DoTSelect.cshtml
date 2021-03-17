@@ -1,0 +1,23 @@
+﻿@model VietUSA.Repository.Models.SelectModel
+
+@Html.DropDownListFor(m => m.SelectedId, new SelectList(@Model.Data, @Model.ValueField, @Model.TextField), new
+{
+    @id = @Model.Id,
+    @name = @Model.Name,
+    @class = @Model.Class,
+    @style = @Model.Style,
+    @onchange = @Model.OnchangeFunction
+})
+
+<script>
+    toggleSelect2Dropdown("@Model.Id","disable");
+    $(function () {
+        if (@Json.Encode(Model.IsDisableControl)===true) {
+            toggleSelect2Dropdown("@Model.Id","disable");
+        }
+        else {
+            toggleSelect2Dropdown("@Model.Id", "enable");
+        }
+        $("#@Model.Id").select2();
+    });
+</script>

@@ -1,0 +1,177 @@
+﻿@model VietUSA.Repository.Models.ContactModel
+@using VietUSA.Repository.Common.Constants
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Contact us";
+}
+<style>
+    .t-form-contact-container {
+        width: 96%;
+        margin: 20px 0%;
+        padding: 2%;
+        border: 1px solid #ccc;
+        background: #f9f9f9;
+    }
+</style>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+
+<div class="section header-internas foto_contato">
+    <div class="w-container container-phone">
+        <!-- <h1>Contact</h1> -->
+    </div>
+</div>
+<div class="section press">
+    <div class="w-container container-phone">
+        <h3>Contact us</h3>
+        <div class="w-form" id="div_form" style="position: relative;">
+            @using (Html.BeginForm("Register", "contact", FormMethod.Post, new
+            {
+                @class = "form-horizontal",
+                id = "formcontact",
+                @data_bv_message = "This value is not valid",
+                @data_bv_feedbackicons_valid = "glyphicon glyphicon-ok",
+                @data_bv_feedbackicons_invalid = "glyphicon glyphicon-remove",
+                @data_bv_feedbackicons_validating = "glyphicon glyphicon-refresh"
+            }))
+            {
+                <div class="t-form-contact-container">
+                    <div class="t-form-contact-header">
+                        @*<h3>Contact us</h3>*@
+                        @*<p>Please fill all fields in form below</p>*@
+                    </div>
+                    <div class="t-form-contact-body form-horizontal">
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-3 control-label required t-align-left">Subject</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", @placeholder = "Subject", @data_bv_notempty = "true", @data_bv_notempty_message = "Subject is not empty!" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-3 control-label t-align-left required">Name</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "FullName", @data_bv_notempty = "true", @data_bv_notempty_message = "FullName is not empty!" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-3 control-label t-align-left">Email</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email", @data_bv_emailAddress = "true", @data_bv_emailAddress_message = "This email is not a valid email address" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-3 control-label t-align-left">Phone</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Phone" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-3 control-label required t-align-left">Message</label>
+                            <div class="col-sm-9">
+                                @Html.TextAreaFor(m => m.Message, new { @class = "form-control", @placeholder = "", @rows = "5", @data_bv_notempty = "true", @data_bv_notempty_message = "Message is not empty!" })
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-3 control-label t-align-left required">Please check to checkbox "I'm not a robot" below!</label>
+                            <div class="col-sm-9">
+                                <div id="grecaptcha" class="g-recaptcha" data-sitekey="6Lf0-FwUAAAAAOLwjsCQwxdzdI2ntjTn1Z8xSj2M" data-callback="RecaptchaChecked"></div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-3 control-label t-align-left required"></label>
+                            <div class="col-sm-9">
+                                <button type="submit" class="t-form-contact-button btn btn-success" id="btnSubmit" title="">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="t-form-contact-footer">
+                        </div>*@
+                </div>
+            }
+
+            @*<p><b>Ms. Nguyễn Hoàng Anh</b></p><br />
+            <p> Vietnam Institute for Advanced Study in Mathematics</p>
+            <p>Address: The 7th floor, Ta Quang Buu Library In HUST's Campus, 1 Dai Co Viet Street, Ha Noi, Viet Nam.</p>
+            <p>Tel: +84 24 3623 1542 - Fax: +84 24 3623 1543</p>
+            <p>Email: vnus2019 AT viasm.edu.vn</p>*@
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function InitcontactForm() {
+        $("#formcontact").bootstrapValidator();
+    };
+
+    var RecaptchaChecked = function (response) {
+        enableButton("btnSubmit");
+        $("#btnSubmit").attr("title", "");
+    };
+    function ValidateCaptcha() {
+        var v = grecaptcha.getResponse();
+        if (v.length === 0) {
+            return false;
+        }
+        return true;
+    }
+    $(function () {
+       
+        InitcontactForm();
+        disableButton("btnSubmit");
+        $("#btnSubmit").attr("title", "Please check to checkbox \"I'm not a robot\"");
+
+        $("#btnSubmit").click(function () {
+            debugger;
+            var e = $("#formcontact").data("bootstrapValidator");
+            e.validate();
+            var n = e.isValid();
+            if (!n) {
+                alert("Please recheck your input!");
+                return false;
+            }
+            var isCheckedCaptcha = ValidateCaptcha();
+            if (!isCheckedCaptcha) {
+                alert("Please verify Recaptcha before submiting your request!");
+                return false;
+            }
+
+            appendLoading("loadingcontact", "div_form");
+            var data = new FormData();
+            var parameter = $("#formcontact").serializeArray();
+            for (var i = 0; i < parameter.length; i++) {
+                data.append(parameter[i].name, parameter[i].value);
+            }
+            disableButton("btnSubmit");
+            $.ajax({
+                type: "POST",
+                data: data,
+                processData: false,
+                dataType: "json",
+                contentType: false,
+                url: '@Url.Action("Register","Contact")',
+                success: function (data) {
+                    removeLoading("loadingcontact");
+                    if (typeof data.ErrorCode !== "undefined" || data.ErrorCode) {
+                        callDoTNotification(data.ErrorMessage);
+                    } else {
+                        if (!data.IsError) {
+                            alert("We are received your contact, we will reply your contact ASAP");
+                            location.reload();
+                        } else {
+                            alert(data.Message);
+                        }
+                    }
+                    enableButton("btnSubmit");
+                },
+                error: function () {
+                    removeLoading("loadingcontact");
+                    alert("@Html.Raw(CommonConstants.SaveError)");
+                    enableButton("btnSubmit");
+                }
+            });
+
+            return false;
+        });
+    });
+</script>
